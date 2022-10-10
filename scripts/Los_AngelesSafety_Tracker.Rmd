@@ -1,0 +1,440 @@
+---
+title: "ABC13 Houston Neighborhood Safety Tracker"
+# author: "John Kelly"
+# date: "Updated `r format(Sys.time(), '%B %d, %Y')` by the ABC13 Data Team"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning=FALSE)
+library(tidyverse)
+library(leaflet)
+library(leaflet.extras)
+library(leaflet.providers)
+library(htmlwidgets)
+library(htmltools)
+library(sf)
+
+```
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+
+![<popupchatter>Updated `r format(Sys.time(), '%B %d, %Y')` by the ABC13 Data Team</popupchatter>](https://github.com/abcotvdata/safetytracker_houston/raw/main/docs/header.png)
+
+```{css, echo=FALSE}
+
+h1.title {
+  font-family: roboto;
+  color: transparent;
+  font-weight: 700;
+  text-align: left;
+  font-size: 12px;
+  padding: 0px;
+}
+
+.date {
+  font-family: roboto;
+  color: black;
+  font-weight: 300;
+  text-align: left;
+  font-size: 10px;
+    padding: 5px;
+}
+
+select {
+  margin: 0px;
+  width: 180px;
+  color: #00318b;
+  padding: 5px 35px 5px 5px;
+    font-family: roboto;
+  font-size: 18px;
+  font-weight: 900;
+  border: 0px;
+  height: 34px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: url(https://upload.wikimedia.org/wikipedia/commons/9/9d/Arrow-down.svg) 96% / 15% no-repeat #f2f2f2;
+}
+
+h1 {
+  font-family: roboto;
+  color: black;
+  font-weight: bolder;
+  text-align: left;
+  font-size: 36px;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+h2 {
+  font-family: roboto;
+  font-weight: 500;
+  color: black;
+  text-align: center;
+  font-size: 18px;
+  margin-top: 0;
+  margin-bottom: 2;
+}
+
+bignumber {
+  font-family: roboto;
+  color: #00318b;
+  font-weight: 900;
+  text-align: center;
+  font-size: 60px;
+    line-height: 65px;
+  height: 65px;
+    margin-top: 0;
+  margin-bottom: 0;
+}
+
+subhead {
+  font-family: roboto;
+  color: black;
+  font-weight: 700;
+  text-align: left;
+  font-size: 20px;
+    padding: 0px;
+}
+
+body {
+  color: black;
+  font-family: roboto;
+  font-weight: 400;
+  font-size: 18px;
+}
+
+popuptitle {
+  color: #00318b;
+  font-family: roboto;
+  font-weight: 700;
+  font-size: 15px;
+  text-align: left;
+}
+
+popupchatter {
+  font-family: roboto;
+  color: black;
+  font-weight: 300;
+  text-align: left;
+  font-size: 12px;
+  margin-top: 0;
+  margin-bottom: 2;
+}
+
+h8 {
+  color: #00318b;
+  font-family: roboto;
+  font-weight: 900;
+  font-size: 18px;
+}
+
+table {
+  font-family: roboto;
+  width: 100%;
+}
+
+tr {
+  border-bottom: thin solid #99a0a5;
+}
+  
+td {
+  text-align: right;
+  padding: 1px;
+}
+
+th {
+  text-align: right;
+  padding: 1px;
+}
+  
+   * {
+      box-sizing: border-box;
+   }
+   .card {
+      color: white;
+      float: left;
+      width: calc(25% - 10px);
+      padding: 5px;
+      border-radius: 10px;
+      margin-left: 3px;
+      margin-right: 3px;
+      margin-top: 3px;
+      margin-bottom: 3px;
+      height: 100%;
+   }
+   .card p {
+   font-family: roboto;
+   text-align: center;
+   font-size: 14px;
+  margin-bottom: 0;
+   }
+   .cardContainer:after {
+      content: "";
+      display: table;
+      clear: both;
+   }
+   @media screen and (max-width: 650px) {
+      .card {
+         width: 100%;
+      }
+      h1.title {
+        font-size: 22px;
+      }
+   }
+```
+
+```{r beats, include=FALSE}
+# set value of houston_population
+houston_population <- 2304580
+```
+
+
+```{r crimedata, include=FALSE}
+# Source data pre-processed separately at process_houston_crime_combined.R
+```
+
+<br>
+<h2>ABC13 is tracking crime and safety across Houston and in your neighborhood. 
+
+You can choose which crime to explore: <select onchange="window.location=this.value">
+<option value="https://abcotvdata.github.io/safetytracker_houston/Houston_Safety_Tracker.html">Homicides</option>
+<option value="https://abcotvdata.github.io/safetytracker_houston/Houston_Safety_Tracker_Assaults.html">Assaults</option>
+<option value="https://abcotvdata.github.io/safetytracker_houston/Houston_Safety_Tracker_AutoThefts.html">Auto Thefts</option>
+<option value="https://abcotvdata.github.io/safetytracker_houston/Houston_Safety_Tracker_Burglaries.html">Burglaries</option>
+<option value="https://abcotvdata.github.io/safetytracker_houston/Houston_Safety_Tracker_DrugCrimes.html">Drug Crimes</option>
+<option value="https://abcotvdata.github.io/safetytracker_houston/Houston_Safety_Tracker.html">Homicides</option>
+<option value="https://abcotvdata.github.io/safetytracker_houston/Houston_Safety_Tracker_Robberies.html">Robberies</option>
+<option value="https://abcotvdata.github.io/safetytracker_houston/Houston_Safety_Tracker_SexualAssaults.html">Sexual Assaults</option>
+<option value="https://abcotvdata.github.io/safetytracker_houston/Houston_Safety_Tracker_Thefts.html">Thefts</option>
+</select></h2>
+
+<div class="cardContainer">
+<div class="card" style="background-color:#99a0a5;">
+<p>Homicides<br>
+<bignumber>`r prettyNum(murders_city$last12mos, big.mark=",")`<br></bignumber>
+<p>Last 12 months<br>Through `r format(asofdate, "%B %d")`</p>
+</div>
+<div class="card" style="background-color:#99a0a5;">
+<p>Average Homicides<br>
+<bignumber>`r prettyNum(round(murders_city$avg_prior3years,0), big.mark=",")`<br></bignumber><p>
+Yearly average<br>2019 to 2021</p>
+</div>
+<div class="card" style="background-color:#99a0a5;">
+<p>Homicide Rate<br>
+<bignumber>`r murders_city$rate_last12`<br></bignumber><p>
+Per 100,000 people<br>Last 12 months</p>
+</div>
+<div class="card" style="background-color:#99a0a5;">
+<p>Average Homicide Rate<br>
+<bignumber>`r murders_city$rate_prior3years`<br></bignumber><p>
+Per 100,000 people<br>2019 to 2021</p>
+</div>
+</div>
+<br>
+Homicides over the last 12 months are trending <h8>`r ifelse(murders_city$inc_21tolast12>=0," up"," down")` `r ifelse(murders_city$inc_21tolast12>=0,murders_city$inc_21tolast12,substring(murders_city$inc_21tolast12,2))`%</h8> compared to 2021.
+
+However, the murder rate over the last 12 months is<h8>`r ifelse(murders_city$inc_prior3yearavgtolast12>=0," up"," down")` `r ifelse(murders_city$inc_prior3yearavgtolast12>=0,murders_city$inc_prior3yearavgtolast12,substring(murders_city$inc_prior3yearavgtolast12,2))`%</h8> compared to the annual average over the last three years, and the frequency of killings remains higher than it was before the pandemic.
+
+The city averaged <h8>`r round(murders_city$last12mos/52,0)`</h8> homicides a week over the last 12 months. In 2019, that number was <h8>`r round(murders_city$total19/52,0)`</h8> a week.
+
+One way to think about the danger: three years ago, the murder rate was <h8>`r murders_city$rate19`</h8> per 100,000 residents. That's slightly less than risk as dying in a vehicle crash in Texas.
+
+During the pandemic, a person's chance of being murdered in Houston rose above the likelihood of dying in a vehicle crash. 
+<br>
+<br>
+<!-- <subhead>Risk of being murdered in Houston vs. other causes of death in Harris County</subhead> -->
+
+<iframe title="Risk of homicide in Houston vs. other causes of death" aria-label="Dot Plot" id="datawrapper-chart-kjiot" src="https://datawrapper.dwcdn.net/kjiot/3/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="342" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(e){if(void 0!==e.data["datawrapper-height"]){var t=document.querySelectorAll("iframe");for(var a in e.data["datawrapper-height"])for(var r=0;r<t.length;r++){if(t[r].contentWindow===e.source)t[r].style.height=e.data["datawrapper-height"][a]+"px"}}}))}();
+</script>
+<br>
+
+The risk is not the same neighborhood to neighborhood.
+
+ABC13's data team looked at the Houston Police Department's data by neighborhood from 2019 through `r format(asofdate, "%B %d")`.
+
+<subhead>A closer look at Houston homicides by neighborhood</subhead>
+
+The map color-codes each neighborhood by the homicide rate over the last 12 months. The three darker blues highlight neighborhoods where the murder rate is higher than the citywide rate.
+
+You can click any neighborhood to see detailed numbers or the buttons at the bottom of the map to switch between numbers and rates. You can search for a street, place, landmark or zip code to zoom to that location.
+
+<br>
+```{r cars, echo=FALSE,out.width='100%',out.height='600'}
+# MURDER MAP
+
+# Set bins for numbers of crimes for murders map
+murderbins1 <- c(0,
+                10,
+                20,
+                30,
+                40,
+                100)
+murderbins2 <- c(0,
+                1,
+                3,
+                5,
+                10,
+                100)
+murderpal1 <- colorBin(c("#99a0a5",
+                             "#2787d6",
+                             "#0058f6",
+                             "#003ca6",
+                             "#00215c"), murders_beat$rate_last12, bins = murderbins1,na.color = "#51585f")
+
+murderpal2 <- colorBin(c("#99a0a5",
+                             "#2787d6",
+                             "#0058f6",
+                             "#003ca6",
+                             "#00215c"), murders_beat$last12mos, bins = murderbins2,na.color = "#51585f")
+
+                            
+# Create labels for murders map
+murderlabel <- paste(sep="",
+                     "<popuptitle>",
+                     murders_beat$last12mos,
+                     " homicides </popuptitle><br>",
+                     " in the last 12 months in the area including <b>",
+                     murders_beat$placename,
+                     "</b>, home to an estimated ",
+                     prettyNum(murders_beat$population, big.mark=","),
+                     " people.
+<br>
+<table>      
+      <tr>
+				<th></th>
+				<th>Total</th>
+				<th>Rate</th>
+			</tr>
+			<tr>
+				<td>2019</td>
+				<td>",
+murders_beat$total19,
+"</td>
+				<td>",
+murders_beat$rate19,
+"</td>
+			</tr>
+			<tr>
+				<td>2020</td>
+				<td>",
+murders_beat$total20,
+"</td>
+				<td>",
+murders_beat$rate20,
+"</td>
+			</tr>
+						<tr>
+				<td>2021</td>
+				<td>",
+murders_beat$total21,
+"</td>
+				<td>",
+murders_beat$rate21,
+"</td>
+			</tr>
+						<tr>
+				<td>Last 12 months</td>
+				<td>",
+murders_beat$last12mos,
+"</td>
+				<td>",
+murders_beat$rate_last12,
+"</td>
+			</tr>
+						<tr>
+				<td>3-year Average</td>
+				<td>",
+murders_beat$avg_prior3years,
+"</td>
+				<td>",
+murders_beat$rate_prior3years,
+"</td>
+			</tr>
+</table>")
+
+
+# Creating police beats map for types of crimes
+houston_murder_map <- leaflet(murders_beat, options = leafletOptions(zoomControl = FALSE, zoomSnap = 0.5, zoomDelta=0.5)) %>%
+  htmlwidgets::onRender("function(el, x) {
+L.control.zoom({ position: 'topright' }).addTo(this)
+}") %>%
+  setView(-95.45, 29.75, zoom = 11) %>% 
+  addProviderTiles(provider = "CartoDB.Positron") %>%
+  addPolygons(color = "white", 
+              popup = murderlabel,
+              popupOptions = popupOptions(maxWidth ="200", 
+                                          minWidth ="200"),
+              weight = 2, 
+              smoothFactor = 0.5,
+              opacity = 0.6, 
+              fillOpacity = 0.6,
+              fillColor = ~murderpal1(rate_last12),
+              group="Rate") %>% 
+    addPolygons(color = "white", 
+              popup = murderlabel,
+              popupOptions = popupOptions(maxWidth ="200", 
+                                          minWidth ="200"),
+              weight = 2, 
+              smoothFactor = 0.5,
+              opacity = 0.6, 
+              fillOpacity = 0.6,
+              fillColor = ~murderpal2(last12mos),
+              group="Number") %>% 
+  addSearchOSM(options = searchOptions(autoCollapse=FALSE, minLength = 3,zoom=13, position="topleft")) %>%
+    onRender("function(el, x) {
+        $('input.search-input')[0].placeholder = 'Search street, place or zip code'
+        }") %>%
+  addLegend(opacity = 0.6,
+            values = murders_beat$rate_last12, 
+            pal = murderpal1,
+            position = "bottomleft", 
+            title = paste(sep="","<popuptitle>Murder Rate<br><popupchatter>Murders/100K people<br>Citywide: ",murders_city$rate_last12),
+            group = "Rate",
+            className = "info legend Rate") %>%
+  addLegend(opacity = 0.6,
+            values = murders_beat$last12mos, 
+            pal = murderpal2,
+            position = "bottomleft", 
+            title = paste(sep="","<popuptitle>Murders<br><popupchatter>Total murders<br>Citywide: ",murders_city$last12mos),
+            group = "Number",
+            className = "info legend Number") %>%
+  addLayersControl(
+    baseGroups = c("Rate","Number"),
+    options = layersControlOptions(collapsed = FALSE),
+    position = 'bottomright') %>% hideGroup(c("Number")) %>%
+   htmlwidgets::onRender("
+      function(el, x) {
+         var updateLegend = function () {
+            var selectedGroup = document.querySelectorAll('input:checked')[0].nextSibling.innerText.substr(1);
+
+            document.querySelectorAll('.legend').forEach(a => a.hidden=true);
+            document.querySelectorAll('.legend').forEach(l => {
+               if (l.classList.contains(selectedGroup)) l.hidden=false;
+            });
+         };
+         updateLegend();
+         this.on('baselayerchange', el => updateLegend());
+      }"
+   )
+houston_murder_map
+```
+<br>
+<br>
+<!-- <subhead>Homicides month by month, 2019 through last month</subhead> -->
+
+<iframe title="Homicides month by month, 2019 through last month" aria-label="Column Chart" id="datawrapper-chart-3NHzG" src="https://datawrapper.dwcdn.net/3NHzG/9/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="400" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(e){if(void 0!==e.data["datawrapper-height"]){var t=document.querySelectorAll("iframe");for(var a in e.data["datawrapper-height"])for(var r=0;r<t.length;r++){if(t[r].contentWindow===e.source)t[r].style.height=e.data["datawrapper-height"][a]+"px"}}}))}();
+</script>
+  <br>
+<br>
+
+<!-- <subhead>What kinds of places do murders happen in Houston</subhead> -->
+
+<iframe title="What kinds of places do murders happen in Houston" aria-label="Table" id="datawrapper-chart-xI2y0" src="https://datawrapper.dwcdn.net/xI2y0/19/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="350" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(e){if(void 0!==e.data["datawrapper-height"]){var t=document.querySelectorAll("iframe");for(var a in e.data["datawrapper-height"])for(var r=0;r<t.length;r++){if(t[r].contentWindow===e.source)t[r].style.height=e.data["datawrapper-height"][a]+"px"}}}))}();
+</script>
+<br>
+<br>
+<!-- <subhead>What time of day do murders happen?</subhead> -->
+
+<iframe title="What time of day do murders happen?" aria-label="Column Chart" id="datawrapper-chart-coxAA" src="https://datawrapper.dwcdn.net/coxAA/9/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="400" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(e){if(void 0!==e.data["datawrapper-height"]){var t=document.querySelectorAll("iframe");for(var a in e.data["datawrapper-height"])for(var r=0;r<t.length;r++){if(t[r].contentWindow===e.source)t[r].style.height=e.data["datawrapper-height"][a]+"px"}}}))}();
+</script>

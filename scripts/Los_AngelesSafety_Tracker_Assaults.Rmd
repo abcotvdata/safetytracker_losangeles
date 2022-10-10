@@ -1,0 +1,417 @@
+---
+title: "ABC13 Houston Neighborhood Safety Tracker"
+# author: "John Kelly"
+# date: "Updated `r format(Sys.time(), '%B %d, %Y')` by the ABC13 Data Team"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning=FALSE)
+library(tidyverse)
+library(leaflet)
+library(leaflet.extras)
+library(leaflet.providers)
+library(htmlwidgets)
+library(htmltools)
+library(sf)
+
+# rmarkdown::render('Houston_Safety_Tracker_2.Rmd', output_file = 'docs/Houston_Safety_Tracker_2.html')
+```
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+
+![<popupchatter>Updated `r format(Sys.time(), '%B %d, %Y')` by the ABC13 Data Team</popupchatter>](https://github.com/abcotvdata/safetytracker_houston/raw/main/docs/header.png)
+```{css, echo=FALSE}
+
+h1.title {
+  font-family: roboto;
+  color: transparent;
+  font-weight: 700;
+  text-align: left;
+  font-size: 12px;
+  padding: 0px;
+}
+
+.date {
+  font-family: roboto;
+  color: black;
+  font-weight: 300;
+  text-align: left;
+  font-size: 10px;
+    padding: 5px;
+}
+
+select {
+  margin: 0px;
+  width: 180px;
+  color: #00318b;
+  padding: 5px 35px 5px 5px;
+    font-family: roboto;
+  font-size: 18px;
+  font-weight: 900;
+  border: 0px;
+  height: 34px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: url(https://upload.wikimedia.org/wikipedia/commons/9/9d/Arrow-down.svg) 96% / 15% no-repeat #f2f2f2;
+}
+
+h1 {
+  font-family: roboto;
+  color: black;
+  font-weight: bolder;
+  text-align: left;
+  font-size: 36px;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+h2 {
+  font-family: roboto;
+  font-weight: 500;
+  color: black;
+  text-align: center;
+  font-size: 18px;
+  margin-top: 0;
+  margin-bottom: 2;
+}
+
+bignumber {
+  font-family: roboto;
+  color: #00318b;
+  font-weight: 900;
+  text-align: center;
+  font-size: 60px;
+    line-height: 65px;
+  height: 65px;
+    margin-top: 0;
+  margin-bottom: 0;
+}
+
+subhead {
+  font-family: roboto;
+  color: black;
+  font-weight: 700;
+  text-align: left;
+  font-size: 20px;
+    padding: 0px;
+}
+
+body {
+  color: black;
+  font-family: roboto;
+  font-weight: 400;
+  font-size: 18px;
+}
+
+popuptitle {
+  color: #00318b;
+  font-family: roboto;
+  font-weight: 700;
+  font-size: 15px;
+  text-align: left;
+}
+
+popupchatter {
+  font-family: roboto;
+  color: black;
+  font-weight: 300;
+  text-align: left;
+  font-size: 12px;
+  margin-top: 0;
+  margin-bottom: 2;
+}
+
+h8 {
+  color: #00318b;
+  font-family: roboto;
+  font-weight: 900;
+  font-size: 18px;
+}
+
+table {
+  font-family: roboto;
+  width: 100%;
+}
+
+tr {
+  border-bottom: thin solid #99a0a5;
+}
+  
+td {
+  text-align: right;
+  padding: 1px;
+}
+
+th {
+  text-align: right;
+  padding: 1px;
+}
+  
+   * {
+      box-sizing: border-box;
+   }
+   .card {
+      color: white;
+      float: left;
+      width: calc(25% - 10px);
+      padding: 5px;
+      border-radius: 10px;
+      margin-left: 3px;
+      margin-right: 3px;
+      margin-top: 3px;
+      margin-bottom: 3px;
+      height: 100%;
+   }
+   .card p {
+   font-family: roboto;
+   text-align: center;
+   font-size: 14px;
+  margin-bottom: 0;
+   }
+   .cardContainer:after {
+      content: "";
+      display: table;
+      clear: both;
+   }
+   @media screen and (max-width: 650px) {
+      .card {
+         width: 100%;
+      }
+      h1.title {
+        font-size: 22px;
+      }
+   }
+```
+
+```{r beats, include=FALSE}
+# source file pre-processed at process_houston_police_beats.R
+# set value of houston_population
+houston_population <- 2304580
+```
+
+
+```{r crimedata, include=FALSE}
+# Source data pre-processed separately at process_houston_crime_combined.R
+```
+
+<h2>ABC13's data team is tracking crime and safety across Houston and in your neighborhood.<br>You can choose which crime to examine: <select onchange="window.location=this.value">
+<option value="https://abcotvdata.github.io/safetytracker_houston/Houston_Safety_Tracker_Assaults.html">Assaults</option>
+<option value="https://abcotvdata.github.io/safetytracker_houston/Houston_Safety_Tracker_Assaults.html">Assaults</option>
+<option value="https://abcotvdata.github.io/safetytracker_houston/Houston_Safety_Tracker_AutoThefts.html">Auto Thefts</option>
+<option value="https://abcotvdata.github.io/safetytracker_houston/Houston_Safety_Tracker_Burglaries.html">Burglaries</option>
+<option value="https://abcotvdata.github.io/safetytracker_houston/Houston_Safety_Tracker_DrugCrimes.html">Drug Crimes</option>
+<option value="https://abcotvdata.github.io/safetytracker_houston/Houston_Safety_Tracker.html">Homicides</option>
+<option value="https://abcotvdata.github.io/safetytracker_houston/Houston_Safety_Tracker_Robberies.html">Robberies</option>
+<option value="https://abcotvdata.github.io/safetytracker_houston/Houston_Safety_Tracker_SexualAssaults.html">Sexual Assaults</option>
+<option value="https://abcotvdata.github.io/safetytracker_houston/Houston_Safety_Tracker_Thefts.html">Thefts</option>
+</select></h2>
+
+<div class="cardContainer">
+<div class="card" style="background-color:#99a0a5;">
+<p>Assaults<br>
+<bignumber>`r prettyNum(assaults_city$last12mos, big.mark=",")`<br></bignumber>
+<p>Last 12 months<br>Through  `r format(asofdate, "%B %d")`</p>
+</div>
+<div class="card" style="background-color:#99a0a5;">
+<p>Average Assaults<br>
+<bignumber>`r prettyNum(round(assaults_city$avg_prior3years,0), big.mark=",")`<br></bignumber><p>
+Yearly average<br>2019 to 2021</p>
+</div>
+<div class="card" style="background-color:#99a0a5;">
+<p>Assault Rate<br>
+<bignumber>`r prettyNum(round(assaults_city$rate_last12,0), big.mark=",")`<br></bignumber><p>
+Per 100,000 people<br>Last 12 months</p>
+</div>
+<div class="card" style="background-color:#99a0a5;">
+<p>Average Assault Rate<br>
+<bignumber>`r prettyNum(round(assaults_city$rate_prior3years,0), big.mark=",")`<br></bignumber><p>
+Per 100,000 people<br>2019 to 2021</p>
+</div>
+</div>
+<br>
+Assaults over the last 12 months are <h8>`r ifelse(assaults_city$inc_prior3yearavgtolast12>=0," up"," down")` `r ifelse(assaults_city$inc_prior3yearavgtolast12>=0,assaults_city$inc_prior3yearavgtolast12,substring(assaults_city$inc_prior3yearavgtolast12,2))`%</h8> compared to the annual average over the last three years.
+
+The city averaged <h8>`r prettyNum(round(assaults_city$last12mos/52,0), big.mark=",")`</h8> assaults a week over the last 12 months. In 2019, that number was <h8>`r prettyNum(round(assaults_city$total19/52,0), big.mark=",")`</h8> a week.
+
+<subhead>A closer look at Houston assaults neighborhood by neighborhood</subhead>
+
+The danger is not the same neighborhood to neighborhood. ABC13's data team looked at the Houston Police Department's data by neighborhood from 2019 through `r format(asofdate, "%B %d")`.
+
+The map color-codes each neighborhood by the assault rate over the last 12 months. The three darker blues represent neighborhoods with assault rates that are higher than the citywide rate. You can also click the box in the bottom right corner to see neighborhoods by the number of assaults.
+
+Click on any neighborhood on the map to see detailed numbers, rates and trends. You can also search for a street name, place, landmark or zip code.
+
+<br>
+
+```{r cars, echo=FALSE,out.width='100%',out.height='600'}
+# assault MAP
+# Set bins for numbers of crimes for assaults map
+assaultbins1 <- c(0,
+                2000,
+                3000,
+                5000,
+                7500,
+                10000)
+assaultbins2 <- c(0,
+                200,
+                500,
+                750,
+                1000,
+                2000)
+assaultpal1 <- colorBin(c("#99a0a5",
+                             "#2787d6",
+                             "#0058f6",
+                             "#003ca6",
+                             "#00215c"), assaults_beat$rate_last12, bins = assaultbins1,na.color = "#51585f")
+
+assaultpal2 <- colorBin(c("#99a0a5",
+                             "#2787d6",
+                             "#0058f6",
+                             "#003ca6",
+                             "#00215c"), assaults_beat$last12mos, bins = assaultbins2,na.color = "#51585f")
+
+
+# Create quick labels for assaults map
+assaultlabel <- paste(sep="",
+                     "<popuptitle>",
+                     prettyNum(assaults_beat$last12mos, big.mark=","),
+                     " assaults </popuptitle><br>",
+                     " in the last 12 months in the area including <b>",
+                     assaults_beat$placename,
+                     "</b>, home to an estimated ",
+                     prettyNum(assaults_beat$population, big.mark=","),
+                     " people.
+<br>
+<table>      
+      <tr>
+				<th></th>
+				<th>Total</th>
+				<th>Rate</th>
+			</tr>
+			<tr>
+				<td>2019</td>
+				<td>",
+assaults_beat$total19,
+"</td>
+				<td>",
+prettyNum(round(assaults_beat$rate19,0), big.mark=","),
+"</td>
+			</tr>
+			<tr>
+				<td>2020</td>
+				<td>",
+assaults_beat$total20,
+"</td>
+				<td>",
+prettyNum(round(assaults_beat$rate20,0), big.mark=","),
+"</td>
+			</tr>
+						<tr>
+				<td>2021</td>
+				<td>",
+assaults_beat$total21,
+"</td>
+				<td>",
+prettyNum(round(assaults_beat$rate21,0), big.mark=","),
+"</td>
+			</tr>
+						<tr>
+				<td>Last 12 months</td>
+				<td>",
+assaults_beat$last12mos,
+"</td>
+				<td>",
+prettyNum(round(assaults_beat$rate_last12,0), big.mark=","),
+"</td>
+			</tr>
+						<tr>
+				<td>3-year Average</td>
+				<td>",
+round(assaults_beat$avg_prior3years,0),
+"</td>
+				<td>",
+prettyNum(round(assaults_beat$rate_prior3years,0), big.mark=","),
+"</td>
+			</tr>
+</table>")
+
+# Creating police beats map for types of crimes
+houston_assault_map <- leaflet(assaults_beat, options = leafletOptions(zoomControl = FALSE, zoomSnap = 0.5, zoomDelta=0.5)) %>%
+  htmlwidgets::onRender("function(el, x) {
+L.control.zoom({ position: 'topright' }).addTo(this)
+}") %>%
+  setView(-95.45, 29.75, zoom = 10.5) %>% 
+  addProviderTiles(provider = "CartoDB.Positron") %>%
+  addPolygons(color = "white", 
+              popup = assaultlabel,
+              popupOptions = popupOptions(maxWidth ="200", 
+                                          minWidth ="200"),
+              weight = 2, 
+              smoothFactor = 0.5,
+              opacity = 0.6, 
+              fillOpacity = 0.6,
+              fillColor = ~assaultpal1(rate_last12),
+              group="Rate") %>% 
+    addPolygons(color = "white", 
+              popup = assaultlabel,
+              popupOptions = popupOptions(maxWidth ="200", 
+                                          minWidth ="200"),
+              weight = 2, 
+              smoothFactor = 0.5,
+              opacity = 0.6, 
+              fillOpacity = 0.6,
+              fillColor = ~assaultpal2(last12mos),
+              group="Number") %>% 
+  addSearchOSM(options = searchOptions(autoCollapse=FALSE, minLength = 3,zoom=13, position="topleft")) %>%
+    onRender("function(el, x) {
+        $('input.search-input')[0].placeholder = 'Search street, place or zip code'
+        }") %>%
+  addLegend(opacity = 0.6,
+            values = assaults_beat$rate_last12, 
+            pal = assaultpal1,
+            position = "bottomleft", 
+            title = paste(sep="","<popuptitle>Assault Rate<br><popupchatter>Assaults/100K people<br>Citywide: ",prettyNum(round(assaults_city$rate_last12,0), big.mark=",")),
+            group = "Rate",
+            className = "info legend Rate") %>%
+  addLegend(opacity = 0.6,
+            values = assaults_beat$last12mos, 
+            pal = assaultpal2,
+            position = "bottomleft", 
+            title = paste(sep="","<popuptitle>Assaults<br><popupchatter>Total assaults<br>Citywide: ",prettyNum(round(assaults_city$last12mos,0), big.mark=",")),
+            group = "Number",
+            className = "info legend Number") %>%
+  addLayersControl(
+    baseGroups = c("Rate","Number"),
+    options = layersControlOptions(collapsed = FALSE),
+    position = 'bottomright') %>% hideGroup(c("Number")) %>%
+   htmlwidgets::onRender("
+      function(el, x) {
+         var updateLegend = function () {
+            var selectedGroup = document.querySelectorAll('input:checked')[0].nextSibling.innerText.substr(1);
+
+            document.querySelectorAll('.legend').forEach(a => a.hidden=true);
+            document.querySelectorAll('.legend').forEach(l => {
+               if (l.classList.contains(selectedGroup)) l.hidden=false;
+            });
+         };
+         updateLegend();
+         this.on('baselayerchange', el => updateLegend());
+      }"
+   )
+houston_assault_map
+```
+<br>
+<br>
+<!-- <subhead>Assaults month by month, 2019 through last month</subhead> -->
+
+<iframe title="Assaults month by month, 2019 through last month" aria-label="Column Chart" id="datawrapper-chart-DQ70W" src="https://datawrapper.dwcdn.net/DQ70W/2/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="400" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(e){if(void 0!==e.data["datawrapper-height"]){var t=document.querySelectorAll("iframe");for(var a in e.data["datawrapper-height"])for(var r=0;r<t.length;r++){if(t[r].contentWindow===e.source)t[r].style.height=e.data["datawrapper-height"][a]+"px"}}}))}();
+</script>
+  <br>
+<br>
+<!-- <subhead>Risk of assault and other violent crimes in Houston </subhead> -->
+
+<iframe title="Risk of violent crimes compared to other kinds of deaths, injuries" aria-label="Dot Plot" id="datawrapper-chart-rh4Xu" src="https://datawrapper.dwcdn.net/rh4Xu/7/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="214" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(e){if(void 0!==e.data["datawrapper-height"]){var t=document.querySelectorAll("iframe");for(var a in e.data["datawrapper-height"])for(var r=0;r<t.length;r++){if(t[r].contentWindow===e.source)t[r].style.height=e.data["datawrapper-height"][a]+"px"}}}))}();
+</script>
+<br>
+<br>

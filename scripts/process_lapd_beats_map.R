@@ -64,7 +64,7 @@ saveRDS(beats,"scripts/rds/beats.rds")
 # BARE PRECINCT MAP JUST FOR TESTING PURPOSES
 # CAN COMMENT OUT ONCE FINALIZED
 # Set bins for beats pop map
-popbins <- c(0,1000, 10000,25000,50000,100000, Inf)
+popbins <- c(0,1000, 5000,7500,10000,15000, Inf)
 poppal <- colorBin("viridis", beats$population, bins = popbins)
 poplabel <- paste(sep = "<br>", beats$omega_name,prettyNum(beats$population, big.mark = ","))
 

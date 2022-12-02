@@ -8,6 +8,11 @@
 # User-specific files
 .Ruserdata
 *oldcode*
+.DS_Store
+
+# specific data large files in csv archive on local machine
+*lapd_past.csv
+*lapd_recent.csv
 
 # Example code in package build process
 *-Ex.R

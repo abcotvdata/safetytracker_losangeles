@@ -2,10 +2,17 @@ library(tidyverse)
 library(sf)
 library(readxl)
 library(zoo)
+library(lubridate)
 
-houston_annual <- readRDS("scripts/rds/houston_annual.rds")
-houston_monthly <- readRDS("scripts/rds/houston_monthly.rds")
-houston_recent_new <- readRDS("scripts/rds/houston_recent_new.rds")
+
+# Read LA Sheriff AND LAPD crime files pre-processed
+lasd_2019 <- readRDS("scripts/rds/lasd_2019.rds")
+lasd_2020 <- readRDS("scripts/rds/lasd_2020.rds")
+lasd_2021 <- readRDS("scripts/rds/lasd_2021.rds")
+
+
+###
+###
 
 ### COMBINE 2019, 2020, 2021 and 2022 TO DATE INTO SINGLE FILE
 houston_crime <- bind_rows(houston_annual,houston_monthly)

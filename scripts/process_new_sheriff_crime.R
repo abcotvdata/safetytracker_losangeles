@@ -1,0 +1,55 @@
+library(tidyverse)
+library(sf)
+library(readxl)
+library(zoo)
+library(lubridate)
+
+options(timeout=300)
+# Source page for LA Sheriff : https://lasd.org/transparency/part1and2crimedata/#part1
+#LA Sheriff Last 30
+download.file("http://shq.lasdnews.net/CrimeStats/CAASS/PART_I_AND_II_CRIMES.csv","data/source/recent/lasd_recent.csv")
+#LA Sheriff Year To Date
+download.file("http://shq.lasdnews.net/CrimeStats/CAASS/PART_I_AND_II_CRIMES-YTD.csv","data/source/recent/lasd_ytd.csv")
+
+# Read LA Sheriff annual files pre-processed
+lasd_2019 <- readRDS("scripts/rds/lasd_2019.rds")
+lasd_2020 <- readRDS("scripts/rds/lasd_2020.rds")
+lasd_2021 <- readRDS("scripts/rds/lasd_2021.rds")
+
+# Read in, then merge LA Sheriff newly downloaded year to date and recent files
+lasd_recent <- read_csv("data/source/recent/lasd_recent.csv") %>% janitor::clean_names()
+lasd_ytd <- read_csv("data/source/recent/lasd_ytd.csv") %>% janitor::clean_names()
+
+# merge these five files for some tightening and clean_up
+lasd_crime <- rbind(lasd_ytd,lasd_recent)
+lasd_crime <- lasd_crime %>% select(2,4:7,11,12,14:19) 
+lasd_crime <- lasd_crime %>% unique
+
+# Merge the cleaned recent file with the past years' archive files
+lasd_crime <- rbind(lasd_crime,lasd_2021,lasd_2020,lasd_2019)
+lasd_crime <- lasd_crime %>% rename("lasd_category" = "category")
+
+# Fix the date fields to match and then filter past file to extract just 2019
+lasd_crime$date <- lubridate::mdy_hms(lasd_crime$incident_date)
+lasd_crime$year <- lubridate::year(lasd_crime$date)
+lasd_crime$month <- lubridate::floor_date(as.Date(lasd_crime$date),"month")
+lasd_crime$hour <- lubridate::hour(lasd_crime$date)
+# Clean out some records with bad dates listed
+lasd_crime <- lasd_crime %>% filter(year>2018) # was 596K; about 4K records with bad dates; less than 1% total
+
+# rm(lasd_ytd,lasd_recent,lasd_2021,lasd_2020,lasd_2019)
+
+# incident id is unique
+# lasd categorization very straightforward; categories of Cat I crimes are unique and can be the filter
+# then later renamed to match our needs
+lasd_crime$category <- case_when(lasd_crime$lasd_category == 'AGGRAVATED ASSAULT' ~ 'Aggravated Assault',
+                                 lasd_crime$lasd_category == 'BURGLARY' ~ 'Burglary',
+                                 lasd_crime$lasd_category == 'ROBBERY' ~ 'Robbery',
+                                 lasd_crime$lasd_category == 'CRIMINAL HOMICIDE' ~ 'Homicide',
+                                 lasd_crime$lasd_category == 'LARCENY THEFT' ~ 'Larceny',
+                                 lasd_crime$lasd_category == 'FORCIBLE RAPE' ~ 'Sexual Assault',
+                                 lasd_crime$lasd_category == 'GRAND THEFT AUTO' ~ 'Vehicle Theft',
+                                 TRUE ~ "Other or Part 2")
+
+saveRDS(lasd_crime,"scripts/rds/lasd_crime.rds")
+saveRDS(lasd_crime,"output/lapd_crime.rds")

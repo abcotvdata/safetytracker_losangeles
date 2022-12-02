@@ -1,0 +1,419 @@
+---
+title: "ABC13 Houston Neighborhood Safety Tracker"
+# author: "John Kelly"
+# date: "Updated `r format(Sys.time(), '%B %d, %Y')` by the ABC13 Data Team"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning=FALSE)
+library(tidyverse)
+library(leaflet)
+library(leaflet.extras)
+library(leaflet.providers)
+library(htmlwidgets)
+library(htmltools)
+library(sf)
+
+# rmarkdown::render('Houston_Safety_Tracker_2.Rmd', output_file = 'docs/Houston_Safety_Tracker_2.html')
+```
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+
+![<popupchatter>Updated `r format(Sys.time(), '%B %d, %Y')` by the ABC13 Data Team</popupchatter>](https://github.com/abcotvdata/safetytracker_houston/raw/main/docs/header.png)
+```{css, echo=FALSE}
+
+h1.title {
+  font-family: roboto;
+  color: transparent;
+  font-weight: 700;
+  text-align: left;
+  font-size: 12px;
+  padding: 0px;
+}
+
+.date {
+  font-family: roboto;
+  color: black;
+  font-weight: 300;
+  text-align: left;
+  font-size: 10px;
+    padding: 5px;
+}
+
+select {
+  margin: 0px;
+  width: 180px;
+  color: #00318b;
+  padding: 5px 35px 5px 5px;
+    font-family: roboto;
+  font-size: 18px;
+  font-weight: 900;
+  border: 0px;
+  height: 34px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: url(https://upload.wikimedia.org/wikipedia/commons/9/9d/Arrow-down.svg) 96% / 15% no-repeat #f2f2f2;
+}
+
+h1 {
+  font-family: roboto;
+  color: black;
+  font-weight: bolder;
+  text-align: left;
+  font-size: 36px;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+h2 {
+  font-family: roboto;
+  font-weight: 500;
+  color: black;
+  text-align: center;
+  font-size: 18px;
+  margin-top: 0;
+  margin-bottom: 2;
+}
+
+bignumber {
+  font-family: roboto;
+  color: #00318b;
+  font-weight: 900;
+  text-align: center;
+  font-size: 60px;
+    line-height: 65px;
+  height: 65px;
+    margin-top: 0;
+  margin-bottom: 0;
+}
+
+subhead {
+  font-family: roboto;
+  color: black;
+  font-weight: 700;
+  text-align: left;
+  font-size: 20px;
+    padding: 0px;
+}
+
+body {
+  color: black;
+  font-family: roboto;
+  font-weight: 400;
+  font-size: 18px;
+}
+
+popuptitle {
+  color: #00318b;
+  font-family: roboto;
+  font-weight: 700;
+  font-size: 15px;
+  text-align: left;
+}
+
+popupchatter {
+  font-family: roboto;
+  color: black;
+  font-weight: 300;
+  text-align: left;
+  font-size: 12px;
+  margin-top: 0;
+  margin-bottom: 2;
+}
+
+h8 {
+  color: #00318b;
+  font-family: roboto;
+  font-weight: 900;
+  font-size: 18px;
+}
+
+table {
+  font-family: roboto;
+  width: 100%;
+}
+
+tr {
+  border-bottom: thin solid #99a0a5;
+}
+  
+td {
+  text-align: right;
+  padding: 1px;
+}
+
+th {
+  text-align: right;
+  padding: 1px;
+}
+  
+   * {
+      box-sizing: border-box;
+   }
+   .card {
+      color: white;
+      float: left;
+      width: calc(25% - 10px);
+      padding: 5px;
+      border-radius: 10px;
+      margin-left: 3px;
+      margin-right: 3px;
+      margin-top: 3px;
+      margin-bottom: 3px;
+      height: 100%;
+   }
+   .card p {
+   font-family: roboto;
+   text-align: center;
+   font-size: 14px;
+  margin-bottom: 0;
+   }
+   .cardContainer:after {
+      content: "";
+      display: table;
+      clear: both;
+   }
+   @media screen and (max-width: 650px) {
+      .card {
+         width: 100%;
+      }
+      h1.title {
+        font-size: 22px;
+      }
+   }
+   
+```
+
+```{r beats, include=FALSE}
+# source file pre-processed at process_houston_police_beats.R
+# set value of houston_population
+houston_population <- 2304580
+```
+
+
+```{r crimedata, include=FALSE}
+# Source data pre-processed separately at process_houston_crime_combined.R
+```
+
+<h2>ABC13's data team is tracking crime and safety across Houston and in your neighborhood.<br>You can choose which crime to examine: <select onchange="window.location=this.value">
+<option value="https://abcotvdata.github.io/safetytracker_houston/Houston_Safety_Tracker_SexualAssaults.html">Sexual Assaults</option>
+<option value="https://abcotvdata.github.io/safetytracker_houston/Houston_Safety_Tracker_Assaults.html">Assaults</option>
+<option value="https://abcotvdata.github.io/safetytracker_houston/Houston_Safety_Tracker_AutoThefts.html">Auto Thefts</option>
+<option value="https://abcotvdata.github.io/safetytracker_houston/Houston_Safety_Tracker_Burglaries.html">Burglaries</option>
+<option value="https://abcotvdata.github.io/safetytracker_houston/Houston_Safety_Tracker_DrugCrimes.html">Drug Crimes</option>
+<option value="https://abcotvdata.github.io/safetytracker_houston/Houston_Safety_Tracker.html">Homicides</option>
+<option value="https://abcotvdata.github.io/safetytracker_houston/Houston_Safety_Tracker_Robberies.html">Robberies</option>
+<option value="https://abcotvdata.github.io/safetytracker_houston/Houston_Safety_Tracker_SexualAssaults.html">Sexual Assaults</option>
+<option value="https://abcotvdata.github.io/safetytracker_houston/Houston_Safety_Tracker_Thefts.html">Thefts</option>
+</select></h2>
+
+<div class="cardContainer">
+<div class="card" style="background-color:#99a0a5;">
+<p>Sexual Assaults<br>
+<bignumber>`r prettyNum(sexassaults_city$last12mos, big.mark=",")`<br></bignumber>
+<p>Last 12 months<br>Through  `r format(asofdate, "%B %d")`</p>
+</div>
+<div class="card" style="background-color:#99a0a5;">
+<p>Average Sexual Assaults<br>
+<bignumber>`r prettyNum(round(sexassaults_city$avg_prior3years,0), big.mark=",")`<br></bignumber><p>
+Yearly average<br>2019 to 2021</p>
+</div>
+<div class="card" style="background-color:#99a0a5;">
+<p>Sexual Assault Rate<br>
+<bignumber>`r sexassaults_city$rate_last12`<br></bignumber><p>
+Per 100,000 people<br>Last 12 months</p>
+</div>
+<div class="card" style="background-color:#99a0a5;">
+<p>Average Sexual Assault Rate<br>
+<bignumber>`r sexassaults_city$rate_prior3years`<br></bignumber><p>
+Per 100,000 people<br>2019 to 2021</p>
+</div>
+</div>
+<br>
+Sexual assaults over the last 12 months are <h8>`r ifelse(sexassaults_city$inc_prior3yearavgtolast12>=0," up"," down")` `r ifelse(sexassaults_city$inc_prior3yearavgtolast12>=0,sexassaults_city$inc_prior3yearavgtolast12,substring(sexassaults_city$inc_prior3yearavgtolast12,2))`%</h8> compared to the annual average over the last three years.
+
+The city averaged <h8>`r round(sexassaults_city$last12mos/52,0)`</h8> sexual assaults a week over the last 12 months. In 2019, that number was <h8>`r round(sexassaults_city$total19/52,0)`</h8> a week.
+
+<subhead>A closer look at Houston sexual assaults neighborhood by neighborhood</subhead>
+
+The danger is not the same neighborhood to neighborhood. ABC13's data team looked at the Houston Police Department's public data about sexual assault reports by neighborhood from 2019 through `r format(asofdate, "%B %d")`.
+
+The map color-codes each neighborhood by the sexual assault rate over the last 12 months. The three darker blue areas are neighborhoods with sexual assault rates higher than the citywide rate. You can also choose to see neighborhoods by the number of reported sexual assaults.
+
+Click on any neighborhood on the map to see detailed numbers, rates and trends. You can also search for a street name, place, landmark or zip code.
+
+<br>
+
+```{r cars, echo=FALSE,out.width='100%',out.height='600'}
+# sexassault MAP
+
+# Set bins for numbers of crimes for sexassaults map
+sexassaultbins1 <- c(0,
+                30,
+                60,
+                90,
+                120,
+                500)
+sexassaultbins2 <- c(0,
+                5,
+                10,
+                20,
+                30,
+                100)
+sexassaultpal1 <- colorBin(c("#99a0a5",
+                             "#2787d6",
+                             "#0058f6",
+                             "#003ca6",
+                             "#00215c"), sexassaults_beat$rate_last12, bins = sexassaultbins1,na.color = "#51585f")
+
+sexassaultpal2 <- colorBin(c("#99a0a5",
+                             "#2787d6",
+                             "#0058f6",
+                             "#003ca6",
+                             "#00215c"), sexassaults_beat$last12mos, bins = sexassaultbins2,na.color = "#51585f")
+
+# Create quick labels for sexassaults map
+sexassaultlabel <- paste(sep="",
+                     "<popuptitle>",
+                     sexassaults_beat$last12mos,
+                     " sexual assaults</popuptitle><br>",
+                     " in the last 12 months in the area including <b>",
+                     sexassaults_beat$placename,
+                     "</b>, home to an estimated ",
+                     prettyNum(sexassaults_beat$population, big.mark=","),
+                     " people.
+<br>
+<table>      
+      <tr>
+				<th></th>
+				<th>Total</th>
+				<th>Rate</th>
+			</tr>
+			<tr>
+				<td>2019</td>
+				<td>",
+sexassaults_beat$total19,
+"</td>
+				<td>",
+sexassaults_beat$rate19,
+"</td>
+			</tr>
+			<tr>
+				<td>2020</td>
+				<td>",
+sexassaults_beat$total20,
+"</td>
+				<td>",
+sexassaults_beat$rate20,
+"</td>
+			</tr>
+						<tr>
+				<td>2021</td>
+				<td>",
+sexassaults_beat$total21,
+"</td>
+				<td>",
+sexassaults_beat$rate21,
+"</td>
+			</tr>
+						<tr>
+				<td>Last 12 months</td>
+				<td>",
+sexassaults_beat$last12mos,
+"</td>
+				<td>",
+sexassaults_beat$rate_last12,
+"</td>
+			</tr>
+						<tr>
+				<td>3-year Average</td>
+				<td>",
+sexassaults_beat$avg_prior3years,
+"</td>
+				<td>",
+sexassaults_beat$rate_prior3years,
+"</td>
+			</tr>
+</table>")
+
+# Creating police beats map for types of crimes
+houston_sexassault_map <- leaflet(sexassaults_beat, options = leafletOptions(zoomControl = FALSE, zoomSnap = 0.5, zoomDelta=0.5)) %>%
+  htmlwidgets::onRender("function(el, x) {
+L.control.zoom({ position: 'topright' }).addTo(this)
+}") %>%
+  setView(-95.45, 29.75, zoom = 10.5) %>% 
+  addProviderTiles(provider = "CartoDB.Positron") %>%
+  addPolygons(color = "white", 
+              popup = sexassaultlabel,
+              popupOptions = popupOptions(maxWidth ="200", 
+                                          minWidth ="200"),
+              weight = 2, 
+              smoothFactor = 0.5,
+              opacity = 0.6, 
+              fillOpacity = 0.6,
+              fillColor = ~sexassaultpal1(rate_last12),
+              group="Rate") %>% 
+    addPolygons(color = "white", 
+              popup = sexassaultlabel,
+              popupOptions = popupOptions(maxWidth ="200", 
+                                          minWidth ="200"),
+              weight = 2, 
+              smoothFactor = 0.5,
+              opacity = 0.6, 
+              fillOpacity = 0.6,
+              fillColor = ~sexassaultpal2(last12mos),
+              group="Number") %>% 
+    addSearchOSM(options = searchOptions(autoCollapse=FALSE, minLength = 3,zoom=13, position="topleft")) %>%
+    onRender("function(el, x) {
+        $('input.search-input')[0].placeholder = 'Search street, place or zip code'
+        }") %>%
+  addLegend(opacity = 0.6,
+            values = sexassaults_beat$rate_last12, 
+            pal = sexassaultpal1,
+            position = "bottomleft", 
+            title = paste(sep="","<popuptitle>Sexual Assault Rate<br><popupchatter>Sexual Assaults/100K people<br>Citywide: ",sexassaults_city$rate_last12),
+            group = "Rate",
+            className = "info legend Rate") %>%
+  addLegend(opacity = 0.6,
+            values = sexassaults_beat$last12mos, 
+            pal = sexassaultpal2,
+            position = "bottomleft", 
+            title = paste(sep="","<popuptitle>Sexual Assaults<br><popupchatter>Total sexual assaults<br>Citywide: ",sexassaults_city$last12mos),
+            group = "Number",
+            className = "info legend Number") %>%
+  addLayersControl(
+    baseGroups = c("Rate","Number"),
+    options = layersControlOptions(collapsed = FALSE),
+    position = 'bottomright') %>% hideGroup(c("Number")) %>%
+   htmlwidgets::onRender("
+      function(el, x) {
+         var updateLegend = function () {
+            var selectedGroup = document.querySelectorAll('input:checked')[0].nextSibling.innerText.substr(1);
+
+            document.querySelectorAll('.legend').forEach(a => a.hidden=true);
+            document.querySelectorAll('.legend').forEach(l => {
+               if (l.classList.contains(selectedGroup)) l.hidden=false;
+            });
+         };
+         updateLegend();
+         this.on('baselayerchange', el => updateLegend());
+      }"
+   )
+houston_sexassault_map
+```
+<br>
+<br>
+<!-- <subhead>Sexual assaults month by month, 2019 through last month</subhead> -->
+
+<iframe title="Sexual assaults month by month, 2019 through last month" aria-label="Column Chart" id="datawrapper-chart-Ao9qp" src="https://datawrapper.dwcdn.net/Ao9qp/2/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="400" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(e){if(void 0!==e.data["datawrapper-height"]){var t=document.querySelectorAll("iframe");for(var a in e.data["datawrapper-height"])for(var r=0;r<t.length;r++){if(t[r].contentWindow===e.source)t[r].style.height=e.data["datawrapper-height"][a]+"px"}}}))}();
+</script>
+  <br>
+<br>
+<!-- <subhead>Risk of sexual assault in Houston vs. other causes of death in Texas</subhead> -->
+
+<iframe title="Risk of sexual assault in Houston vs. other severe dangers" aria-label="Dot Plot" id="datawrapper-chart-rh4Xu" src="https://datawrapper.dwcdn.net/rh4Xu/7/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="151" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(e){if(void 0!==e.data["datawrapper-height"]){var t=document.querySelectorAll("iframe");for(var a in e.data["datawrapper-height"])for(var r=0;r<t.length;r++){if(t[r].contentWindow===e.source)t[r].style.height=e.data["datawrapper-height"][a]+"px"}}}))}();
+</script>
+<br>
+<br>
+<!-- Will be adding additional contextual charting around this crime category -->

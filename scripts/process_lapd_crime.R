@@ -5,11 +5,17 @@ library(zoo)
 library(lubridate)
 
 
-# Read LA Sheriff AND LAPD crime files pre-processed
-lasd_2019 <- readRDS("scripts/rds/lasd_2019.rds")
-lasd_2020 <- readRDS("scripts/rds/lasd_2020.rds")
-lasd_2021 <- readRDS("scripts/rds/lasd_2021.rds")
+# Read, clean and format LAPD files
+lapd_past <- readRDS("scripts/rds/lapd_past.rds")
+lapd_recent <- readRDS("scripts/rds/lapd_recent.rds")
+# Merge the two files into one
+lapd_crime 
 
+
+
+
+lasd_2021 <- readRDS("scripts/rds/lasd_2021.rds")
+lasd_2021 <- readRDS("scripts/rds/lasd_2021.rds")
 
 ###
 ###

@@ -1,25 +1,20 @@
 library(tidyverse)
 library(sf)
-library(readxl)
-library(zoo)
 library(lubridate)
 
 # LAPD 2020 to now: https://data.lacity.org/Public-Safety/Crime-Data-from-2020-to-Present/2nrs-mtv8
 download.file("https://data.lacity.org/api/views/2nrs-mtv8/rows.csv","data/source/recent/lapd_recent.csv")
-# LAPD Prior to 2020
-download.file("https://data.lacity.org/api/views/63jg-8b9z/rows.csv","data/source/annual/lapd_past.csv")
-# download.file("https://data.lacity.org/resource/2nrs-mtv8.csv?$$app_token=WI9DUnOxnLgO1q4vVMINltcv0&$limit=1000000","lapd_recent.csv")
-# download.file("https://data.lacity.org/api/views/2nrs-mtv8/rows.rdf?accessType=DOWNLOAD","recent_other.rdf")
 
 # Load the data
 lapd_recent <- read_csv("data/source/recent/lapd_recent.csv") %>% janitor::clean_names()
 # Fix the date fields to match and then filter past file to extract just 2019
 lapd_recent$date <- lubridate::mdy_hms(lapd_recent$date_occ)
 lapd_recent$year <- lubridate::year(lapd_recent$date)
-lapd_crime$month <- lubridate::floor_date(as.Date(lapd_crime$date),"month")
+lapd_recent$month <- lubridate::floor_date(as.Date(lapd_recent$date),"month")
 lapd_recent$hour <- substr(lapd_recent$time_occ,1,2)
 
-# merge these two files for some tightening and clean_up
+# Load past file and then merge with new for formatting, cleanup
+lapd_past <- readRDS("scripts/rds/lapd_past.rds")
 lapd_crime <- rbind(lapd_past,lapd_recent)
 # dr_no is a unique identifier
 
@@ -81,6 +76,10 @@ lapd_crime$category <- case_when(lapd_crime$crm_cd == '230' ~ 'Aggravated Assaul
                                  lapd_crime$crm_cd == '510' ~ 'Vehicle Theft',
                                  lapd_crime$crm_cd == '520' ~ 'Vehicle Theft',
                                  TRUE ~ "Other or Part 2")
+
+# Clean address field of stray spacing
+lapd_crime$location <- gsub("  "," ",lapd_crime$location)
+
 
 # OPEN WORK: clean up premise names throughout file
 # the case when is stored once as a value by separate script

@@ -11,7 +11,7 @@ beats <- st_read("data/source/geo/Law_Enforcement_Reporting_Districts.geojson") 
 # Create LAPD and Sheriff districts map file
 districts <- beats %>%
   filter(agency == "LAPD" | agency == "LASD") %>%
-  group_by(agency,station) %>%
+  group_by(agency,st_name) %>%
   summarise(geometry = sf::st_union(geometry)) %>%
   ungroup()
 
@@ -57,7 +57,7 @@ saveRDS(districts,"scripts/rds/la_police_districts.rds")
 # Set bins for beats pop map
 popbins <- c(0,50000,100000,125000,150000,200000,Inf)
 poppal <- colorBin("viridis", districts$population, bins = popbins)
-poplabel <- paste(sep = "<br>", districts$agency,districts$station,prettyNum(districts$population, big.mark = ","))
+poplabel <- paste(sep = "<br>", districts$agency,districts$st_name,prettyNum(districts$population, big.mark = ","))
 
 la_districts_map <- leaflet(districts) %>%
   setView(-118.243, 34.052, zoom = 10) %>% 
@@ -85,7 +85,7 @@ la_beats_map
 
 # Subdivide to just LAPD and LASD reporting districts 
 beats2 <- beats %>% filter(beats$agency == "LAPD" | beats$agency == "LASD")
-poplabel2 <- paste(sep = "<br>", beats2$omega_name,beats2$agency,prettyNum(beats2$population, big.mark = ","))
+poplabel2 <- paste(sep = "<br>", beats2$st_name,beats2$agency,prettyNum(beats2$population, big.mark = ","))
 # Create a map of just PD/SD reporting districts
 la_beats_map2 <- leaflet(beats2) %>%
   setView(-118.243, 34.052, zoom = 10) %>% 

@@ -2,8 +2,9 @@ library(tidyverse)
 library(sf)
 library(lubridate)
 
+options(timeout=300)
 # LAPD 2020 to now: https://data.lacity.org/Public-Safety/Crime-Data-from-2020-to-Present/2nrs-mtv8
-download.file("https://data.lacity.org/api/views/2nrs-mtv8/rows.csv","data/source/recent/lapd_recent.csv")
+try(download.file("https://data.lacity.org/api/views/2nrs-mtv8/rows.csv?accessType=DOWNLOAD","data/source/recent/lapd_recent.csv"))
 
 # Load the data
 lapd_recent <- read_csv("data/source/recent/lapd_recent.csv") %>% janitor::clean_names()
@@ -78,8 +79,14 @@ lapd_crime$category <- case_when(lapd_crime$crm_cd == '230' ~ 'Aggravated Assaul
                                  TRUE ~ "Other or Part 2")
 
 # Clean address field of stray spacing
-lapd_crime$location <- gsub("  "," ",lapd_crime$location)
-
+lapd_crime$location <- gsub("\\s+", " ", lapd_crime$location) %>% trimws
+lapd_crime$cross_street <- gsub("\\s+", " ", lapd_crime$cross_street) %>% trimws         
+# Fix two division names in data to match division names in geo file
+lapd_crime$area_name <- gsub("N Hollywood", "North Hollywood", lapd_crime$area_name)
+lapd_crime$area_name <- gsub("West LA", "West Los Angeles", lapd_crime$area_name)
+# Remove repetitive fields we no longer need to keep rds file smaller
+lapd_crime <- lapd_crime %>% select(5:10,15,16,25:33)
+lapd_crime$agency <- "LAPD"
 
 # OPEN WORK: clean up premise names throughout file
 # the case when is stored once as a value by separate script
@@ -100,4 +107,4 @@ lapd_crime$location <- gsub("  "," ",lapd_crime$location)
 #                                   TRUE ~ 'Unknown or other')
 
 saveRDS(lapd_crime,"scripts/rds/lapd_crime.rds")
-saveRDS(lapd_crime,"output/lapd_crime.rds")
+saveRDS(lapd_crime,"data/output/lapd_crime.rds")

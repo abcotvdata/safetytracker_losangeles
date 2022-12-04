@@ -3,7 +3,7 @@ name: Get new LAPD data
 # Controls when the workflow will run
 on:
   schedule:
-    - cron: '10 * * * *'
+    - cron: '15 16,20 * * *'
       # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 

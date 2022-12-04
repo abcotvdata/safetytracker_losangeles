@@ -88,6 +88,10 @@ lapd_crime$area_name <- gsub("West LA", "West Los Angeles", lapd_crime$area_name
 lapd_crime <- lapd_crime %>% select(5:10,15,16,25:33)
 lapd_crime$agency <- "LAPD"
 
+# Create LAPD as_of_date
+lapd_asofdate <- max(lapd_crime$date)
+saveRDS(lapd_asofdate,"scripts/rds/lapd_asofdate.rds")
+
 # OPEN WORK: clean up premise names throughout file
 # the case when is stored once as a value by separate script
 #lapd_crime$premise <- case_when(lapd_crime$premise == 'Amusement Park' ~ 'Amusement park',

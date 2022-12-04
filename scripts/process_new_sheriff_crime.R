@@ -66,6 +66,10 @@ lasd_crime$unit_name <- gsub("Walnut", "Walnut / Diamond Bar", lasd_crime$unit_n
 lasd_crime$unit_name <- ifelse(lasd_crime$unit_name=="Lost Hills", "Malibu / Lost Hills", lasd_crime$unit_name)
 lasd_crime$unit_name <- str_to_title(lasd_crime$unit_name)
 
+# Create LASD Sheriff as_of_date
+lasd_asofdate <- max(lasd_crime$date)
+saveRDS(lasd_asofdate,"scripts/rds/lasd_asofdate.rds")
+
 # districts <- readRDS("scripts/rds/la_police_districts.rds")
 # check <- anti_join(lasd_area_list,districts,by=c("unit_name"="st_name","agency"="agency"))
 

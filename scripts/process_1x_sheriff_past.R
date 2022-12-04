@@ -11,10 +11,12 @@ library(tidyverse)
 
 lasd_2019 <- read_csv("data/source/annual/lasd_2019.csv") %>% janitor::clean_names() %>% select(2,4:7,11,12,15:19) 
 lasd_2020 <- read_csv("data/source/annual/lasd_2020.csv") %>% janitor::clean_names() %>% select(2,4:7,11,12,15:19) 
-lasd_2021 <- read_csv("data/source/annual/lasd_2021.csv") %>% janitor::clean_names() %>% select(2,4:7,11,12,15:19) 
+lasd_2021 <- read_csv("data/source/annual/lasd_2021.csv") %>% janitor::clean_names() %>% select(2,4:7,11,12,15:19)
 
 lasd_past <- rbind(lasd_2019,lasd_2020,lasd_2021)
 rm(lasd_2019,lasd_2020,lasd_2021)
+
+# lasd_past$date <- as.Date(lubridate::mdy_hms(lasd_past$incident_date))
 
 saveRDS(lasd_past,"scripts/rds/lasd_past.rds")
 

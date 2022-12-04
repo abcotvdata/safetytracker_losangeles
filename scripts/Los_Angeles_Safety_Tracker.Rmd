@@ -18,7 +18,7 @@ library(sf)
 ```
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 
-![<popupchatter>Updated `r format(Sys.time(), '%B %d, %Y')` by the ABC7 Data Team</popupchatter>](https://github.com/abcotvdata/safetytracker_oakland/raw/main/docs/banner_kabc.png)
+![<popupchatter>Updated `r format(Sys.time(), '%B %d, %Y')` by the ABC7 Data Team</popupchatter>](https://github.com/abcotvdata/safetytracker_losangeles/raw/main/docs/banner_kabc.png)
 
 ```{css, echo=FALSE}
 
@@ -190,13 +190,13 @@ sf_population <- 815201
 ```
 
 <br>
-<h2>ABC7 is tracking crime and safety across Oakland and in your neighborhood. 
+<h2>ABC7 is tracking crime and safety across Los Angeles and in your neighborhood. 
 
 <br>You can choose which crime to examine: <select onchange="window.location=this.value">
+<option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker.html">Homicides</option>
 <option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker_VehicleThefts.html">Vehicle Thefts</option>
 <option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker_Assaults.html">Assaults</option>
 <option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker_Burglaries.html">Burglaries</option>
-<option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker.html">Homicides</option>
 <option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker_Robberies.html">Robberies</option>
 <option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker_SexualAssaults.html">Sexual Assaults</option>
 <option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker_Thefts.html">Thefts</option>
@@ -229,31 +229,33 @@ Per 100,000 people<br>2019 to 2021</p>
 </div>
 </div>
 <br>
-Homicides over the last 12 months are trending <h8>`r ifelse(murders_city$inc_21tolast12>=0," up"," down")` `r ifelse(murders_city$inc_21tolast12>=0,murders_city$inc_21tolast12,substring(murders_city$inc_21tolast12,2))`%</h8> compared to 2021, according to the Oakland Police Department data through `r format(asofdate, "%B %d")`.
+Homicides over the last 12 months are trending <h8>`r ifelse(murders_city$inc_21tolast12>=0," up"," down")` `r ifelse(murders_city$inc_21tolast12>=0,murders_city$inc_21tolast12,substring(murders_city$inc_21tolast12,2))`%</h8> compared to 2021, according to the Los Angeles Police Department and Los Angeles County Sheriff's Department data through `r format(asofdate, "%B %d")`.
 
-However, the murder rate over the last 12 months is <h8>`r case_when((murders_city$rate_last12-murders_city$rate_prior3years)>=0.25 ~ "up",
+The murder rate in the areas of the county policed by the LAPD and Sheriff's Department over the last 12 months is <h8>`r case_when((murders_city$rate_last12-murders_city$rate_prior3years)>=0.25 ~ "up",
           (murders_city$rate_last12-murders_city$rate_prior3years)<=-0.25 ~ "down",
-          TRUE ~ "about the same ")`</h8> compared to the annual average over the last three years, and the frequency of killings remains far higher than it was before the pandemic.
+          TRUE ~ "about the same ")`</h8> compared to the annual average over the last three years, and the frequency of killings remains higher than it was before the pandemic.
 
-The city averaged about <h8>`r round(murders_city$last12mos/12,0)`</h8> homicides a month over the last year. In 2019, that number was <h8>`r round(murders_city$total19/12,0)`</h8> a month.
+The Los Angeles area averaged about <h8>`r round(murders_city$last12mos/12,0)`</h8> homicides a month over the last year. In 2019, that number was <h8>`r round(murders_city$total19/12,0)`</h8> a month.
 
-One way to think about the danger: three years ago, the murder rate was <h8>`r murders_city$rate19`</h8> per 100,000 residents. That's higher than the risk of dying in a vehicle crash in California. The city's murder rate has jumped to <h8>`r murders_city$rate_last12`</h8> over the last 12 months.
+One way to think about the danger: three years ago, the murder rate in the area was <h8>`r murders_city$rate19`</h8> per 100,000 residents. That's higher than the risk of dying in a vehicle crash in California. The area's murder rate has jumped to <h8>`r murders_city$rate_last12`</h8> over the last 12 months.
 <br>
 <br>
-<!-- <subhead>Risk of being murdered in Oakland vs. other causes of death in Harris County</subhead> -->
+<!-- <subhead>Risk of being murdered in Los Angeles vs. other causes of death in Harris County</subhead> -->
 
-<iframe title="Risk of homicide in Oakland vs. other causes of death" aria-label="Bar Chart" id="datawrapper-chart-V16iO" src="https://datawrapper.dwcdn.net/V16iO/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="402" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(e){if(void 0!==e.data["datawrapper-height"]){var t=document.querySelectorAll("iframe");for(var a in e.data["datawrapper-height"])for(var r=0;r<t.length;r++){if(t[r].contentWindow===e.source)t[r].style.height=e.data["datawrapper-height"][a]+"px"}}}))}();
+<iframe title="Risk of homicide in Los Angeles vs. other causes of death" aria-label="Bar Chart" id="datawrapper-chart-V16iO" src="https://datawrapper.dwcdn.net/V16iO/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="402" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(e){if(void 0!==e.data["datawrapper-height"]){var t=document.querySelectorAll("iframe");for(var a in e.data["datawrapper-height"])for(var r=0;r<t.length;r++){if(t[r].contentWindow===e.source)t[r].style.height=e.data["datawrapper-height"][a]+"px"}}}))}();
 </script>
 
 The risk is not the same neighborhood to neighborhood.
 
-ABC7's data team looked at the Oakland Police Department's crime incident data by police district from 2019 through `r format(asofdate, "%B %d, %Y")`. Totals here include murders, but not involuntary manslaughter or justifiable homicide.
+ABC7's data team looked at data from the Los Angeles Police Department and Los Angeles County Sheriff's Department by neighborhood from 2019 through `r format(asofdate, "%B %d, %Y")`, the latest date for which records are available from the two agencies. Totals here include murders, but not involuntary manslaughter or justifiable homicide.
 
-<subhead>A closer look at Oakland homicides by neighborhood</subhead>
+<subhead>A closer look at Los Angeles homicides by neighborhood</subhead>
 
-The map color codes each neighborhood by the homicide rate over the last 12 months. The three darker blues highlight neighborhoods where the murder rate is higher than the citywide rate.
+The map color codes each police district by the homicide rate over the last 12 months. The three darker blues highlight neighborhoods where the murder rate is higher than the citywide rate.
 
-You can click any neighborhood to see detailed numbers or the buttons at the bottom of the map to switch between numbers and rates. You can search for a street, place, landmark or zip code to zoom to that location.
+Click on any area to see detailed numbers or the buttons at the bottom of the map to switch between numbers and rates.
+
+You can find your neighborhood by using the box at the top of the map to search for any street, place, landmark or zip code to zoom to that location.
 
 <br>
 ```{r cars, echo=FALSE,out.width='100%',out.height='600'}
@@ -261,17 +263,17 @@ You can click any neighborhood to see detailed numbers or the buttons at the bot
 
 # Set bins for numbers of crimes for murders map
 murderbins1 <- c(0,
+                4,
+                8,
+                15,
+                25,
+                60)
+murderbins2 <- c(0,
+                3,
                 10,
-                20,
-                35,
+                25,
                 50,
                 75)
-murderbins2 <- c(0,
-                5,
-                10,
-                20,
-                30,
-                40)
 murderpal1 <- colorBin(c("#99a0a5",
                              "#2787d6",
                              "#0058f6",
@@ -289,8 +291,10 @@ murderpal2 <- colorBin(c("#99a0a5",
 murderlabel <- paste(sep="",
                      "<popuptitle>",
                      murders_district$last12mos,
-                     " homicides </popuptitle><br>",
-                     " in the last 12 months in Police District <b>",
+                     ifelse(murders_district$last12mos==1,
+                     " homicide </popuptitle><br>",
+                     " homicides </popuptitle><br>"),
+                     " in the last 12 months in the <b>",
                      murders_district$district,
                      "</b>, which includes the <b>",
                      murders_district$placename,
@@ -353,11 +357,11 @@ murders_district$rate_prior3years,
 
 
 # Creating police beats map for types of crimes
-oakland_murder_map <- leaflet(murders_district, options = leafletOptions(zoomControl = FALSE, zoomSnap = 0.5, zoomDelta=0.5)) %>%
+losangeles_murder_map <- leaflet(murders_district, options = leafletOptions(zoomControl = FALSE, zoomSnap = 0.5, zoomDelta=0.5)) %>%
   htmlwidgets::onRender("function(el, x) {
 L.control.zoom({ position: 'topright' }).addTo(this)
 }") %>%
-  setView(-122.25, 37.79, zoom = 11.5) %>% 
+  setView(-118.24, 34.05, zoom = 10) %>% 
   addProviderTiles(provider = "CartoDB.Positron") %>%
   addPolygons(color = "white", 
               popup = murderlabel,
@@ -415,16 +419,16 @@ L.control.zoom({ position: 'topright' }).addTo(this)
          this.on('baselayerchange', el => updateLegend());
       }"
    )
-oakland_murder_map
+losangeles_murder_map
 ```
 <br>
 <br>
 <!-- <subhead>Homicides yearly, 2018 through last 12 mos</subhead> -->
 
-<iframe title="Homicides year by year in Oakland" aria-label="Column Chart" id="datawrapper-chart-4xJii" src="https://datawrapper.dwcdn.net/4xJii/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="400" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(e){if(void 0!==e.data["datawrapper-height"]){var t=document.querySelectorAll("iframe");for(var a in e.data["datawrapper-height"])for(var r=0;r<t.length;r++){if(t[r].contentWindow===e.source)t[r].style.height=e.data["datawrapper-height"][a]+"px"}}}))}();</script>
+<iframe title="Homicides year by year in Los Angeles" aria-label="Column Chart" id="datawrapper-chart-4xJii" src="https://datawrapper.dwcdn.net/4xJii/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="400" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(e){if(void 0!==e.data["datawrapper-height"]){var t=document.querySelectorAll("iframe");for(var a in e.data["datawrapper-height"])for(var r=0;r<t.length;r++){if(t[r].contentWindow===e.source)t[r].style.height=e.data["datawrapper-height"][a]+"px"}}}))}();</script>
 <br>
 <br>
-<iframe title="Homicide clearance rate year by year in Oakland" aria-label="Column Chart" id="datawrapper-chart-pPRJO" src="https://datawrapper.dwcdn.net/pPRJO/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="538" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(e){if(void 0!==e.data["datawrapper-height"]){var t=document.querySelectorAll("iframe");for(var a in e.data["datawrapper-height"])for(var r=0;r<t.length;r++){if(t[r].contentWindow===e.source)t[r].style.height=e.data["datawrapper-height"][a]+"px"}}}))}();</script>
+<iframe title="Homicide clearance rate year by year in Los Angeles" aria-label="Column Chart" id="datawrapper-chart-pPRJO" src="https://datawrapper.dwcdn.net/pPRJO/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="538" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(e){if(void 0!==e.data["datawrapper-height"]){var t=document.querySelectorAll("iframe");for(var a in e.data["datawrapper-height"])for(var r=0;r<t.length;r++){if(t[r].contentWindow===e.source)t[r].style.height=e.data["datawrapper-height"][a]+"px"}}}))}();</script>
 <br>
 <br>
 <!-- <subhead> comparison to other cities chart </subhead> -->

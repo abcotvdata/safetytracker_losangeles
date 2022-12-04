@@ -46,6 +46,9 @@ sum(districts$population) # result is 6,853,094
 districts$population <- round(districts$population,-3)
 districts <- districts %>% st_transform(4326)
 districts <- st_make_valid(districts)
+districts <- districts %>% rename("district"="st_name")
+districts$district <- gsub(" Division", "", districts$district)
+
 
 # saving a clean geojson and separate RDS for use in tracker
 file.remove("data/output/geo/la_police_districts.geojson")
@@ -57,7 +60,7 @@ saveRDS(districts,"scripts/rds/la_police_districts.rds")
 # Set bins for beats pop map
 popbins <- c(0,50000,100000,125000,150000,200000,Inf)
 poppal <- colorBin("viridis", districts$population, bins = popbins)
-poplabel <- paste(sep = "<br>", districts$agency,districts$st_name,prettyNum(districts$population, big.mark = ","))
+poplabel <- paste(sep = "<br>", districts$agency,districts$district,prettyNum(districts$population, big.mark = ","))
 
 la_districts_map <- leaflet(districts) %>%
   setView(-118.243, 34.052, zoom = 10) %>% 

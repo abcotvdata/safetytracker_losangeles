@@ -228,19 +228,22 @@ Per 100,000 people<br>2019 to 2021</p>
 </div>
 </div>
 <br>
-Vehicle thefts over the last 12 months are <h8>`r ifelse(autothefts_city$inc_prior3yearavgtolast12>=0," up"," down")` `r ifelse(autothefts_city$inc_prior3yearavgtolast12>=0,autothefts_city$inc_prior3yearavgtolast12,substring(autothefts_city$inc_prior3yearavgtolast12,2))`%</h8> compared to the annual average over the last three years, according to Los Angeles Police Department data through `r format(asofdate, "%B %d")`.
+Vehicle thefts over the last 12 months are <h8>`r ifelse(autothefts_city$inc_prior3yearavgtolast12>=0," up"," down")` `r ifelse(autothefts_city$inc_prior3yearavgtolast12>=0,autothefts_city$inc_prior3yearavgtolast12,substring(autothefts_city$inc_prior3yearavgtolast12,2))`%</h8> compared to the annual average over the last three years, according to the Los Angeles Police Department and Los Angeles County Sheriff's Department data through `r format(asofdate, "%B %d")`.
 
-The city averaged <h8>`r round(autothefts_city$last12mos/52,0)`</h8> stolen vehicles a week over the last 12 months. In 2019, that number was <h8>`r round(autothefts_city$total19/52,0)`</h8> a week.
+The areas of the county policed by the LAPD and Sheriff's Department averaged <h8>`r round(autothefts_city$last12mos/52,0)`</h8> stolen vehicles a week over the last 12 months. In 2019, that number was <h8>`r round(autothefts_city$total19/52,0)`</h8> a week.
 
 The totals included here are for theft of a motor vehicle, and do not include thefts of parts of vehicles or thefts of personal valuables from vehicles.
 
 <subhead>A closer look at Los Angeles vehicle thefts by neighborhood</subhead>
 
-The risk is not the same neighborhood to neighborhood. ABC7's data team looked at the Los Angeles Police Department's data by neighborhood from 2019 through `r format(asofdate, "%B %d, %Y")`.
+The risk is not the same neighborhood to neighborhood. ABC7's data team looked at data from the Los Angeles Police Department and Los Angeles County Sheriff's Department by neighborhood from 2019 through `r format(asofdate, "%B %d, %Y")`, the latest date for which records are available from the two agencies.
 
-The map color codes each neighborhood by the vehicle theft rate over the last 12 months. The three darker blues represent neighborhoods with vehicle theft rates that are higher than the citywide rate. You can also click the box in the bottom right corner to see neighborhoods by the number of vehicles stolen.
+The map color codes each police district by the vehicle theft rate over the last 12 months. The three darker blues represent neighborhoods with vehicle theft rates that are higher than the citywide rate. You can also click the box in the bottom right corner to see neighborhoods by the number of vehicles stolen.
 
-Click on any neighborhood on the map to see detailed numbers, rates and trends. You can also search for a street name, place, landmark or zip code.
+Click on any area on the map to see detailed numbers, rates and trends.
+
+You can find your neighborhood by using the box at the top of the map to search for any street, place, landmark or zip code to zoom to that location.
+
 <br>
 ```{r cars, echo=FALSE,out.width='100%',out.height='600'}
 # autotheft MAP
@@ -341,7 +344,7 @@ losangeles_autotheft_map <- leaflet(autothefts_district, options = leafletOption
   htmlwidgets::onRender("function(el, x) {
 L.control.zoom({ position: 'topright' }).addTo(this)
 }") %>%
-  setView(-122.25, 37.79, zoom = 11.5) %>% 
+  setView(-118.24, 34.05, zoom = 10) %>% 
   addProviderTiles(provider = "CartoDB.Positron") %>%
   addPolygons(color = "white", 
               popup = autotheftlabel,

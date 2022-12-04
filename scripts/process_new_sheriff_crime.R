@@ -16,11 +16,10 @@ lasd_past <- readRDS("scripts/rds/lasd_past.rds")
 lasd_recent <- read_csv("data/source/recent/lasd_recent.csv") %>% janitor::clean_names()
 lasd_ytd <- read_csv("data/source/recent/lasd_ytd.csv") %>% janitor::clean_names()
 
-lasd_recent$date <- lubridate::mdy_hms(lasd_recent$incident_date)
-lasd_ytd$date <- lubridate::mdy_hms(lasd_ytd$incident_date)
-lasd_recent$reported_date <- lubridate::mdy(lasd_recent$incident_reported_date)
-lasd_ytd$reported_date <- lubridate::mdy(lasd_ytd$incident_reported_date)
-
+#lasd_recent$date <- as.Date(lubridate::mdy_hms(lasd_recent$incident_date))
+#lasd_ytd$date <- as.Date(lubridate::mdy_hms(lasd_ytd$incident_date))
+#lasd_recent$reported_date <- lubridate::mdy(lasd_recent$incident_reported_date)
+#lasd_ytd$reported_date <- lubridate::mdy(lasd_ytd$incident_reported_date)
 
 # Merge these five files for some tightening and clean_up
 lasd_crime <- rbind(lasd_ytd,lasd_recent)
@@ -35,7 +34,7 @@ lasd_crime <- rbind(lasd_crime,lasd_past)
 lasd_crime <- lasd_crime %>% rename("lasd_category" = "category")
 
 # Fix the date fields to match and then filter past file to extract just 2019
-lasd_crime$date <- lubridate::mdy_hms(lasd_crime$incident_date)
+lasd_crime$date <- as.Date(lubridate::mdy_hms(lasd_crime$incident_date))
 lasd_crime$year <- lubridate::year(lasd_crime$date)
 lasd_crime$month <- lubridate::floor_date(as.Date(lasd_crime$date),"month")
 lasd_crime$hour <- lubridate::hour(lasd_crime$date)

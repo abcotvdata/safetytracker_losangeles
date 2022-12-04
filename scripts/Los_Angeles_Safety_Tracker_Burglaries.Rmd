@@ -18,7 +18,7 @@ library(sf)
 ```
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 
-![<popupchatter>Updated `r format(Sys.time(), '%B %d, %Y')` by the ABC7 Data Team</popupchatter>](https://github.com/abcotvdata/safetytracker_oakland/raw/main/docs/banner_kabc.png)
+![<popupchatter>Updated `r format(Sys.time(), '%B %d, %Y')` by the ABC7 Data Team</popupchatter>](https://github.com/abcotvdata/safetytracker_losangeles/raw/main/docs/banner_kabc.png)
 
 ```{css, echo=FALSE}
 
@@ -189,12 +189,12 @@ th {
 sf_population <- 815201
 ```
 
-<h2>ABC7 is tracking crime and safety across the Oakland and in your neighborhood. 
+<h2>ABC7 is tracking crime and safety across the Los Angeles and in your neighborhood. 
 
 <br>You can choose which crime to examine: <select onchange="window.location=this.value">
+<option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker_Burglaries.html">Burglaries</option>
 <option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker_VehicleThefts.html">Vehicle Thefts</option>
 <option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker_Assaults.html">Assaults</option>
-<option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker_Burglaries.html">Burglaries</option>
 <option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker.html">Homicides</option>
 <option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker_Robberies.html">Robberies</option>
 <option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker_SexualAssaults.html">Sexual Assaults</option>
@@ -228,19 +228,21 @@ Per 100,000 people<br>2019 to 2021</p>
 </div>
 </div>
 <br>
-Burglaries over the last 12 months are <h8>`r ifelse(burglaries_city$inc_prior3yearavgtolast12>=0," up"," down")` `r ifelse(burglaries_city$inc_prior3yearavgtolast12>=0,burglaries_city$inc_prior3yearavgtolast12,substring(burglaries_city$inc_prior3yearavgtolast12,2))`%</h8> compared to the annual average over the last three years, according to the Oakland Police Department data through `r format(asofdate, "%B %d")`.
+Burglaries over the last 12 months are <h8>`r ifelse(burglaries_city$inc_prior3yearavgtolast12>=0," up"," down")` `r ifelse(burglaries_city$inc_prior3yearavgtolast12>=0,burglaries_city$inc_prior3yearavgtolast12,substring(burglaries_city$inc_prior3yearavgtolast12,2))`%</h8> compared to the annual average over the last three years, according to the Los Angeles Police Department and Los Angeles County Sheriff's Department data through `r format(asofdate, "%B %d")`.
 
-The city averaged <h8>`r round(burglaries_city$last12mos/52,0)`</h8> burglaries a week over the last 12 months. In 2019, that number was <h8>`r round(burglaries_city$total19/52,0)`</h8> a week.
+The areas of the county policed by the LAPD and Sheriff's Department averaged <h8>`r round(burglaries_city$last12mos/52,0)`</h8> burglaries a week over the last 12 months. In 2019, that number was <h8>`r round(burglaries_city$total19/52,0)`</h8> a week.
 
 Police generally define burglary as someone illegally entering a home, business or vehicle to steal something of value or commit some other felony.
 
-<subhead>A closer look at Oakland burglaries neighborhood by neighborhood</subhead>
+<subhead>A closer look at Los Angeles burglaries neighborhood by neighborhood</subhead>
 
-The risk is not the same neighborhood to neighborhood. ABC7's data team looked at the Oakland Police Department's data by neighborhood from 2019 through `r format(asofdate, "%B %d, %Y")`.
+The risk is not the same neighborhood to neighborhood. ABC7's data team looked at data from the Los Angeles Police Department and Los Angeles County Sheriff's Department by neighborhood from 2019 through `r format(asofdate, "%B %d, %Y")`, the latest date for which records are available from the two agencies.
 
-The map color codes each neighborhood by the burglary rate over the last 12 months. The three darker blues represent neighborhoods with burglary rates that are higher than the citywide rate. You can also click the box in the bottom right corner to see neighborhoods by the number of burglaries.
+The map color codes each police district by the burglary rate over the last 12 months. The three darker blues represent neighborhoods with burglary rates that are higher than the citywide rate. You can also click the box in the bottom right corner to see neighborhoods by the number of burglaries.
 
-Click on any neighborhood on the map to see detailed numbers, rates and trends. You can also search for a street name, place, landmark or zip code.
+Click on any area on the map to see detailed numbers, rates and trends.
+
+You can find your neighborhood by using the box at the top of the map to search for any street, place, landmark or zip code to zoom to that location.
 
 <br>
 ```{r cars, echo=FALSE,out.width='100%',out.height='600'}
@@ -339,11 +341,11 @@ round(burglaries_district$rate_prior3years,0),
 </table>")
 
 # Creating police beats map for types of crimes
-oakland_burglary_map <- leaflet(burglaries_district, options = leafletOptions(zoomControl = FALSE, zoomSnap = 0.5, zoomDelta=0.5)) %>%
+losangeles_burglary_map <- leaflet(burglaries_district, options = leafletOptions(zoomControl = FALSE, zoomSnap = 0.5, zoomDelta=0.5)) %>%
   htmlwidgets::onRender("function(el, x) {
 L.control.zoom({ position: 'topright' }).addTo(this)
 }") %>%
-  setView(-122.25, 37.79, zoom = 11.5) %>% 
+  setView(-118.24, 34.05, zoom = 10) %>% 
   addProviderTiles(provider = "CartoDB.Positron") %>%
   addPolygons(color = "white", 
               popup = burglarylabel,
@@ -401,15 +403,15 @@ L.control.zoom({ position: 'topright' }).addTo(this)
          this.on('baselayerchange', el => updateLegend());
       }"
    )
-oakland_burglary_map
+losangeles_burglary_map
 ```
 <br>
 <br>
 <!-- <subhead>Burglaries month by month, 2019 through last month</subhead> -->
-<iframe title="Burglaries year by year in Oakland" aria-label="Column Chart" id="datawrapper-chart-kqnJe" src="https://datawrapper.dwcdn.net/kqnJe/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="400" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(e){if(void 0!==e.data["datawrapper-height"]){var t=document.querySelectorAll("iframe");for(var a in e.data["datawrapper-height"])for(var r=0;r<t.length;r++){if(t[r].contentWindow===e.source)t[r].style.height=e.data["datawrapper-height"][a]+"px"}}}))}();</script>
+<iframe title="Burglaries year by year in Los Angeles" aria-label="Column Chart" id="datawrapper-chart-kqnJe" src="https://datawrapper.dwcdn.net/kqnJe/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="400" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(e){if(void 0!==e.data["datawrapper-height"]){var t=document.querySelectorAll("iframe");for(var a in e.data["datawrapper-height"])for(var r=0;r<t.length;r++){if(t[r].contentWindow===e.source)t[r].style.height=e.data["datawrapper-height"][a]+"px"}}}))}();</script>
 <br>
 <br>
-<iframe title="Burglary clearance rate year by year in Oakland" aria-label="Column Chart" id="datawrapper-chart-0nqB5" src="https://datawrapper.dwcdn.net/0nqB5/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="538" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(e){if(void 0!==e.data["datawrapper-height"]){var t=document.querySelectorAll("iframe");for(var a in e.data["datawrapper-height"])for(var r=0;r<t.length;r++){if(t[r].contentWindow===e.source)t[r].style.height=e.data["datawrapper-height"][a]+"px"}}}))}();</script>
+<iframe title="Burglary clearance rate year by year in Los Angeles" aria-label="Column Chart" id="datawrapper-chart-0nqB5" src="https://datawrapper.dwcdn.net/0nqB5/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="538" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(e){if(void 0!==e.data["datawrapper-height"]){var t=document.querySelectorAll("iframe");for(var a in e.data["datawrapper-height"])for(var r=0;r<t.length;r++){if(t[r].contentWindow===e.source)t[r].style.height=e.data["datawrapper-height"][a]+"px"}}}))}();</script>
 <!-- <subhead>Risk of property crime in major cities</subhead> -->
 <br>
 <br>

@@ -3,7 +3,7 @@ library(lubridate)
 
 options(timeout=300)
 # LAPD 2020 to now: https://data.lacity.org/Public-Safety/Crime-Data-from-2020-to-Present/2nrs-mtv8
-try(download.file("https://data.lacity.org/api/views/2nrs-mtv8/rows.csv?accessType=DOWNLOAD","data/source/recent/lapd_recent.csv"))
+download.file("https://data.lacity.org/api/views/2nrs-mtv8/rows.csv?accessType=DOWNLOAD","data/source/recent/lapd_recent.csv")
 
 
 # Load the data

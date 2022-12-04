@@ -1,7 +1,7 @@
 ---
-title: "ABC13 Houston Neighborhood Safety Tracker"
+title: "ABC7 Los Angeles Neighborhood Safety Tracker"
 # author: "John Kelly"
-# date: "Updated `r format(Sys.time(), '%B %d, %Y')` by the ABC13 Data Team"
+# date: Sys.time()
 output: html_document
 ---
 
@@ -18,7 +18,7 @@ library(sf)
 ```
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 
-![<popupchatter>Updated `r format(Sys.time(), '%B %d, %Y')` by the ABC13 Data Team</popupchatter>](https://github.com/abcotvdata/safetytracker_houston/raw/main/docs/header.png)
+![<popupchatter>Updated `r format(Sys.time(), '%B %d, %Y')` by the ABC7 Data Team</popupchatter>](https://github.com/abcotvdata/safetytracker_oakland/raw/main/docs/banner_kgo.png)
 
 ```{css, echo=FALSE}
 
@@ -184,29 +184,26 @@ th {
    }
 ```
 
-```{r beats, include=FALSE}
-# set value of houston_population
-houston_population <- 2304580
-```
-
-
-```{r crimedata, include=FALSE}
-# Source data pre-processed separately at process_houston_crime_combined.R
+```{r population, include=FALSE}
+# set value of sf_population
+sf_population <- 815201
 ```
 
 <br>
-<h2>ABC13 is tracking crime and safety across Houston and in your neighborhood. 
+<h2>ABC7 is tracking crime and safety across Oakland and in your neighborhood. 
 
-You can choose which crime to explore: <select onchange="window.location=this.value">
-<option value="https://abcotvdata.github.io/safetytracker_houston/Houston_Safety_Tracker.html">Homicides</option>
-<option value="https://abcotvdata.github.io/safetytracker_houston/Houston_Safety_Tracker_Assaults.html">Assaults</option>
-<option value="https://abcotvdata.github.io/safetytracker_houston/Houston_Safety_Tracker_AutoThefts.html">Auto Thefts</option>
-<option value="https://abcotvdata.github.io/safetytracker_houston/Houston_Safety_Tracker_Burglaries.html">Burglaries</option>
-<option value="https://abcotvdata.github.io/safetytracker_houston/Houston_Safety_Tracker_DrugCrimes.html">Drug Crimes</option>
-<option value="https://abcotvdata.github.io/safetytracker_houston/Houston_Safety_Tracker.html">Homicides</option>
-<option value="https://abcotvdata.github.io/safetytracker_houston/Houston_Safety_Tracker_Robberies.html">Robberies</option>
-<option value="https://abcotvdata.github.io/safetytracker_houston/Houston_Safety_Tracker_SexualAssaults.html">Sexual Assaults</option>
-<option value="https://abcotvdata.github.io/safetytracker_houston/Houston_Safety_Tracker_Thefts.html">Thefts</option>
+<br>You can choose which crime to examine: <select onchange="window.location=this.value">
+<option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker_VehicleThefts.html">Vehicle Thefts</option>
+<option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker_Assaults.html">Assaults</option>
+<option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker_Burglaries.html">Burglaries</option>
+<option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker.html">Homicides</option>
+<option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker_Robberies.html">Robberies</option>
+<option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker_SexualAssaults.html">Sexual Assaults</option>
+<option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker_Thefts.html">Thefts</option>
+</select></h2>
+<h2>Choose a different Bay Area city to explore: <select onchange="window.location=this.value">
+<option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker.html">Los_Angeles</option>
+<option value="https://abcotvdata.github.io/safetytracker_socal/Southern_California_Safety_Tracker.html">Southern California</option>
 </select></h2>
 
 <div class="cardContainer">
@@ -232,30 +229,29 @@ Per 100,000 people<br>2019 to 2021</p>
 </div>
 </div>
 <br>
-Homicides over the last 12 months are trending <h8>`r ifelse(murders_city$inc_21tolast12>=0," up"," down")` `r ifelse(murders_city$inc_21tolast12>=0,murders_city$inc_21tolast12,substring(murders_city$inc_21tolast12,2))`%</h8> compared to 2021.
+Homicides over the last 12 months are trending <h8>`r ifelse(murders_city$inc_21tolast12>=0," up"," down")` `r ifelse(murders_city$inc_21tolast12>=0,murders_city$inc_21tolast12,substring(murders_city$inc_21tolast12,2))`%</h8> compared to 2021, according to the Oakland Police Department data through `r format(asofdate, "%B %d")`.
 
-However, the murder rate over the last 12 months is<h8>`r ifelse(murders_city$inc_prior3yearavgtolast12>=0," up"," down")` `r ifelse(murders_city$inc_prior3yearavgtolast12>=0,murders_city$inc_prior3yearavgtolast12,substring(murders_city$inc_prior3yearavgtolast12,2))`%</h8> compared to the annual average over the last three years, and the frequency of killings remains higher than it was before the pandemic.
+However, the murder rate over the last 12 months is <h8>`r case_when((murders_city$rate_last12-murders_city$rate_prior3years)>=0.25 ~ "up",
+          (murders_city$rate_last12-murders_city$rate_prior3years)<=-0.25 ~ "down",
+          TRUE ~ "about the same ")`</h8> compared to the annual average over the last three years, and the frequency of killings remains far higher than it was before the pandemic.
 
-The city averaged <h8>`r round(murders_city$last12mos/52,0)`</h8> homicides a week over the last 12 months. In 2019, that number was <h8>`r round(murders_city$total19/52,0)`</h8> a week.
+The city averaged about <h8>`r round(murders_city$last12mos/12,0)`</h8> homicides a month over the last year. In 2019, that number was <h8>`r round(murders_city$total19/12,0)`</h8> a month.
 
-One way to think about the danger: three years ago, the murder rate was <h8>`r murders_city$rate19`</h8> per 100,000 residents. That's slightly less than risk as dying in a vehicle crash in Texas.
-
-During the pandemic, a person's chance of being murdered in Houston rose above the likelihood of dying in a vehicle crash. 
+One way to think about the danger: three years ago, the murder rate was <h8>`r murders_city$rate19`</h8> per 100,000 residents. That's higher than the risk of dying in a vehicle crash in California. The city's murder rate has jumped to <h8>`r murders_city$rate_last12`</h8> over the last 12 months.
 <br>
 <br>
-<!-- <subhead>Risk of being murdered in Houston vs. other causes of death in Harris County</subhead> -->
+<!-- <subhead>Risk of being murdered in Oakland vs. other causes of death in Harris County</subhead> -->
 
-<iframe title="Risk of homicide in Houston vs. other causes of death" aria-label="Dot Plot" id="datawrapper-chart-kjiot" src="https://datawrapper.dwcdn.net/kjiot/3/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="342" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(e){if(void 0!==e.data["datawrapper-height"]){var t=document.querySelectorAll("iframe");for(var a in e.data["datawrapper-height"])for(var r=0;r<t.length;r++){if(t[r].contentWindow===e.source)t[r].style.height=e.data["datawrapper-height"][a]+"px"}}}))}();
+<iframe title="Risk of homicide in Oakland vs. other causes of death" aria-label="Bar Chart" id="datawrapper-chart-V16iO" src="https://datawrapper.dwcdn.net/V16iO/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="402" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(e){if(void 0!==e.data["datawrapper-height"]){var t=document.querySelectorAll("iframe");for(var a in e.data["datawrapper-height"])for(var r=0;r<t.length;r++){if(t[r].contentWindow===e.source)t[r].style.height=e.data["datawrapper-height"][a]+"px"}}}))}();
 </script>
-<br>
 
 The risk is not the same neighborhood to neighborhood.
 
-ABC13's data team looked at the Houston Police Department's data by neighborhood from 2019 through `r format(asofdate, "%B %d")`.
+ABC7's data team looked at the Oakland Police Department's crime incident data by police district from 2019 through `r format(asofdate, "%B %d, %Y")`. Totals here include murders, but not involuntary manslaughter or justifiable homicide.
 
-<subhead>A closer look at Houston homicides by neighborhood</subhead>
+<subhead>A closer look at Oakland homicides by neighborhood</subhead>
 
-The map color-codes each neighborhood by the homicide rate over the last 12 months. The three darker blues highlight neighborhoods where the murder rate is higher than the citywide rate.
+The map color codes each neighborhood by the homicide rate over the last 12 months. The three darker blues highlight neighborhoods where the murder rate is higher than the citywide rate.
 
 You can click any neighborhood to see detailed numbers or the buttons at the bottom of the map to switch between numbers and rates. You can search for a street, place, landmark or zip code to zoom to that location.
 
@@ -267,37 +263,39 @@ You can click any neighborhood to see detailed numbers or the buttons at the bot
 murderbins1 <- c(0,
                 10,
                 20,
-                30,
-                40,
-                100)
+                35,
+                50,
+                75)
 murderbins2 <- c(0,
-                1,
-                3,
                 5,
                 10,
-                100)
+                20,
+                30,
+                40)
 murderpal1 <- colorBin(c("#99a0a5",
                              "#2787d6",
                              "#0058f6",
                              "#003ca6",
-                             "#00215c"), murders_beat$rate_last12, bins = murderbins1,na.color = "#51585f")
+                             "#00215c"), murders_district$rate_last12, bins = murderbins1,na.color = "#51585f")
 
 murderpal2 <- colorBin(c("#99a0a5",
                              "#2787d6",
                              "#0058f6",
                              "#003ca6",
-                             "#00215c"), murders_beat$last12mos, bins = murderbins2,na.color = "#51585f")
+                             "#00215c"), murders_district$last12mos, bins = murderbins2,na.color = "#51585f")
 
                             
 # Create labels for murders map
 murderlabel <- paste(sep="",
                      "<popuptitle>",
-                     murders_beat$last12mos,
+                     murders_district$last12mos,
                      " homicides </popuptitle><br>",
-                     " in the last 12 months in the area including <b>",
-                     murders_beat$placename,
-                     "</b>, home to an estimated ",
-                     prettyNum(murders_beat$population, big.mark=","),
+                     " in the last 12 months in Police District <b>",
+                     murders_district$district,
+                     "</b>, which includes the <b>",
+                     murders_district$placename,
+                     "</b>areas, home to an estimated ",
+                     prettyNum(murders_district$population, big.mark=","),
                      " people.
 <br>
 <table>      
@@ -309,57 +307,57 @@ murderlabel <- paste(sep="",
 			<tr>
 				<td>2019</td>
 				<td>",
-murders_beat$total19,
+murders_district$total19,
 "</td>
 				<td>",
-murders_beat$rate19,
+murders_district$rate19,
 "</td>
 			</tr>
 			<tr>
 				<td>2020</td>
 				<td>",
-murders_beat$total20,
+murders_district$total20,
 "</td>
 				<td>",
-murders_beat$rate20,
+murders_district$rate20,
 "</td>
 			</tr>
 						<tr>
 				<td>2021</td>
 				<td>",
-murders_beat$total21,
+murders_district$total21,
 "</td>
 				<td>",
-murders_beat$rate21,
+murders_district$rate21,
 "</td>
 			</tr>
 						<tr>
 				<td>Last 12 months</td>
 				<td>",
-murders_beat$last12mos,
+murders_district$last12mos,
 "</td>
 				<td>",
-murders_beat$rate_last12,
+murders_district$rate_last12,
 "</td>
 			</tr>
 						<tr>
 				<td>3-year Average</td>
 				<td>",
-murders_beat$avg_prior3years,
+murders_district$avg_prior3years,
 "</td>
 				<td>",
-murders_beat$rate_prior3years,
+murders_district$rate_prior3years,
 "</td>
 			</tr>
 </table>")
 
 
 # Creating police beats map for types of crimes
-houston_murder_map <- leaflet(murders_beat, options = leafletOptions(zoomControl = FALSE, zoomSnap = 0.5, zoomDelta=0.5)) %>%
+oakland_murder_map <- leaflet(murders_district, options = leafletOptions(zoomControl = FALSE, zoomSnap = 0.5, zoomDelta=0.5)) %>%
   htmlwidgets::onRender("function(el, x) {
 L.control.zoom({ position: 'topright' }).addTo(this)
 }") %>%
-  setView(-95.45, 29.75, zoom = 11) %>% 
+  setView(-122.25, 37.79, zoom = 11.5) %>% 
   addProviderTiles(provider = "CartoDB.Positron") %>%
   addPolygons(color = "white", 
               popup = murderlabel,
@@ -386,14 +384,14 @@ L.control.zoom({ position: 'topright' }).addTo(this)
         $('input.search-input')[0].placeholder = 'Search street, place or zip code'
         }") %>%
   addLegend(opacity = 0.6,
-            values = murders_beat$rate_last12, 
+            values = murders_district$rate_last12, 
             pal = murderpal1,
             position = "bottomleft", 
             title = paste(sep="","<popuptitle>Murder Rate<br><popupchatter>Murders/100K people<br>Citywide: ",murders_city$rate_last12),
             group = "Rate",
             className = "info legend Rate") %>%
   addLegend(opacity = 0.6,
-            values = murders_beat$last12mos, 
+            values = murders_district$last12mos, 
             pal = murderpal2,
             position = "bottomleft", 
             title = paste(sep="","<popuptitle>Murders<br><popupchatter>Total murders<br>Citywide: ",murders_city$last12mos),
@@ -417,24 +415,20 @@ L.control.zoom({ position: 'topright' }).addTo(this)
          this.on('baselayerchange', el => updateLegend());
       }"
    )
-houston_murder_map
+oakland_murder_map
 ```
 <br>
 <br>
-<!-- <subhead>Homicides month by month, 2019 through last month</subhead> -->
+<!-- <subhead>Homicides yearly, 2018 through last 12 mos</subhead> -->
 
-<iframe title="Homicides month by month, 2019 through last month" aria-label="Column Chart" id="datawrapper-chart-3NHzG" src="https://datawrapper.dwcdn.net/3NHzG/9/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="400" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(e){if(void 0!==e.data["datawrapper-height"]){var t=document.querySelectorAll("iframe");for(var a in e.data["datawrapper-height"])for(var r=0;r<t.length;r++){if(t[r].contentWindow===e.source)t[r].style.height=e.data["datawrapper-height"][a]+"px"}}}))}();
-</script>
-  <br>
-<br>
-
-<!-- <subhead>What kinds of places do murders happen in Houston</subhead> -->
-
-<iframe title="What kinds of places do murders happen in Houston" aria-label="Table" id="datawrapper-chart-xI2y0" src="https://datawrapper.dwcdn.net/xI2y0/19/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="350" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(e){if(void 0!==e.data["datawrapper-height"]){var t=document.querySelectorAll("iframe");for(var a in e.data["datawrapper-height"])for(var r=0;r<t.length;r++){if(t[r].contentWindow===e.source)t[r].style.height=e.data["datawrapper-height"][a]+"px"}}}))}();
-</script>
+<iframe title="Homicides year by year in Oakland" aria-label="Column Chart" id="datawrapper-chart-4xJii" src="https://datawrapper.dwcdn.net/4xJii/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="400" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(e){if(void 0!==e.data["datawrapper-height"]){var t=document.querySelectorAll("iframe");for(var a in e.data["datawrapper-height"])for(var r=0;r<t.length;r++){if(t[r].contentWindow===e.source)t[r].style.height=e.data["datawrapper-height"][a]+"px"}}}))}();</script>
 <br>
 <br>
-<!-- <subhead>What time of day do murders happen?</subhead> -->
-
-<iframe title="What time of day do murders happen?" aria-label="Column Chart" id="datawrapper-chart-coxAA" src="https://datawrapper.dwcdn.net/coxAA/9/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="400" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(e){if(void 0!==e.data["datawrapper-height"]){var t=document.querySelectorAll("iframe");for(var a in e.data["datawrapper-height"])for(var r=0;r<t.length;r++){if(t[r].contentWindow===e.source)t[r].style.height=e.data["datawrapper-height"][a]+"px"}}}))}();
+<iframe title="Homicide clearance rate year by year in Oakland" aria-label="Column Chart" id="datawrapper-chart-pPRJO" src="https://datawrapper.dwcdn.net/pPRJO/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="538" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(e){if(void 0!==e.data["datawrapper-height"]){var t=document.querySelectorAll("iframe");for(var a in e.data["datawrapper-height"])for(var r=0;r<t.length;r++){if(t[r].contentWindow===e.source)t[r].style.height=e.data["datawrapper-height"][a]+"px"}}}))}();</script>
+<br>
+<br>
+<!-- <subhead> comparison to other cities chart </subhead> -->
+<iframe title="2021 homicide rate comparison in select major cities" aria-label="Bar Chart" id="datawrapper-chart-pxJU3" src="https://datawrapper.dwcdn.net/pxJU3/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="436" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(e){if(void 0!==e.data["datawrapper-height"]){var t=document.querySelectorAll("iframe");for(var a in e.data["datawrapper-height"])for(var r=0;r<t.length;r++){if(t[r].contentWindow===e.source)t[r].style.height=e.data["datawrapper-height"][a]+"px"}}}))}();
 </script>
+<br>
+<br>

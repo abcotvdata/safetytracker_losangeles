@@ -18,7 +18,7 @@ library(sf)
 ```
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 
-![<popupchatter>Updated `r format(Sys.time(), '%B %d, %Y')` by the ABC7 Data Team</popupchatter>](https://github.com/abcotvdata/safetytracker_oakland/raw/main/docs/banner_kgo.png)
+![<popupchatter>Updated `r format(Sys.time(), '%B %d, %Y')` by the ABC7 Data Team</popupchatter>](https://github.com/abcotvdata/safetytracker_losangeles/raw/main/docs/banner_kgo.png)
 
 ```{css, echo=FALSE}
 
@@ -182,7 +182,6 @@ th {
         font-size: 22px;
       }
    }
-   
 ```
 
 ```{r population, include=FALSE}
@@ -190,7 +189,7 @@ th {
 sf_population <- 815201
 ```
 
-<h2>ABC7 is tracking crime and safety across the city of Oakland and in your neighborhood. 
+<h2>ABC7 is tracking crime and safety across the city of Los Angeles and in your neighborhood. 
 
 <br>You can choose which crime to examine: <select onchange="window.location=this.value">
 <option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker_VehicleThefts.html">Vehicle Thefts</option>
@@ -208,81 +207,80 @@ sf_population <- 815201
 
 <div class="cardContainer">
 <div class="card" style="background-color:#99a0a5;">
-<p>Thefts<br>
-<bignumber>`r prettyNum(thefts_city$last12mos, big.mark=",")`<br></bignumber>
+<p>Vehicle Thefts<br>
+<bignumber>`r prettyNum(autothefts_city$last12mos, big.mark=",")`<br></bignumber>
 <p>Last 12 months<br>Through  `r format(asofdate, "%B %d")`</p>
 </div>
 <div class="card" style="background-color:#99a0a5;">
-<p>Average Thefts<br>
-<bignumber>`r prettyNum(round(thefts_city$avg_prior3years,0), big.mark=",")`<br></bignumber><p>
+<p>Average Vehicle Thefts<br>
+<bignumber>`r prettyNum(round(autothefts_city$avg_prior3years,0), big.mark=",")`<br></bignumber><p>
 Yearly average<br>2019 to 2021</p>
 </div>
 <div class="card" style="background-color:#99a0a5;">
-<p>Theft Rate<br>
-<bignumber>`r prettyNum(round(thefts_city$rate_last12,0), big.mark=",")`<br></bignumber><p>
+<p>Vehicle Theft Rate<br>
+<bignumber>`r prettyNum(round(autothefts_city$rate_last12,0), big.mark=",")`<br></bignumber><p>
 Per 100,000 people<br>Last 12 months</p>
 </div>
 <div class="card" style="background-color:#99a0a5;">
-<p>Average Theft Rate<br>
-<bignumber>`r prettyNum(round(thefts_city$rate_prior3years,0),big.mark=",")`<br></bignumber><p>
+<p>Average Vehicle Theft Rate<br>
+<bignumber>`r prettyNum(round(autothefts_city$rate_prior3years,0), big.mark=",")`<br></bignumber><p>
 Per 100,000 people<br>2019 to 2021</p>
 </div>
 </div>
 <br>
-Thefts over the last 12 months are <h8>`r ifelse(thefts_city$inc_prior3yearavgtolast12>=0," up"," down")` `r ifelse(thefts_city$inc_prior3yearavgtolast12>=0,thefts_city$inc_prior3yearavgtolast12,substring(thefts_city$inc_prior3yearavgtolast12,2))`%</h8> compared to the annual average over the last three years, according to Oakland Police Department data through `r format(asofdate, "%B %d")`.
+Vehicle thefts over the last 12 months are <h8>`r ifelse(autothefts_city$inc_prior3yearavgtolast12>=0," up"," down")` `r ifelse(autothefts_city$inc_prior3yearavgtolast12>=0,autothefts_city$inc_prior3yearavgtolast12,substring(autothefts_city$inc_prior3yearavgtolast12,2))`%</h8> compared to the annual average over the last three years, according to Los Angeles Police Department data through `r format(asofdate, "%B %d")`.
 
-The city averaged <h8>`r prettyNum(round(thefts_city$last12mos/52,0), big.mark=",")`</h8> thefts a week over the last 12 months. In 2019, that number was <h8>`r prettyNum(round(thefts_city$total19/52,0), big.mark=",")`</h8> a week.
+The city averaged <h8>`r round(autothefts_city$last12mos/52,0)`</h8> stolen vehicles a week over the last 12 months. In 2019, that number was <h8>`r round(autothefts_city$total19/52,0)`</h8> a week.
 
-Theft totals here are for larceny, which would include stealing items worth $1,000 or more. The totals also would not include those involving violence, which would be defined as robbery. So someone taking an expensive smartphone from someone's bag would be theft, taking it while pointing a firearm at the person would be instead counted as robbery.
+The totals included here are for theft of a motor vehicle, and do not include thefts of parts of vehicles or thefts of personal valuables from vehicles.
 
-<subhead>Oakland thefts neighborhood by neighborhood</subhead>
+<subhead>A closer look at Los Angeles vehicle thefts by neighborhood</subhead>
 
-The risk is not the same neighborhood to neighborhood. ABC7's data team looked at the Oakland Police Department's data by neighborhood from 2019 through `r format(asofdate, "%B %d, %Y")`.
+The risk is not the same neighborhood to neighborhood. ABC7's data team looked at the Los Angeles Police Department's data by neighborhood from 2019 through `r format(asofdate, "%B %d, %Y")`.
 
-The map color codes each neighborhood by the theft rate over the last 12 months. The three darker blues represent neighborhoods with theft rates that are higher than the citywide rate. You can also click the box in the bottom right corner to see neighborhoods by the number of thefts.
+The map color codes each neighborhood by the vehicle theft rate over the last 12 months. The three darker blues represent neighborhoods with vehicle theft rates that are higher than the citywide rate. You can also click the box in the bottom right corner to see neighborhoods by the number of vehicles stolen.
 
 Click on any neighborhood on the map to see detailed numbers, rates and trends. You can also search for a street name, place, landmark or zip code.
-
 <br>
-```{r map, echo=FALSE,out.width='100%',out.height='600'}
-# theft MAP
+```{r cars, echo=FALSE,out.width='100%',out.height='600'}
+# autotheft MAP
 
-# Set bins for numbers of crimes for thefts map
-theftbins1 <- c(0,
+# Set bins for numbers of crimes for autothefts map
+autotheftbins1 <- c(0,
+                1000,
+                2000,
+                2500,
+                3000,
+                4000)
+autotheftbins2 <- c(0,
                 1000,
                 1500,
                 2000,
                 2500,
                 3000)
-theftbins2 <- c(0,
-                1000,
-                1250,
-                1500,
-                1750,
-                2000)
-theftpal1 <- colorBin(c("#99a0a5",
+autotheftpal1 <- colorBin(c("#99a0a5",
                              "#2787d6",
                              "#0058f6",
                              "#003ca6",
-                             "#00215c"), thefts_district$rate_last12, bins = theftbins1,na.color = "#51585f")
+                             "#00215c"), autothefts_district$rate_last12, bins = autotheftbins1,na.color = "#51585f")
 
-theftpal2 <- colorBin(c("#99a0a5",
+autotheftpal2 <- colorBin(c("#99a0a5",
                              "#2787d6",
                              "#0058f6",
                              "#003ca6",
-                             "#00215c"), thefts_district$last12mos, bins = theftbins2,na.color = "#51585f")
+                             "#00215c"), autothefts_district$last12mos, bins = autotheftbins2,na.color = "#51585f")
 
-# Create quick labels for thefts map
-theftlabel <- paste(sep="",
+# Create quick labels for autothefts map
+autotheftlabel <- paste(sep="",
                      "<popuptitle>",
-                     prettyNum(thefts_district$last12mos, big.mark=","),
-                     " thefts </popuptitle><br>",
+                     autothefts_district$last12mos,
+                     " vehicle thefts </popuptitle><br>",
                      " in the last 12 months in Police District <b>",
-                     thefts_district$district,
+                     autothefts_district$district,
                      "</b>, which includes the <b>",
-                     thefts_district$placename,
+                     autothefts_district$placename,
                      "</b>areas, home to an estimated ",
-                     prettyNum(thefts_district$population, big.mark=","),
+                     prettyNum(autothefts_district$population, big.mark=","),
                      " people.
 <br>
 <table>      
@@ -294,94 +292,93 @@ theftlabel <- paste(sep="",
 			<tr>
 				<td>2019</td>
 				<td>",
-thefts_district$total19,
+autothefts_district$total19,
 "</td>
 				<td>",
-prettyNum(round(thefts_district$rate19,0), big.mark=","),
+prettyNum(round(autothefts_district$rate19,0),big.mark =","),
 "</td>
 			</tr>
 			<tr>
 				<td>2020</td>
 				<td>",
-thefts_district$total20,
+autothefts_district$total20,
 "</td>
 				<td>",
-prettyNum(round(thefts_district$rate20,0), big.mark=","),
+prettyNum(round(autothefts_district$rate20,0),big.mark =","),
 "</td>
 			</tr>
 						<tr>
 				<td>2021</td>
 				<td>",
-thefts_district$total21,
+autothefts_district$total21,
 "</td>
 				<td>",
-prettyNum(round(thefts_district$rate21,0), big.mark=","),
+prettyNum(round(autothefts_district$rate21,0),big.mark =","),
 "</td>
 			</tr>
 						<tr>
 				<td>Last 12 months</td>
 				<td>",
-thefts_district$last12mos,
+autothefts_district$last12mos,
 "</td>
 				<td>",
-prettyNum(round(thefts_district$rate_last12,0), big.mark=","),
+prettyNum(round(autothefts_district$rate_last12,0),big.mark =","),
 "</td>
 			</tr>
 						<tr>
 				<td>3-year Average</td>
 				<td>",
-round(thefts_district$avg_prior3years,0),
+round(autothefts_district$avg_prior3years,0),
 "</td>
 				<td>",
-prettyNum(round(thefts_district$rate_prior3years,0), big.mark=","),
+prettyNum(round(autothefts_district$rate_prior3years,0),big.mark =","),
 "</td>
 			</tr>
 </table>")
 
 # Creating police beats map for types of crimes
-oakland_theft_map <- leaflet(thefts_district, options = leafletOptions(zoomControl = FALSE, zoomSnap = 0.5, zoomDelta=0.5)) %>%
+losangeles_autotheft_map <- leaflet(autothefts_district, options = leafletOptions(zoomControl = FALSE, zoomSnap = 0.5, zoomDelta=0.5)) %>%
   htmlwidgets::onRender("function(el, x) {
 L.control.zoom({ position: 'topright' }).addTo(this)
 }") %>%
   setView(-122.25, 37.79, zoom = 11.5) %>% 
   addProviderTiles(provider = "CartoDB.Positron") %>%
   addPolygons(color = "white", 
-              popup = theftlabel,
+              popup = autotheftlabel,
               popupOptions = popupOptions(maxWidth ="200", 
                                           minWidth ="200"),
               weight = 2, 
               smoothFactor = 0.5,
               opacity = 0.6, 
               fillOpacity = 0.6,
-              fillColor = ~theftpal1(rate_last12),
+              fillColor = ~autotheftpal1(rate_last12),
               group="Rate") %>% 
     addPolygons(color = "white", 
-              popup = theftlabel,
+              popup = autotheftlabel,
               popupOptions = popupOptions(maxWidth ="200", 
                                           minWidth ="200"),
               weight = 2, 
               smoothFactor = 0.5,
               opacity = 0.6, 
               fillOpacity = 0.6,
-              fillColor = ~theftpal2(last12mos),
+              fillColor = ~autotheftpal2(last12mos),
               group="Number") %>% 
-  addSearchOSM(options = searchOptions(autoCollapse=TRUE, minLength = 3,
-              zoom=13, position="topleft")) %>%
-  onRender("function(el, x) {
+    addSearchOSM(options = searchOptions(autoCollapse=FALSE, minLength = 3,zoom=13, position="topleft")) %>%
+    onRender("function(el, x) {
         $('input.search-input')[0].placeholder = 'Search street, place or zip code'
         }") %>%
   addLegend(opacity = 0.6,
-            values = thefts_district$rate_last12, 
-            pal = theftpal1,
+            values = autothefts_district$rate_last12, 
+            pal = autotheftpal1,
             position = "bottomleft", 
-            title = paste(sep="","<popuptitle>Theft Rate<br><popupchatter>Thefts/100K people<br>Citywide: ",prettyNum(round(thefts_city$rate_last12,0), big.mark=",")),
+            title = paste(sep="","<popuptitle>Vehicle Theft Rate<br><popupchatter>Vehicle Thefts/100K people<br>Citywide: ",prettyNum(round(autothefts_city$rate_last12,0), big.mark=",")),
             group = "Rate",
             className = "info legend Rate") %>%
   addLegend(opacity = 0.6,
-            values = thefts_district$last12mos, 
-            pal = theftpal2,
+            values = autothefts_district$last12mos, 
+            pal = autotheftpal2,
             position = "bottomleft", 
-            title = paste(sep="","<popuptitle>Thefts<br><popupchatter>Total thefts<br>Citywide: ",prettyNum(round(thefts_city$last12mos,0), big.mark=",")),
+            title = paste(sep="","<popuptitle>Vehicle Thefts<br><popupchatter>Total vehicle thefts<br>Citywide: ",prettyNum(round(autothefts_city$last12mos,0), big.mark=",")),
             group = "Number",
             className = "info legend Number") %>%
   addLayersControl(
@@ -402,15 +399,15 @@ L.control.zoom({ position: 'topright' }).addTo(this)
          this.on('baselayerchange', el => updateLegend());
       }"
    )
-oakland_theft_map
+losangeles_autotheft_map
 ```
 <br>
 <br>
-<!-- <subhead>Thefts month by month, 2019 to present</subhead> -->
-<iframe title="Larceny thefts year by year in Oakland" aria-label="Column Chart" id="datawrapper-chart-alK7U" src="https://datawrapper.dwcdn.net/alK7U/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="400" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(e){if(void 0!==e.data["datawrapper-height"]){var t=document.querySelectorAll("iframe");for(var a in e.data["datawrapper-height"])for(var r=0;r<t.length;r++){if(t[r].contentWindow===e.source)t[r].style.height=e.data["datawrapper-height"][a]+"px"}}}))}();</script>
+<!-- <subhead>Auto thefts year by year, 2019 through last month</subhead> -->
+<iframe title="Vehicle thefts year by year in Oakland" aria-label="Column Chart" id="datawrapper-chart-s6QNG" src="https://datawrapper.dwcdn.net/s6QNG/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="400" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(e){if(void 0!==e.data["datawrapper-height"]){var t=document.querySelectorAll("iframe");for(var a in e.data["datawrapper-height"])for(var r=0;r<t.length;r++){if(t[r].contentWindow===e.source)t[r].style.height=e.data["datawrapper-height"][a]+"px"}}}))}();</script>
 <br>
 <br>
-<iframe title="Larceny clearance rate year by year in Oakland" aria-label="Column Chart" id="datawrapper-chart-Q3Xwr" src="https://datawrapper.dwcdn.net/Q3Xwr/2/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="538" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(e){if(void 0!==e.data["datawrapper-height"]){var t=document.querySelectorAll("iframe");for(var a in e.data["datawrapper-height"])for(var r=0;r<t.length;r++){if(t[r].contentWindow===e.source)t[r].style.height=e.data["datawrapper-height"][a]+"px"}}}))}();</script>
+<iframe title="Vehicle theft clearance rate year by year in Oakland" aria-label="Column Chart" id="datawrapper-chart-XYS69" src="https://datawrapper.dwcdn.net/XYS69/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="538" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(e){if(void 0!==e.data["datawrapper-height"]){var t=document.querySelectorAll("iframe");for(var a in e.data["datawrapper-height"])for(var r=0;r<t.length;r++){if(t[r].contentWindow===e.source)t[r].style.height=e.data["datawrapper-height"][a]+"px"}}}))}();</script>
 <br>
 <br>
 <!-- <subhead>Risk of property crime in major cities</subhead> -->

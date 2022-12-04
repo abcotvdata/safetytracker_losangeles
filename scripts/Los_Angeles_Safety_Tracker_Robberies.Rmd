@@ -1,7 +1,7 @@
 ---
-title: "ABC13 Houston Neighborhood Safety Tracker"
+title: "ABC7 Los Angeles Neighborhood Safety Tracker"
 # author: "John Kelly"
-# date: "Updated `r format(Sys.time(), '%B %d, %Y')` by the ABC13 Data Team"
+# date: Sys.time()
 output: html_document
 ---
 
@@ -15,11 +15,11 @@ library(htmlwidgets)
 library(htmltools)
 library(sf)
 
-# rmarkdown::render('Houston_Safety_Tracker_2.Rmd', output_file = 'docs/Houston_Safety_Tracker_2.html')
 ```
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 
-![<popupchatter>Updated `r format(Sys.time(), '%B %d, %Y')` by the ABC13 Data Team</popupchatter>](https://github.com/abcotvdata/safetytracker_houston/raw/main/docs/header.png)
+![<popupchatter>Updated `r format(Sys.time(), '%B %d, %Y')` by the ABC7 Data Team</popupchatter>](https://github.com/abcotvdata/safetytracker_oakland/raw/main/docs/banner_kgo.png)
+
 ```{css, echo=FALSE}
 
 h1.title {
@@ -184,27 +184,25 @@ th {
    }
 ```
 
-```{r beats, include=FALSE}
-# source file pre-processed at process_houston_police_beats.R
-# set value of houston_population
-houston_population <- 2304580
+```{r population, include=FALSE}
+# set value of sf_population
+sf_population <- 815201
 ```
 
+<h2>ABC7 is tracking crime and safety across the Oakland and in your neighborhood. 
 
-```{r crimedata, include=FALSE}
-# Source data pre-processed separately at process_houston_crime_combined.R
-```
-
-<h2>ABC13 is tracking crime and safety across Houston and in your neighborhood.<br>You can choose which crime to examine: <select onchange="window.location=this.value">
-<option value="https://abcotvdata.github.io/safetytracker_houston/Houston_Safety_Tracker_Robberies.html">Robberies</option>
-<option value="https://abcotvdata.github.io/safetytracker_houston/Houston_Safety_Tracker_Assaults.html">Assaults</option>
-<option value="https://abcotvdata.github.io/safetytracker_houston/Houston_Safety_Tracker_AutoThefts.html">Auto Thefts</option>
-<option value="https://abcotvdata.github.io/safetytracker_houston/Houston_Safety_Tracker_Burglaries.html">Burglaries</option>
-<option value="https://abcotvdata.github.io/safetytracker_houston/Houston_Safety_Tracker_DrugCrimes.html">Drug Crimes</option>
-<option value="https://abcotvdata.github.io/safetytracker_houston/Houston_Safety_Tracker.html">Homicides</option>
-<option value="https://abcotvdata.github.io/safetytracker_houston/Houston_Safety_Tracker_Robberies.html">Robberies</option>
-<option value="https://abcotvdata.github.io/safetytracker_houston/Houston_Safety_Tracker_SexualAssaults.html">Sexual Assaults</option>
-<option value="https://abcotvdata.github.io/safetytracker_houston/Houston_Safety_Tracker_Thefts.html">Thefts</option>
+<br>You can choose which crime to examine: <select onchange="window.location=this.value">
+<option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker_VehicleThefts.html">Vehicle Thefts</option>
+<option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker_Assaults.html">Assaults</option>
+<option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker_Burglaries.html">Burglaries</option>
+<option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker.html">Homicides</option>
+<option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker_Robberies.html">Robberies</option>
+<option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker_SexualAssaults.html">Sexual Assaults</option>
+<option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker_Thefts.html">Thefts</option>
+</select></h2>
+<h2>Choose a different Bay Area city to explore: <select onchange="window.location=this.value">
+<option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker.html">Los_Angeles</option>
+<option value="https://abcotvdata.github.io/safetytracker_socal/Southern_California_Safety_Tracker.html">Southern California</option>
 </select></h2>
 
 <div class="cardContainer">
@@ -230,15 +228,17 @@ Per 100,000 people<br>2019 to 2021</p>
 </div>
 </div>
 <br>
-Robberies over the last 12 months are <h8>`r ifelse(robberies_city$inc_prior3yearavgtolast12>=0," up"," down")` `r ifelse(robberies_city$inc_prior3yearavgtolast12>=0,robberies_city$inc_prior3yearavgtolast12,substring(robberies_city$inc_prior3yearavgtolast12,2))`%</h8> compared to the annual average over the last three years.
+Robberies over the last 12 months are <h8>`r ifelse(robberies_city$inc_prior3yearavgtolast12>=0," up"," down")` `r ifelse(robberies_city$inc_prior3yearavgtolast12>=0,robberies_city$inc_prior3yearavgtolast12,substring(robberies_city$inc_prior3yearavgtolast12,2))`%</h8> compared to the annual average over the last three years, according to Oakland Police Department data through `r format(asofdate, "%B %d")`.
 
 The city averaged <h8>`r round(robberies_city$last12mos/52,0)`</h8> robberies a week over the last 12 months. In 2019, that number was <h8>`r round(robberies_city$total19/52,0)`</h8> a week.
 
-<subhead>A closer look at Houston robberies neighborhood by neighborhood</subhead>
+Robbery is generally defined by police as taking something of value from someone by force or threatening force. So while someone taking a smartphone from someone's bag would be theft, taking it while pointing a firearm at the person would be robbery.
 
-The risk is not the same neighborhood to neighborhood. ABC13's data team looked at the Houston Police Department's data by neighborhood from 2019 through `r format(asofdate, "%B %d")`.
+<subhead>A closer look at Oakland robberies neighborhood by neighborhood</subhead>
 
-The map color-codes each neighborhood by the robbery rate over the last 12 months. The three darker blues represent neighborhoods with robbery rates that are higher than the citywide rate. You can also click the box in the bottom right corner to see neighborhoods by the number of robberies.
+The risk is not the same neighborhood to neighborhood. ABC7's data team looked at the Oakland Police Department's data by neighborhood from 2019 through `r format(asofdate, "%B %d, %Y")`.
+
+The map color codes each neighborhood by the robbery rate over the last 12 months. The three darker blues represent neighborhoods with robbery rates that are higher than the citywide rate. You can also click the box in the bottom right corner to see neighborhoods by the number of robberies.
 
 Click on any neighborhood on the map to see detailed figures, rates and trends. You can also search for a street name, place, landmark or zip code.
 
@@ -248,39 +248,41 @@ Click on any neighborhood on the map to see detailed figures, rates and trends. 
 
 # Set bins for numbers of crimes for robberies map
 robberybins1 <- c(0,
-                200,
                 300,
-                500,
-                750,
-                1500)
+                600,
+                700,
+                800,
+                1000)
 robberybins2 <- c(0,
-                25,
-                50,
-                100,
-                200,
-                300)
+                250,
+                500,
+                600,
+                800,
+                1000)
 robberypal1 <- colorBin(c("#99a0a5",
                              "#2787d6",
                              "#0058f6",
                              "#003ca6",
-                             "#00215c"), robberies_beat$rate_last12, bins = robberybins1,na.color = "#51585f")
+                             "#00215c"), robberies_district$rate_last12, bins = robberybins1,na.color = "#51585f")
 
 robberypal2 <- colorBin(c("#99a0a5",
                              "#2787d6",
                              "#0058f6",
                              "#003ca6",
-                             "#00215c"), robberies_beat$last12mos, bins = robberybins2,na.color = "#51585f")
+                             "#00215c"), robberies_district$last12mos, bins = robberybins2,na.color = "#51585f")
 
 
 # Create quick labels for robberies map
 robberylabel <- paste(sep="",
                      "<popuptitle>",
-                     robberies_beat$last12mos,
+                     robberies_district$last12mos,
                      " robberies </popuptitle><br>",
-                     " in the last 12 months in the area including <b>",
-                     robberies_beat$placename,
-                     "</b>, home to an estimated ",
-                     prettyNum(robberies_beat$population, big.mark=","),
+                     " in the last 12 months in Police District <b>",
+                     robberies_district$district,
+                     "</b>, which includes the <b>",
+                     robberies_district$placename,
+                     "</b>areas, home to an estimated ",
+                     prettyNum(robberies_district$population, big.mark=","),
                      " people.
 <br>
 <table>      
@@ -292,56 +294,56 @@ robberylabel <- paste(sep="",
 			<tr>
 				<td>2019</td>
 				<td>",
-robberies_beat$total19,
+robberies_district$total19,
 "</td>
 				<td>",
-round(robberies_beat$rate19,0),
+round(robberies_district$rate19,0),
 "</td>
 			</tr>
 			<tr>
 				<td>2020</td>
 				<td>",
-robberies_beat$total20,
+robberies_district$total20,
 "</td>
 				<td>",
-round(robberies_beat$rate20,0),
+round(robberies_district$rate20,0),
 "</td>
 			</tr>
 						<tr>
 				<td>2021</td>
 				<td>",
-robberies_beat$total21,
+robberies_district$total21,
 "</td>
 				<td>",
-round(robberies_beat$rate21,0),
+round(robberies_district$rate21,0),
 "</td>
 			</tr>
 						<tr>
 				<td>Last 12 months</td>
 				<td>",
-robberies_beat$last12mos,
+robberies_district$last12mos,
 "</td>
 				<td>",
-round(robberies_beat$rate_last12,0),
+round(robberies_district$rate_last12,0),
 "</td>
 			</tr>
 						<tr>
 				<td>3-year Average</td>
 				<td>",
-round(robberies_beat$avg_prior3years,0),
+round(robberies_district$avg_prior3years,0),
 "</td>
 				<td>",
-round(robberies_beat$rate_prior3years,0),
+round(robberies_district$rate_prior3years,0),
 "</td>
 			</tr>
 </table>")
 
 # Creating police beats map for types of crimes
-houston_robbery_map <- leaflet(robberies_beat, options = leafletOptions(zoomControl = FALSE, zoomSnap = 0.5, zoomDelta=0.5)) %>%
+oakland_robbery_map <- leaflet(robberies_district, options = leafletOptions(zoomControl = FALSE, zoomSnap = 0.5, zoomDelta=0.5)) %>%
   htmlwidgets::onRender("function(el, x) {
 L.control.zoom({ position: 'topright' }).addTo(this)
 }") %>%
-  setView(-95.45, 29.75, zoom = 10.5) %>% 
+  setView(-122.25, 37.79, zoom = 11.5) %>% 
   addProviderTiles(provider = "CartoDB.Positron") %>%
   addPolygons(color = "white", 
               popup = robberylabel,
@@ -368,14 +370,14 @@ L.control.zoom({ position: 'topright' }).addTo(this)
         $('input.search-input')[0].placeholder = 'Search street, place or zip code'
         }") %>%
   addLegend(opacity = 0.6,
-            values = robberies_beat$rate_last12, 
+            values = robberies_district$rate_last12, 
             pal = robberypal1,
             position = "bottomleft", 
             title = paste(sep="","<popuptitle>Robbery Rate<br><popupchatter>Robberies/100K people<br>Citywide: ",prettyNum(round(robberies_city$rate_last12,0), big.mark=",")),
             group = "Rate",
             className = "info legend Rate") %>%
   addLegend(opacity = 0.6,
-            values = robberies_beat$last12mos, 
+            values = robberies_district$last12mos, 
             pal = robberypal2,
             position = "bottomleft", 
             title = paste(sep="","<popuptitle>Robberies<br><popupchatter>Total robberies<br>Citywide: ",prettyNum(round(robberies_city$last12mos,0), big.mark=",")),
@@ -399,18 +401,18 @@ L.control.zoom({ position: 'topright' }).addTo(this)
          this.on('baselayerchange', el => updateLegend());
       }"
    )
-houston_robbery_map
+oakland_robbery_map
 ```
 <br>
 <br>
-<!-- <subhead>Robberies month by month, 2019 through last month</subhead> -->
-
-<iframe title="Robberies month by month, 2019 through last month" aria-label="Column Chart" id="datawrapper-chart-6BRuf" src="https://datawrapper.dwcdn.net/6BRuf/2/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="400" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(e){if(void 0!==e.data["datawrapper-height"]){var t=document.querySelectorAll("iframe");for(var a in e.data["datawrapper-height"])for(var r=0;r<t.length;r++){if(t[r].contentWindow===e.source)t[r].style.height=e.data["datawrapper-height"][a]+"px"}}}))}();
-</script>
-  <br>
+<!-- <subhead>Robberies year by year, 2019 through last month</subhead> -->
+<iframe title="Robberies year by year in Oakland" aria-label="Column Chart" id="datawrapper-chart-NNor8" src="https://datawrapper.dwcdn.net/NNor8/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="400" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(e){if(void 0!==e.data["datawrapper-height"]){var t=document.querySelectorAll("iframe");for(var a in e.data["datawrapper-height"])for(var r=0;r<t.length;r++){if(t[r].contentWindow===e.source)t[r].style.height=e.data["datawrapper-height"][a]+"px"}}}))}();</script>
 <br>
-<!-- <subhead>Risk of robbery and other violent crimes in Houston </subhead> -->
-
-<iframe title="Risk of violent crimes compared to other kinds of deaths, injuries" aria-label="Dot Plot" id="datawrapper-chart-rh4Xu" src="https://datawrapper.dwcdn.net/rh4Xu/7/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="214" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(e){if(void 0!==e.data["datawrapper-height"]){var t=document.querySelectorAll("iframe");for(var a in e.data["datawrapper-height"])for(var r=0;r<t.length;r++){if(t[r].contentWindow===e.source)t[r].style.height=e.data["datawrapper-height"][a]+"px"}}}))}();
-</script>
+<br>
+<iframe title="Robbery clearance rate year by year in Oakland" aria-label="Column Chart" id="datawrapper-chart-077F9" src="https://datawrapper.dwcdn.net/077F9/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="538" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(e){if(void 0!==e.data["datawrapper-height"]){var t=document.querySelectorAll("iframe");for(var a in e.data["datawrapper-height"])for(var r=0;r<t.length;r++){if(t[r].contentWindow===e.source)t[r].style.height=e.data["datawrapper-height"][a]+"px"}}}))}();</script>
+<br>
+<br>
+<!-- <subhead>Violent crime rate comparisons </subhead> -->
+<iframe title="2021 violent crime rate comparison in select major cities" aria-label="Bar Chart" id="datawrapper-chart-OiLf2" src="https://datawrapper.dwcdn.net/OiLf2/2/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="436" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(e){if(void 0!==e.data["datawrapper-height"]){var t=document.querySelectorAll("iframe");for(var a in e.data["datawrapper-height"])for(var r=0;r<t.length;r++){if(t[r].contentWindow===e.source)t[r].style.height=e.data["datawrapper-height"][a]+"px"}}}))}();</script>
+<br>
 <br>

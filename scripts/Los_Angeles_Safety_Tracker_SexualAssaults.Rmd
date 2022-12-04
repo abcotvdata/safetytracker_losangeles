@@ -1,7 +1,7 @@
 ---
-title: "ABC13 Houston Neighborhood Safety Tracker"
+title: "ABC7 Los Angeles Neighborhood Safety Tracker"
 # author: "John Kelly"
-# date: "Updated `r format(Sys.time(), '%B %d, %Y')` by the ABC13 Data Team"
+# date: Sys.time()
 output: html_document
 ---
 
@@ -15,11 +15,11 @@ library(htmlwidgets)
 library(htmltools)
 library(sf)
 
-# rmarkdown::render('Houston_Safety_Tracker_2.Rmd', output_file = 'docs/Houston_Safety_Tracker_2.html')
 ```
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 
-![<popupchatter>Updated `r format(Sys.time(), '%B %d, %Y')` by the ABC13 Data Team</popupchatter>](https://github.com/abcotvdata/safetytracker_houston/raw/main/docs/header.png)
+![<popupchatter>Updated `r format(Sys.time(), '%B %d, %Y')` by the ABC7 Data Team</popupchatter>](https://github.com/abcotvdata/safetytracker_oakland/raw/main/docs/banner_kgo.png)
+
 ```{css, echo=FALSE}
 
 h1.title {
@@ -185,27 +185,25 @@ th {
    
 ```
 
-```{r beats, include=FALSE}
-# source file pre-processed at process_houston_police_beats.R
-# set value of houston_population
-houston_population <- 2304580
+```{r population, include=FALSE}
+# set value of sf_population
+sf_population <- 815201
 ```
 
+<h2>ABC7 is tracking crime and safety across the Oakland and in your neighborhood. 
 
-```{r crimedata, include=FALSE}
-# Source data pre-processed separately at process_houston_crime_combined.R
-```
-
-<h2>ABC13's data team is tracking crime and safety across Houston and in your neighborhood.<br>You can choose which crime to examine: <select onchange="window.location=this.value">
-<option value="https://abcotvdata.github.io/safetytracker_houston/Houston_Safety_Tracker_SexualAssaults.html">Sexual Assaults</option>
-<option value="https://abcotvdata.github.io/safetytracker_houston/Houston_Safety_Tracker_Assaults.html">Assaults</option>
-<option value="https://abcotvdata.github.io/safetytracker_houston/Houston_Safety_Tracker_AutoThefts.html">Auto Thefts</option>
-<option value="https://abcotvdata.github.io/safetytracker_houston/Houston_Safety_Tracker_Burglaries.html">Burglaries</option>
-<option value="https://abcotvdata.github.io/safetytracker_houston/Houston_Safety_Tracker_DrugCrimes.html">Drug Crimes</option>
-<option value="https://abcotvdata.github.io/safetytracker_houston/Houston_Safety_Tracker.html">Homicides</option>
-<option value="https://abcotvdata.github.io/safetytracker_houston/Houston_Safety_Tracker_Robberies.html">Robberies</option>
-<option value="https://abcotvdata.github.io/safetytracker_houston/Houston_Safety_Tracker_SexualAssaults.html">Sexual Assaults</option>
-<option value="https://abcotvdata.github.io/safetytracker_houston/Houston_Safety_Tracker_Thefts.html">Thefts</option>
+<br>You can choose which crime to examine: <select onchange="window.location=this.value">
+<option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker_VehicleThefts.html">Vehicle Thefts</option>
+<option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker_Assaults.html">Assaults</option>
+<option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker_Burglaries.html">Burglaries</option>
+<option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker.html">Homicides</option>
+<option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker_Robberies.html">Robberies</option>
+<option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker_SexualAssaults.html">Sexual Assaults</option>
+<option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker_Thefts.html">Thefts</option>
+</select></h2>
+<h2>Choose a different Bay Area city to explore: <select onchange="window.location=this.value">
+<option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker.html">Los_Angeles</option>
+<option value="https://abcotvdata.github.io/safetytracker_socal/Southern_California_Safety_Tracker.html">Southern California</option>
 </select></h2>
 
 <div class="cardContainer">
@@ -231,15 +229,15 @@ Per 100,000 people<br>2019 to 2021</p>
 </div>
 </div>
 <br>
-Sexual assaults over the last 12 months are <h8>`r ifelse(sexassaults_city$inc_prior3yearavgtolast12>=0," up"," down")` `r ifelse(sexassaults_city$inc_prior3yearavgtolast12>=0,sexassaults_city$inc_prior3yearavgtolast12,substring(sexassaults_city$inc_prior3yearavgtolast12,2))`%</h8> compared to the annual average over the last three years.
+Sexual assaults over the last 12 months are <h8>`r ifelse(sexassaults_city$inc_prior3yearavgtolast12>=0," up"," down")` `r ifelse(sexassaults_city$inc_prior3yearavgtolast12>=0,sexassaults_city$inc_prior3yearavgtolast12,substring(sexassaults_city$inc_prior3yearavgtolast12,2))`%</h8> compared to the annual average over the last three years, according to Oakland Police Department data through `r format(asofdate, "%B %d")`.
 
 The city averaged <h8>`r round(sexassaults_city$last12mos/52,0)`</h8> sexual assaults a week over the last 12 months. In 2019, that number was <h8>`r round(sexassaults_city$total19/52,0)`</h8> a week.
 
-<subhead>A closer look at Houston sexual assaults neighborhood by neighborhood</subhead>
+<subhead>A closer look at Oakland sexual assaults neighborhood by neighborhood</subhead>
 
-The danger is not the same neighborhood to neighborhood. ABC13's data team looked at the Houston Police Department's public data about sexual assault reports by neighborhood from 2019 through `r format(asofdate, "%B %d")`.
+The danger is not the same neighborhood to neighborhood. ABC7's data team looked at the Oakland Police Department's public data about sexual assault reports by neighborhood from 2019 through `r format(asofdate, "%B %d, %Y")`.
 
-The map color-codes each neighborhood by the sexual assault rate over the last 12 months. The three darker blue areas are neighborhoods with sexual assault rates higher than the citywide rate. You can also choose to see neighborhoods by the number of reported sexual assaults.
+The map color codes each neighborhood by the sexual assault rate over the last 12 months. The three darker blue areas are neighborhoods with sexual assault rates higher than the citywide rate. You can also choose to see neighborhoods by the number of reported sexual assaults.
 
 Click on any neighborhood on the map to see detailed numbers, rates and trends. You can also search for a street name, place, landmark or zip code.
 
@@ -250,38 +248,40 @@ Click on any neighborhood on the map to see detailed numbers, rates and trends. 
 
 # Set bins for numbers of crimes for sexassaults map
 sexassaultbins1 <- c(0,
-                30,
+                20,
+                35,
+                50,
                 60,
-                90,
-                120,
-                500)
+                70)
 sexassaultbins2 <- c(0,
-                5,
                 10,
                 20,
+                25,
                 30,
-                100)
+                50)
 sexassaultpal1 <- colorBin(c("#99a0a5",
                              "#2787d6",
                              "#0058f6",
                              "#003ca6",
-                             "#00215c"), sexassaults_beat$rate_last12, bins = sexassaultbins1,na.color = "#51585f")
+                             "#00215c"), sexassaults_district$rate_last12, bins = sexassaultbins1,na.color = "#51585f")
 
 sexassaultpal2 <- colorBin(c("#99a0a5",
                              "#2787d6",
                              "#0058f6",
                              "#003ca6",
-                             "#00215c"), sexassaults_beat$last12mos, bins = sexassaultbins2,na.color = "#51585f")
+                             "#00215c"), sexassaults_district$last12mos, bins = sexassaultbins2,na.color = "#51585f")
 
 # Create quick labels for sexassaults map
 sexassaultlabel <- paste(sep="",
                      "<popuptitle>",
-                     sexassaults_beat$last12mos,
+                     sexassaults_district$last12mos,
                      " sexual assaults</popuptitle><br>",
-                     " in the last 12 months in the area including <b>",
-                     sexassaults_beat$placename,
-                     "</b>, home to an estimated ",
-                     prettyNum(sexassaults_beat$population, big.mark=","),
+                     " in the last 12 months in Police District <b>",
+                     sexassaults_district$district,
+                     "</b>, which includes the <b>",
+                     sexassaults_district$placename,
+                     "</b>areas, home to an estimated ",
+                     prettyNum(sexassaults_district$population, big.mark=","),
                      " people.
 <br>
 <table>      
@@ -293,56 +293,56 @@ sexassaultlabel <- paste(sep="",
 			<tr>
 				<td>2019</td>
 				<td>",
-sexassaults_beat$total19,
+sexassaults_district$total19,
 "</td>
 				<td>",
-sexassaults_beat$rate19,
+sexassaults_district$rate19,
 "</td>
 			</tr>
 			<tr>
 				<td>2020</td>
 				<td>",
-sexassaults_beat$total20,
+sexassaults_district$total20,
 "</td>
 				<td>",
-sexassaults_beat$rate20,
+sexassaults_district$rate20,
 "</td>
 			</tr>
 						<tr>
 				<td>2021</td>
 				<td>",
-sexassaults_beat$total21,
+sexassaults_district$total21,
 "</td>
 				<td>",
-sexassaults_beat$rate21,
+sexassaults_district$rate21,
 "</td>
 			</tr>
 						<tr>
 				<td>Last 12 months</td>
 				<td>",
-sexassaults_beat$last12mos,
+sexassaults_district$last12mos,
 "</td>
 				<td>",
-sexassaults_beat$rate_last12,
+sexassaults_district$rate_last12,
 "</td>
 			</tr>
 						<tr>
 				<td>3-year Average</td>
 				<td>",
-sexassaults_beat$avg_prior3years,
+sexassaults_district$avg_prior3years,
 "</td>
 				<td>",
-sexassaults_beat$rate_prior3years,
+sexassaults_district$rate_prior3years,
 "</td>
 			</tr>
 </table>")
 
 # Creating police beats map for types of crimes
-houston_sexassault_map <- leaflet(sexassaults_beat, options = leafletOptions(zoomControl = FALSE, zoomSnap = 0.5, zoomDelta=0.5)) %>%
+oakland_sexassault_map <- leaflet(sexassaults_district, options = leafletOptions(zoomControl = FALSE, zoomSnap = 0.5, zoomDelta=0.5)) %>%
   htmlwidgets::onRender("function(el, x) {
 L.control.zoom({ position: 'topright' }).addTo(this)
 }") %>%
-  setView(-95.45, 29.75, zoom = 10.5) %>% 
+  setView(-122.25, 37.79, zoom = 11.5) %>% 
   addProviderTiles(provider = "CartoDB.Positron") %>%
   addPolygons(color = "white", 
               popup = sexassaultlabel,
@@ -369,14 +369,14 @@ L.control.zoom({ position: 'topright' }).addTo(this)
         $('input.search-input')[0].placeholder = 'Search street, place or zip code'
         }") %>%
   addLegend(opacity = 0.6,
-            values = sexassaults_beat$rate_last12, 
+            values = sexassaults_district$rate_last12, 
             pal = sexassaultpal1,
             position = "bottomleft", 
             title = paste(sep="","<popuptitle>Sexual Assault Rate<br><popupchatter>Sexual Assaults/100K people<br>Citywide: ",sexassaults_city$rate_last12),
             group = "Rate",
             className = "info legend Rate") %>%
   addLegend(opacity = 0.6,
-            values = sexassaults_beat$last12mos, 
+            values = sexassaults_district$last12mos, 
             pal = sexassaultpal2,
             position = "bottomleft", 
             title = paste(sep="","<popuptitle>Sexual Assaults<br><popupchatter>Total sexual assaults<br>Citywide: ",sexassaults_city$last12mos),
@@ -400,20 +400,19 @@ L.control.zoom({ position: 'topright' }).addTo(this)
          this.on('baselayerchange', el => updateLegend());
       }"
    )
-houston_sexassault_map
+oakland_sexassault_map
 ```
 <br>
 <br>
 <!-- <subhead>Sexual assaults month by month, 2019 through last month</subhead> -->
 
-<iframe title="Sexual assaults month by month, 2019 through last month" aria-label="Column Chart" id="datawrapper-chart-Ao9qp" src="https://datawrapper.dwcdn.net/Ao9qp/2/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="400" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(e){if(void 0!==e.data["datawrapper-height"]){var t=document.querySelectorAll("iframe");for(var a in e.data["datawrapper-height"])for(var r=0;r<t.length;r++){if(t[r].contentWindow===e.source)t[r].style.height=e.data["datawrapper-height"][a]+"px"}}}))}();
-</script>
-  <br>
-<br>
-<!-- <subhead>Risk of sexual assault in Houston vs. other causes of death in Texas</subhead> -->
-
-<iframe title="Risk of sexual assault in Houston vs. other severe dangers" aria-label="Dot Plot" id="datawrapper-chart-rh4Xu" src="https://datawrapper.dwcdn.net/rh4Xu/7/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="151" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(e){if(void 0!==e.data["datawrapper-height"]){var t=document.querySelectorAll("iframe");for(var a in e.data["datawrapper-height"])for(var r=0;r<t.length;r++){if(t[r].contentWindow===e.source)t[r].style.height=e.data["datawrapper-height"][a]+"px"}}}))}();
-</script>
+<iframe title="Sexual Assaults year by year in Oakland" aria-label="Column Chart" id="datawrapper-chart-vXjvY" src="https://datawrapper.dwcdn.net/vXjvY/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="400" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(e){if(void 0!==e.data["datawrapper-height"]){var t=document.querySelectorAll("iframe");for(var a in e.data["datawrapper-height"])for(var r=0;r<t.length;r++){if(t[r].contentWindow===e.source)t[r].style.height=e.data["datawrapper-height"][a]+"px"}}}))}();</script>
 <br>
 <br>
-<!-- Will be adding additional contextual charting around this crime category -->
+<iframe title="Sexual assault clearance rate year by year in Oakland" aria-label="Column Chart" id="datawrapper-chart-l0iO8" src="https://datawrapper.dwcdn.net/l0iO8/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="538" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(e){if(void 0!==e.data["datawrapper-height"]){var t=document.querySelectorAll("iframe");for(var a in e.data["datawrapper-height"])for(var r=0;r<t.length;r++){if(t[r].contentWindow===e.source)t[r].style.height=e.data["datawrapper-height"][a]+"px"}}}))}();</script>
+<br>
+<br>
+<!-- <subhead>Violent crime rate comparisons </subhead> -->
+<iframe title="2021 violent crime rate comparison in select major cities" aria-label="Bar Chart" id="datawrapper-chart-OiLf2" src="https://datawrapper.dwcdn.net/OiLf2/2/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="436" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(e){if(void 0!==e.data["datawrapper-height"]){var t=document.querySelectorAll("iframe");for(var a in e.data["datawrapper-height"])for(var r=0;r<t.length;r++){if(t[r].contentWindow===e.source)t[r].style.height=e.data["datawrapper-height"][a]+"px"}}}))}();</script>
+<br>
+<br>

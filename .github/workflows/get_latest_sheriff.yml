@@ -1,1 +1,26 @@
+name: Get new sheriff data
+
+# Controls when the workflow will run
+on:
+  schedule:
+    - cron: '0 12 * * 3'
+      # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  render:
+    name: Get new LA Sheriff file
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: r-lib/actions/setup-r@v2
+      - name: Install dependencies and packages
+        run: Rscript -e 'install.packages(c("tidyverse","lubridate","janitor"))'
+      - name: Get latest data file
+        run: Rscript scripts/process_new_sheriff_crime.R
+      - name: Commit results
+        run: |
+          git add -A
+          git commit -m 'New crime data collected' || echo "No changes"
+          git push origin || echo "No changes to commit"
 

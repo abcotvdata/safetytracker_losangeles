@@ -36,7 +36,7 @@ saveRDS(cal_places,"scripts/rds/cal_places.rds")
 # add line  below when uploading data for pages
 # beats <- st_read("data/source/geo/beats.geojson")
 
-california_crime_annual <- read_csv("data/source/california_crime_annual.csv", 
+california_crime_annual <- read_csv("data/source/reference/california_crime_annual.csv", 
                                     col_types = cols(Year = col_character()))
 
 cal_crime21 <- california_crime_annual %>% filter(Year==2021)
@@ -50,13 +50,13 @@ cal_places$place <- sub(" CDP.*", "\\1", cal_places$place)
 cal_places2 <- left_join(cal_places,cal_crime21,by=c("place"="NCICCode"))
 
 cal_crime <- california_crime_annual %>% janitor::clean_names()
-cal_crime_murder <- cal_crime %>% select(year,county,ncic_code,homicide_sum) %>% spread(year,homicide_sum)
-cal_crime_rape <- cal_crime %>% select(year,county,ncic_code,for_rape_sum) %>% spread(year,for_rape_sum)
-cal_crime_assault <- cal_crime %>% select(year,county,ncic_code,agg_assault_sum) %>% spread(year,agg_assault_sum)
-cal_crime_robbery <- cal_crime %>% select(year,county,ncic_code,robbery_sum) %>% spread(year,robbery_sum)
-cal_crime_burglary <- cal_crime %>% select(year,county,ncic_code,burglary_sum) %>% spread(year,burglary_sum)
-cal_crime_theft <- cal_crime %>% select(year,county,ncic_code,l_ttotal_sum) %>% spread(year,l_ttotal_sum)
-cal_crime_autotheft <- cal_crime %>% select(year,county,ncic_code,vehicle_theft_sum) %>% spread(year,vehicle_theft_sum)
+cal_crime_murder <- cal_crime %>% select(year,county,ncic_code,homicide_sum) %>% spread(year,homicide_sum) %>% select(1,2,18:39)
+cal_crime_rape <- cal_crime %>% select(year,county,ncic_code,for_rape_sum) %>% spread(year,for_rape_sum) %>% select(1,2,18:39)
+cal_crime_assault <- cal_crime %>% select(year,county,ncic_code,agg_assault_sum) %>% spread(year,agg_assault_sum) %>% select(1,2,18:39)
+cal_crime_robbery <- cal_crime %>% select(year,county,ncic_code,robbery_sum) %>% spread(year,robbery_sum) %>% select(1,2,18:39)
+cal_crime_burglary <- cal_crime %>% select(year,county,ncic_code,burglary_sum) %>% spread(year,burglary_sum) %>% select(1,2,18:39)
+cal_crime_theft <- cal_crime %>% select(year,county,ncic_code,l_ttotal_sum) %>% spread(year,l_ttotal_sum) %>% select(1,2,18:39)
+cal_crime_autotheft <- cal_crime %>% select(year,county,ncic_code,vehicle_theft_sum) %>% spread(year,vehicle_theft_sum) %>% select(1,2,18:39)
 
 
 # BARE PRECINCT MAP JUST FOR TESTING PURPOSES
@@ -72,11 +72,13 @@ cal_places_map <- leaflet(cal_places) %>%
   addProviderTiles(provider = "CartoDB.PositronOnlyLabels") %>%
   addPolygons(color = "white", popup = poplabel, weight = 1, smoothFactor = 0.5,
               opacity = 0.5, fillOpacity = 0.3,
-              fillColor = ~poppal(`population`))
+              fillColor = ~poppal(`population`)) %>%
+ # addPolygons(data = districts, color = "red", popup = poplabel2, weight = 2, smoothFactor = 0.5,
+  #            opacity = 0.5, fillOpacity = 0.0)
 cal_places_map
 
 popbins <- c(0,200,500,1000,5000,10000,Inf)
-poppal <- colorBin("viridis", cal_places2$population, bins = popbins)
+poppal <- colorBin("viridis", cal_places2$Violent_sum, bins = popbins,na.color="blue")
 poplabel <- paste(sep = "<br>", cal_places2$place,prettyNum(cal_places2$Violent_sum, big.mark = ","))
 
 cal_places_map2 <- leaflet(cal_places2) %>%

@@ -205,8 +205,9 @@ sf_population <- 815201
 <option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker.html">Los Angeles</option>
 </select></h2>
 <br>
-<br>
-There were <h8>`r round(autothefts_region$last12mos/12,0)`</h8> vehicles stolen a month in 2021 across every Southern California police jurisdiction, according to data that law enforcement agencies report to the state of Californina. In 2019, the data show that number was <h8>`r round(autothefts_region$total19/12,0)`</h8> a month.
+There were <h8>`r prettyNum(autothefts21,big.mark=",")`</h8> vehicle thefts in 2021 across every Southern California police jurisdiction, according to data that law enforcement agencies report to the state of Californina.
+
+In 2019, the data show that number was <h8>`r prettyNum(autothefts19,big.mark=",")`</h8> a month.
 
 The totals included here are for theft of a motor vehicle, and do not include thefts of parts of vehicles or thefts of personal valuables from vehicles.
 
@@ -228,33 +229,33 @@ You can find your neighborhood by using the box at the top of the map to search 
 
 # Set bins for numbers of crimes for autothefts map
 autotheftbins1 <- c(0,
-                1000,
-                2000,
-                2500,
-                3000,
-                4000)
+                50,
+                100,
+                250,
+                500,
+                100000)
 autotheftbins2 <- c(0,
+                100,
+                250,
+                500,
                 1000,
-                1500,
-                2000,
-                2500,
-                3000)
+                30000)
 autotheftpal1 <- colorBin(c("#99a0a5",
                              "#2787d6",
                              "#0058f6",
                              "#003ca6",
-                             "#00215c"), autothefts_region$rate_last12, bins = autotheftbins1,na.color = "#51585f")
+                             "#00215c"), autothefts_region$rate21, bins = autotheftbins1,na.color = "#51585f")
 
 autotheftpal2 <- colorBin(c("#99a0a5",
                              "#2787d6",
                              "#0058f6",
                              "#003ca6",
-                             "#00215c"), autothefts_region$last12mos, bins = autotheftbins2,na.color = "#51585f")
+                             "#00215c"), autothefts_region$total21, bins = autotheftbins2,na.color = "#51585f")
 
 # Create quick labels for autothefts map
 autotheftlabel <- paste(sep="",
                      "<popuptitle>",
-                     autothefts_region$last12mos,
+                     autothefts_region$total21,
                      " vehicle thefts </popuptitle><br>",
                      " in 2021 in <b>",
                      autothefts_region$place,
@@ -321,7 +322,7 @@ L.control.zoom({ position: 'topright' }).addTo(this)
               smoothFactor = 0.5,
               opacity = 0.6, 
               fillOpacity = 0.6,
-              fillColor = ~autotheftpal1(rate_last12),
+              fillColor = ~autotheftpal1(rate21),
               group="Rate") %>% 
     addPolygons(color = "white", 
               popup = autotheftlabel,
@@ -331,24 +332,24 @@ L.control.zoom({ position: 'topright' }).addTo(this)
               smoothFactor = 0.5,
               opacity = 0.6, 
               fillOpacity = 0.6,
-              fillColor = ~autotheftpal2(last12mos),
+              fillColor = ~autotheftpal2(total21),
               group="Number") %>% 
     addSearchOSM(options = searchOptions(autoCollapse=FALSE, minLength = 3,zoom=13, position="topleft")) %>%
     onRender("function(el, x) {
         $('input.search-input')[0].placeholder = 'Search street, place or zip code'
         }") %>%
   addLegend(opacity = 0.6,
-            values = autothefts_region$rate_last12, 
+            values = autothefts_region$rate21, 
             pal = autotheftpal1,
             position = "bottomleft", 
-            title = paste(sep="","<popuptitle>Vehicle Theft Rate<br><popupchatter>Vehicle Thefts/100K people<br>Citywide: ",prettyNum(round(autothefts_city$rate_last12,0), big.mark=",")),
+            title = paste(sep="","<popuptitle>Vehicle Theft Rate<br><popupchatter>Vehicle Thefts/100K people"),
             group = "Rate",
             className = "info legend Rate") %>%
   addLegend(opacity = 0.6,
-            values = autothefts_region$last12mos, 
+            values = autothefts_region$total21, 
             pal = autotheftpal2,
             position = "bottomleft", 
-            title = paste(sep="","<popuptitle>Vehicle Thefts<br><popupchatter>Total vehicle thefts<br>Citywide: ",prettyNum(round(autothefts_city$last12mos,0), big.mark=",")),
+            title = paste(sep="","<popuptitle>Vehicle Thefts<br><popupchatter>Total vehicle thefts"),
             group = "Number",
             className = "info legend Number") %>%
   addLayersControl(

@@ -301,7 +301,8 @@ cal_crime19 <- california_crime_annual %>% filter(Year==2019) %>% filter(County 
 # make totals file for whole region
 murders21 <- sum(cal_crime21$Homicide_sum)
 murders19 <- sum(cal_crime19$Homicide_sum)
-
+autothefts21 <- sum(cal_crime21$Homicide_sum)
+autothefts19 <- sum(cal_crime19$Homicide_sum)
 
 
 

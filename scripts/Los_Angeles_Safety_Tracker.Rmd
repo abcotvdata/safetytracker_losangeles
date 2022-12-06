@@ -231,9 +231,9 @@ Per 100,000 people<br>2019 to 2021</p>
 <br>
 Homicides over the last 12 months are trending <h8>`r ifelse(murders_city$inc_21tolast12>=0," up"," down")` `r ifelse(murders_city$inc_21tolast12>=0,murders_city$inc_21tolast12,substring(murders_city$inc_21tolast12,2))`%</h8> compared to 2021, according to the Los Angeles Police Department and Los Angeles County Sheriff's Department data through `r format(asofdate, "%B %d")`.
 
-The murder rate in the areas of the county policed by the LAPD and Sheriff's Department over the last 12 months is <h8>`r case_when((murders_city$rate_last12-murders_city$rate_prior3years)>=0.25 ~ "up",
+However, the murder rate in the areas of the county policed by the LAPD and Sheriff's Department over the last 12 months is <h8>`r case_when((murders_city$rate_last12-murders_city$rate_prior3years)>=0.25 ~ "up",
           (murders_city$rate_last12-murders_city$rate_prior3years)<=-0.25 ~ "down",
-          TRUE ~ "about the same ")`</h8> compared to the annual average over the last three years, and the frequency of killings remains higher than it was before the pandemic.
+          TRUE ~ "about the same ")`</h8> when compared to the annual average over the last three years, and the frequency of killings remains higher than it was before the pandemic.
 
 The Los Angeles area averaged about <h8>`r round(murders_city$last12mos/12,0)`</h8> homicides a month over the last year. In 2019, that number was <h8>`r round(murders_city$total19/12,0)`</h8> a month.
 

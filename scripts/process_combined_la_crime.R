@@ -6,31 +6,13 @@ library(lubridate)
 
 # Read, clean and format LAPD files
 lapd_crime <- readRDS("scripts/rds/lapd_crime.rds")
-lasd_crime <- readRDS("scripts/rds/lasd_crime.rds")
+lasd_category <- readRDS("scripts/rds/lasd_category.rds")
+lasd_district_category <- readRDS("scripts/rds/lasd_district_category.rds")
 
 
 # For last 12, we're going to default to the most recent LAPD date available for consistency
 # LASD crime lags slightly more, so for the combined stats for the L.A. area, we're going to use the older date
-lasd_crime_last12 <- lasd_crime %>% filter(date>(max(lapd_crime$date)-31536000) & date<=(max(lapd_crime$date)))
 lapd_crime_last12 <- lapd_crime %>% filter(date>(max(lapd_crime$date)-31536000))
-
-###
-### Sheriff By Category
-lasd_category <- lasd_crime %>%
-  group_by(category,year) %>%
-  summarise(count = n()) %>%
-  pivot_wider(names_from=year, values_from=count)
-# rename the year columns
-lasd_category <- lasd_category %>% 
-  rename("total19" = "2019",
-         "total20" = "2020",
-         "total21" = "2021",
-         "total22" = "2022")
-# add last 12 months
-lasd_category_last12 <- lasd_crime_last12 %>%
-  group_by(category) %>%
-  summarise(last12mos = n())
-lasd_category <- left_join(lasd_category,lasd_category_last12,by=c("category"))
 
 ###
 ### LAPD By Category
@@ -50,7 +32,7 @@ lapd_category_last12 <- lapd_crime_last12 %>%
   summarise(last12mos = n())
 lapd_category <- left_join(lapd_category,lapd_category_last12,by=c("category"))
 # Clean up: remove category-level last 12 files
-rm(lapd_category_last12,lasd_category_last12)
+rm(lapd_category_last12)
 
 # Combine and merge the yearly file for countywide
 citywide_crime <- rbind(lapd_category,lasd_category) %>%
@@ -64,7 +46,7 @@ citywide_crime <- rbind(lapd_category,lasd_category) %>%
 # Set variable of LA city population
 # and also for the countywide population COVERED by the included agencies
 la_population <- 1000000
-covered_population <- sum(districts$population)
+covered_population <- sum(districts_geo$population)
 
 # add zeros where there were no crimes tallied that year
 citywide_crime[is.na(citywide_crime)] <- 0
@@ -104,30 +86,6 @@ citywide_yearly <- citywide_crime %>% select(1:4,6)
 # save for annual charts  
 write_csv(citywide_yearly,"data/output/yearly/citywide_yearly.csv")
 
-
-
-###
-### Sheriff By District
-lasd_district_category <- lasd_crime %>%
-  group_by(unit_name,agency,category,year) %>%
-  summarise(count = n()) %>%
-  pivot_wider(names_from=year, values_from=count)
-# rename the year columns
-lasd_district_category <- lasd_district_category %>% 
-  rename("total19" = "2019",
-         "total20" = "2020",
-         "total21" = "2021",
-         "total22" = "2022")
-# add last 12 months
-lasd_district_category_last12 <- lasd_crime_last12 %>%
-  group_by(unit_name,agency,category) %>%
-  summarise(last12mos = n())
-lasd_district_category <- left_join(lasd_district_category,lasd_district_category_last12,by=c("category","unit_name","agency"))
-# add zeros where there were no crimes tallied that year
-lasd_district_category[is.na(lasd_district_category)] <- 0
-# rename district column for consistency across code
-lasd_district_category <- lasd_district_category %>% rename("district"="unit_name")
-
 ###
 ### LAPD By District
 lapd_district_category <- lapd_crime %>%
@@ -140,6 +98,9 @@ lapd_district_category <- lapd_district_category %>%
          "total20" = "2020",
          "total21" = "2021",
          "total22" = "2022")
+# filter out other/part2
+lapd_district_category <- lapd_district_category %>% 
+  filter(category!="Other or Part 2")
 # add last 12 months
 lapd_district_category_last12 <- lapd_crime_last12 %>%
   group_by(area_name,agency,category) %>%
@@ -150,7 +111,7 @@ lapd_district_category[is.na(lapd_district_category)] <- 0
 # rename district column for consistency across code
 lapd_district_category <- lapd_district_category %>% rename("district"="area_name")
 # Clean up: remove category-level last 12 files
-rm(lapd_district_category_last12,lasd_district_category_last12)
+rm(lapd_district_category_last12)
 
 # Combine and merge the yearly file for countywide
 district_crime <- rbind(lapd_district_category,lasd_district_category) %>%
@@ -201,8 +162,6 @@ district_crime <- district_crime %>%
 # create a quick long-term annual table
 district_yearly <- district_crime %>% select(1,2,4:7,9) %>% st_drop_geometry()
 write_csv(district_yearly,"data/output/yearly/district_yearly.csv")
-
-
 
 # Now make individual crime files for trackers
 # filter precinct versions - using beat for code consistency

@@ -48,7 +48,7 @@ districts <- districts %>% st_transform(4326)
 districts <- st_make_valid(districts)
 districts <- districts %>% rename("district"="st_name")
 districts$district <- gsub(" Division", "", districts$district)
-
+districts$district <- gsub(" / ", "/", districts$district)
 
 # saving a clean geojson and separate RDS for use in tracker
 file.remove("data/output/geo/la_police_districts.geojson")

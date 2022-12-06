@@ -3,7 +3,6 @@ LAPD,77th Street,Aggravated Assault,1973,2371,2223,2152
 LAPD,77th Street,Burglary,705,492,557,479
 LAPD,77th Street,Homicide,37,57,63,60
 LAPD,77th Street,Larceny,2638,1964,1740,1816
-LAPD,77th Street,Other or Part 2,6255,5647,5534,6394
 LAPD,77th Street,Robbery,1138,959,959,1060
 LAPD,77th Street,Sexual Assault,136,122,129,101
 LAPD,77th Street,Vehicle Theft,1325,1626,1814,1841
@@ -11,7 +10,6 @@ LAPD,Central,Aggravated Assault,1111,1255,1390,1553
 LAPD,Central,Burglary,357,617,538,630
 LAPD,Central,Homicide,17,21,25,25
 LAPD,Central,Larceny,5114,3348,4311,6455
-LAPD,Central,Other or Part 2,5686,5024,5046,6046
 LAPD,Central,Robbery,724,563,806,852
 LAPD,Central,Sexual Assault,161,124,146,114
 LAPD,Central,Vehicle Theft,412,607,849,1221
@@ -19,7 +17,6 @@ LAPD,Devonshire,Aggravated Assault,420,415,496,551
 LAPD,Devonshire,Burglary,767,675,737,860
 LAPD,Devonshire,Homicide,9,1,7,8
 LAPD,Devonshire,Larceny,3001,2570,2559,2547
-LAPD,Devonshire,Other or Part 2,3966,3327,3419,3590
 LAPD,Devonshire,Robbery,232,181,219,244
 LAPD,Devonshire,Sexual Assault,57,46,46,42
 LAPD,Devonshire,Vehicle Theft,542,713,948,960
@@ -27,7 +24,6 @@ LAPD,Foothill,Aggravated Assault,595,591,628,590
 LAPD,Foothill,Burglary,477,473,449,480
 LAPD,Foothill,Homicide,5,10,4,11
 LAPD,Foothill,Larceny,1857,1582,1684,1761
-LAPD,Foothill,Other or Part 2,3508,3174,3072,3533
 LAPD,Foothill,Robbery,241,193,179,184
 LAPD,Foothill,Sexual Assault,65,49,48,40
 LAPD,Foothill,Vehicle Theft,870,1000,934,913
@@ -35,7 +31,6 @@ LAPD,Harbor,Aggravated Assault,903,848,934,928
 LAPD,Harbor,Burglary,571,606,509,561
 LAPD,Harbor,Homicide,18,17,26,18
 LAPD,Harbor,Larceny,2024,1954,1832,1707
-LAPD,Harbor,Other or Part 2,3972,3951,3904,3976
 LAPD,Harbor,Robbery,308,263,283,299
 LAPD,Harbor,Sexual Assault,61,63,70,59
 LAPD,Harbor,Vehicle Theft,843,1135,1267,1329
@@ -43,7 +38,6 @@ LAPD,Hollenbeck,Aggravated Assault,769,783,1000,961
 LAPD,Hollenbeck,Burglary,424,428,386,420
 LAPD,Hollenbeck,Homicide,23,30,39,34
 LAPD,Hollenbeck,Larceny,1852,1563,1579,1482
-LAPD,Hollenbeck,Other or Part 2,3983,3309,3330,3521
 LAPD,Hollenbeck,Robbery,305,268,310,313
 LAPD,Hollenbeck,Sexual Assault,80,48,48,48
 LAPD,Hollenbeck,Vehicle Theft,923,1353,1296,1488
@@ -51,7 +45,6 @@ LAPD,Hollywood,Aggravated Assault,772,888,1070,993
 LAPD,Hollywood,Burglary,503,681,647,637
 LAPD,Hollywood,Homicide,4,7,9,12
 LAPD,Hollywood,Larceny,3988,2914,3666,3980
-LAPD,Hollywood,Other or Part 2,4760,4354,4981,4967
 LAPD,Hollywood,Robbery,573,449,637,627
 LAPD,Hollywood,Sexual Assault,130,100,119,106
 LAPD,Hollywood,Vehicle Theft,434,720,906,930
@@ -59,7 +52,6 @@ LAPD,Mission,Aggravated Assault,727,752,794,746
 LAPD,Mission,Burglary,401,430,369,353
 LAPD,Mission,Homicide,9,11,15,13
 LAPD,Mission,Larceny,2229,1932,1875,2162
-LAPD,Mission,Other or Part 2,4345,3738,3583,4024
 LAPD,Mission,Robbery,312,280,259,276
 LAPD,Mission,Sexual Assault,62,70,68,68
 LAPD,Mission,Vehicle Theft,1061,1219,1209,1248
@@ -67,7 +59,6 @@ LAPD,Newton,Aggravated Assault,1208,1250,1302,1327
 LAPD,Newton,Burglary,400,604,535,616
 LAPD,Newton,Homicide,24,35,31,39
 LAPD,Newton,Larceny,2550,1836,1753,2166
-LAPD,Newton,Other or Part 2,4675,3885,3952,4799
 LAPD,Newton,Robbery,737,599,575,644
 LAPD,Newton,Sexual Assault,83,81,75,78
 LAPD,Newton,Vehicle Theft,1062,1645,1635,1848
@@ -75,7 +66,6 @@ LAPD,North Hollywood,Aggravated Assault,627,693,748,775
 LAPD,North Hollywood,Burglary,947,815,819,921
 LAPD,North Hollywood,Homicide,10,11,9,10
 LAPD,North Hollywood,Larceny,3753,3092,3487,3159
-LAPD,North Hollywood,Other or Part 2,4656,4176,4378,4513
 LAPD,North Hollywood,Robbery,270,252,301,321
 LAPD,North Hollywood,Sexual Assault,90,61,65,67
 LAPD,North Hollywood,Vehicle Theft,753,1014,1048,1043
@@ -83,7 +73,6 @@ LAPD,Northeast,Aggravated Assault,561,547,674,610
 LAPD,Northeast,Burglary,745,662,604,680
 LAPD,Northeast,Homicide,5,10,20,16
 LAPD,Northeast,Larceny,3241,2554,2814,2965
-LAPD,Northeast,Other or Part 2,3995,3290,3634,3911
 LAPD,Northeast,Robbery,259,237,270,344
 LAPD,Northeast,Sexual Assault,63,48,48,41
 LAPD,Northeast,Vehicle Theft,775,1073,1231,1277
@@ -91,7 +80,6 @@ LAPD,Olympic,Aggravated Assault,697,823,996,1058
 LAPD,Olympic,Burglary,476,697,655,822
 LAPD,Olympic,Homicide,6,17,11,13
 LAPD,Olympic,Larceny,3160,2493,2711,2569
-LAPD,Olympic,Other or Part 2,4535,4102,4459,4554
 LAPD,Olympic,Robbery,545,448,503,558
 LAPD,Olympic,Sexual Assault,95,99,78,77
 LAPD,Olympic,Vehicle Theft,723,911,1330,1399
@@ -99,7 +87,6 @@ LAPD,Pacific,Aggravated Assault,564,682,781,696
 LAPD,Pacific,Burglary,1051,1033,1020,1051
 LAPD,Pacific,Homicide,5,5,9,9
 LAPD,Pacific,Larceny,4763,3824,4431,4115
-LAPD,Pacific,Other or Part 2,4714,4471,4756,4281
 LAPD,Pacific,Robbery,276,288,308,289
 LAPD,Pacific,Sexual Assault,88,87,67,75
 LAPD,Pacific,Vehicle Theft,786,1144,1476,1522
@@ -107,7 +94,6 @@ LAPD,Rampart,Aggravated Assault,972,988,1081,1167
 LAPD,Rampart,Burglary,418,426,396,479
 LAPD,Rampart,Homicide,13,23,15,17
 LAPD,Rampart,Larceny,2626,2130,2260,2387
-LAPD,Rampart,Other or Part 2,4120,3831,3908,4800
 LAPD,Rampart,Robbery,670,527,525,624
 LAPD,Rampart,Sexual Assault,115,73,81,93
 LAPD,Rampart,Vehicle Theft,589,981,1141,1292
@@ -115,7 +101,6 @@ LAPD,Southeast,Aggravated Assault,1755,1855,1687,1732
 LAPD,Southeast,Burglary,583,419,286,315
 LAPD,Southeast,Homicide,33,45,54,52
 LAPD,Southeast,Larceny,2273,1815,1565,1444
-LAPD,Southeast,Other or Part 2,4934,4493,4401,5414
 LAPD,Southeast,Robbery,883,731,594,704
 LAPD,Southeast,Sexual Assault,110,90,81,63
 LAPD,Southeast,Vehicle Theft,1159,1332,1710,1582
@@ -123,7 +108,6 @@ LAPD,Southwest,Aggravated Assault,1268,1289,1463,1372
 LAPD,Southwest,Burglary,577,498,517,532
 LAPD,Southwest,Homicide,14,19,24,20
 LAPD,Southwest,Larceny,4066,2502,2491,2837
-LAPD,Southwest,Other or Part 2,5935,5028,4904,5987
 LAPD,Southwest,Robbery,717,569,521,522
 LAPD,Southwest,Sexual Assault,132,106,114,63
 LAPD,Southwest,Vehicle Theft,790,1104,1301,1459
@@ -131,7 +115,6 @@ LAPD,Topanga,Aggravated Assault,454,491,595,665
 LAPD,Topanga,Burglary,834,747,764,841
 LAPD,Topanga,Homicide,3,6,8,11
 LAPD,Topanga,Larceny,3488,2408,2592,2672
-LAPD,Topanga,Other or Part 2,4034,3436,3503,3870
 LAPD,Topanga,Robbery,268,223,218,277
 LAPD,Topanga,Sexual Assault,69,53,62,51
 LAPD,Topanga,Vehicle Theft,515,686,769,732
@@ -139,7 +122,6 @@ LAPD,Van Nuys,Aggravated Assault,529,525,580,586
 LAPD,Van Nuys,Burglary,610,615,682,881
 LAPD,Van Nuys,Homicide,7,9,8,7
 LAPD,Van Nuys,Larceny,3269,2648,2503,2536
-LAPD,Van Nuys,Other or Part 2,4192,3755,3698,4059
 LAPD,Van Nuys,Robbery,277,224,198,234
 LAPD,Van Nuys,Sexual Assault,30,33,35,35
 LAPD,Van Nuys,Vehicle Theft,661,909,931,907
@@ -147,7 +129,6 @@ LAPD,West Los Angeles,Aggravated Assault,286,266,308,300
 LAPD,West Los Angeles,Burglary,1104,1128,1018,1116
 LAPD,West Los Angeles,Homicide,1,4,1,1
 LAPD,West Los Angeles,Larceny,3355,3307,3543,3613
-LAPD,West Los Angeles,Other or Part 2,3830,3676,4012,3957
 LAPD,West Los Angeles,Robbery,200,181,186,180
 LAPD,West Los Angeles,Sexual Assault,65,51,56,43
 LAPD,West Los Angeles,Vehicle Theft,401,656,723,803
@@ -155,7 +136,6 @@ LAPD,West Valley,Aggravated Assault,526,587,646,693
 LAPD,West Valley,Burglary,854,689,718,931
 LAPD,West Valley,Homicide,13,9,8,7
 LAPD,West Valley,Larceny,2431,2184,2133,2595
-LAPD,West Valley,Other or Part 2,3953,3493,3834,4228
 LAPD,West Valley,Robbery,282,223,216,296
 LAPD,West Valley,Sexual Assault,70,72,55,48
 LAPD,West Valley,Vehicle Theft,549,783,868,1027
@@ -163,323 +143,167 @@ LAPD,Wilshire,Aggravated Assault,527,654,669,584
 LAPD,Wilshire,Burglary,862,1013,793,844
 LAPD,Wilshire,Homicide,2,8,16,10
 LAPD,Wilshire,Larceny,4073,2769,2975,3649
-LAPD,Wilshire,Other or Part 2,3991,3724,3862,4102
 LAPD,Wilshire,Robbery,418,356,429,450
 LAPD,Wilshire,Sexual Assault,66,55,58,64
 LAPD,Wilshire,Vehicle Theft,494,666,877,921
-LASD,Altadena,Aggravated Assault,72,59,54,74
-LASD,Altadena,Burglary,110,51,62,78
-LASD,Altadena,Homicide,1,2,0,0
-LASD,Altadena,Larceny,367,282,307,317
-LASD,Altadena,Other or Part 2,988,627,678,774
-LASD,Altadena,Robbery,12,13,18,10
-LASD,Altadena,Sexual Assault,0,2,1,0
-LASD,Altadena,Vehicle Theft,53,63,59,48
-LASD,Avalon,Aggravated Assault,7,4,18,19
-LASD,Avalon,Burglary,7,7,4,9
-LASD,Avalon,Larceny,24,38,30,30
-LASD,Avalon,Other or Part 2,241,224,195,177
-LASD,Avalon,Sexual Assault,3,0,1,0
-LASD,Avalon,Vehicle Theft,6,8,3,5
-LASD,Carson,Aggravated Assault,256,265,216,276
-LASD,Carson,Burglary,457,365,354,469
-LASD,Carson,Homicide,6,10,12,8
-LASD,Carson,Larceny,1658,1603,1708,1734
-LASD,Carson,Other or Part 2,3967,3300,3029,2992
-LASD,Carson,Robbery,157,128,148,157
-LASD,Carson,Sexual Assault,11,3,5,4
-LASD,Carson,Vehicle Theft,572,714,1098,1250
-LASD,Century,Aggravated Assault,641,791,814,866
-LASD,Century,Burglary,465,384,356,387
-LASD,Century,Homicide,19,28,43,38
-LASD,Century,Larceny,1819,1698,1500,1763
-LASD,Century,Other or Part 2,7011,6116,4562,5766
-LASD,Century,Robbery,685,546,476,691
-LASD,Century,Sexual Assault,14,11,12,9
-LASD,Century,Vehicle Theft,1261,1692,2123,1999
-LASD,Cerritos,Aggravated Assault,43,41,59,64
-LASD,Cerritos,Burglary,315,236,240,254
+LASD,Altadena,Aggravated Assault,88,67,71,88
+LASD,Altadena,Burglary,114,50,61,78
+LASD,Altadena,Homicide,1,2,2,0
+LASD,Altadena,Larceny,373,283,310,323
+LASD,Altadena,Robbery,13,12,18,10
+LASD,Altadena,Sexual Assault,11,6,4,7
+LASD,Altadena,Vehicle Theft,54,65,58,48
+LASD,Avalon,Aggravated Assault,8,5,23,20
+LASD,Avalon,Burglary,8,7,5,9
+LASD,Avalon,Homicide,0,0,0,0
+LASD,Avalon,Larceny,28,38,32,31
+LASD,Avalon,Robbery,0,0,0,0
+LASD,Avalon,Sexual Assault,2,2,5,3
+LASD,Avalon,Vehicle Theft,5,8,3,5
+LASD,Carson,Aggravated Assault,358,350,283,369
+LASD,Carson,Burglary,466,370,365,476
+LASD,Carson,Homicide,7,10,13,8
+LASD,Carson,Larceny,1682,1673,1791,1818
+LASD,Carson,Robbery,158,129,146,154
+LASD,Carson,Sexual Assault,39,27,21,20
+LASD,Carson,Vehicle Theft,566,690,1067,1205
+LASD,Century,Aggravated Assault,821,1007,1069,1127
+LASD,Century,Burglary,469,387,365,400
+LASD,Century,Homicide,20,30,45,41
+LASD,Century,Larceny,1831,1750,1552,1835
+LASD,Century,Robbery,684,546,481,698
+LASD,Century,Sexual Assault,65,50,67,60
+LASD,Century,Vehicle Theft,1253,1661,2052,1949
+LASD,Cerritos,Aggravated Assault,51,47,66,79
+LASD,Cerritos,Burglary,314,246,250,257
 LASD,Cerritos,Homicide,1,0,0,0
-LASD,Cerritos,Larceny,1168,955,1213,1307
-LASD,Cerritos,Other or Part 2,1696,1210,963,943
-LASD,Cerritos,Robbery,65,39,57,56
-LASD,Cerritos,Sexual Assault,5,1,0,2
-LASD,Cerritos,Vehicle Theft,122,150,296,307
-LASD,Compton,Aggravated Assault,617,722,597,673
-LASD,Compton,Burglary,423,313,240,331
-LASD,Compton,Homicide,18,26,40,26
-LASD,Compton,Larceny,1486,1367,921,1235
-LASD,Compton,Other or Part 2,5664,4692,3372,4808
-LASD,Compton,Robbery,494,349,298,353
-LASD,Compton,Sexual Assault,39,43,29,25
-LASD,Compton,Vehicle Theft,894,1050,1429,1317
-LASD,Crescenta Valley,Aggravated Assault,13,13,30,24
-LASD,Crescenta Valley,Burglary,142,94,91,153
+LASD,Cerritos,Larceny,1198,970,1235,1339
+LASD,Cerritos,Robbery,65,39,56,58
+LASD,Cerritos,Sexual Assault,10,14,10,11
+LASD,Cerritos,Vehicle Theft,122,146,277,295
+LASD,Compton,Aggravated Assault,762,948,801,856
+LASD,Compton,Burglary,423,316,240,341
+LASD,Compton,Homicide,21,26,45,29
+LASD,Compton,Larceny,1496,1403,940,1293
+LASD,Compton,Robbery,496,350,296,356
+LASD,Compton,Sexual Assault,47,61,44,46
+LASD,Compton,Vehicle Theft,904,1058,1418,1307
+LASD,Crescenta Valley,Aggravated Assault,17,14,37,33
+LASD,Crescenta Valley,Burglary,143,96,89,154
 LASD,Crescenta Valley,Homicide,0,0,0,2
-LASD,Crescenta Valley,Larceny,348,311,419,480
-LASD,Crescenta Valley,Other or Part 2,966,770,786,668
-LASD,Crescenta Valley,Robbery,10,5,5,8
-LASD,Crescenta Valley,Sexual Assault,1,1,0,1
-LASD,Crescenta Valley,Vehicle Theft,22,29,37,25
-LASD,East Los Angeles,Aggravated Assault,553,563,627,675
-LASD,East Los Angeles,Burglary,461,511,564,726
-LASD,East Los Angeles,Homicide,11,27,28,24
-LASD,East Los Angeles,Larceny,1681,1705,1812,1965
-LASD,East Los Angeles,Other or Part 2,5609,5428,4755,5456
-LASD,East Los Angeles,Robbery,328,343,263,346
-LASD,East Los Angeles,Sexual Assault,33,16,10,11
-LASD,East Los Angeles,Vehicle Theft,995,1531,1718,1605
-LASD,Industry,Aggravated Assault,236,246,332,292
-LASD,Industry,Burglary,598,479,513,778
-LASD,Industry,Homicide,11,7,19,7
-LASD,Industry,Larceny,2049,1544,1766,1962
-LASD,Industry,Other or Part 2,6062,3861,3146,3766
-LASD,Industry,Robbery,194,136,164,128
-LASD,Industry,Sexual Assault,2,5,2,4
-LASD,Industry,Vehicle Theft,556,634,761,681
-LASD,Lakewood,Aggravated Assault,453,455,566,658
-LASD,Lakewood,Burglary,980,789,607,946
-LASD,Lakewood,Homicide,7,10,12,11
-LASD,Lakewood,Larceny,3223,3175,2793,2996
-LASD,Lakewood,Other or Part 2,7545,6400,5661,5585
-LASD,Lakewood,Robbery,411,333,311,371
-LASD,Lakewood,Sexual Assault,28,22,8,29
-LASD,Lakewood,Vehicle Theft,896,1313,1838,1802
-LASD,Lancaster,Aggravated Assault,749,724,746,813
-LASD,Lancaster,Burglary,910,709,673,850
-LASD,Lancaster,Homicide,5,8,15,5
-LASD,Lancaster,Larceny,2072,1408,1297,1456
-LASD,Lancaster,Other or Part 2,9059,7514,6665,6182
-LASD,Lancaster,Robbery,395,272,276,349
-LASD,Lancaster,Sexual Assault,112,66,58,23
-LASD,Lancaster,Vehicle Theft,726,863,1256,1290
-LASD,Lomita,Aggravated Assault,69,91,91,91
-LASD,Lomita,Burglary,201,174,182,184
-LASD,Lomita,Homicide,2,3,1,0
-LASD,Lomita,Larceny,463,563,609,566
-LASD,Lomita,Other or Part 2,1377,1464,1083,1085
-LASD,Lomita,Robbery,32,26,28,30
-LASD,Lomita,Sexual Assault,1,5,1,1
-LASD,Lomita,Vehicle Theft,73,100,124,142
-LASD,Malibu / Lost Hills,Aggravated Assault,52,76,86,100
-LASD,Malibu / Lost Hills,Burglary,365,218,261,339
-LASD,Malibu / Lost Hills,Homicide,2,2,2,0
-LASD,Malibu / Lost Hills,Larceny,1056,900,1014,976
-LASD,Malibu / Lost Hills,Other or Part 2,2566,3009,2422,2083
-LASD,Malibu / Lost Hills,Robbery,44,38,47,33
-LASD,Malibu / Lost Hills,Sexual Assault,9,9,19,21
-LASD,Malibu / Lost Hills,Vehicle Theft,91,132,157,118
-LASD,Marina Del Rey,Aggravated Assault,48,68,42,48
-LASD,Marina Del Rey,Burglary,152,91,128,131
+LASD,Crescenta Valley,Larceny,349,321,428,491
+LASD,Crescenta Valley,Robbery,12,5,4,7
+LASD,Crescenta Valley,Sexual Assault,5,6,4,7
+LASD,Crescenta Valley,Vehicle Theft,20,35,39,22
+LASD,East Los Angeles,Aggravated Assault,700,748,795,876
+LASD,East Los Angeles,Burglary,463,515,567,732
+LASD,East Los Angeles,Homicide,11,28,30,25
+LASD,East Los Angeles,Larceny,1701,1754,1849,2039
+LASD,East Los Angeles,Robbery,327,344,264,344
+LASD,East Los Angeles,Sexual Assault,40,33,57,53
+LASD,East Los Angeles,Vehicle Theft,998,1511,1698,1592
+LASD,Industry,Aggravated Assault,302,321,432,376
+LASD,Industry,Burglary,596,486,520,779
+LASD,Industry,Homicide,9,9,22,7
+LASD,Industry,Larceny,2077,1609,1816,2021
+LASD,Industry,Robbery,197,136,164,131
+LASD,Industry,Sexual Assault,31,46,35,27
+LASD,Industry,Vehicle Theft,561,617,737,677
+LASD,Lakewood,Aggravated Assault,555,537,690,831
+LASD,Lakewood,Burglary,978,816,612,963
+LASD,Lakewood,Homicide,6,11,14,11
+LASD,Lakewood,Larceny,3265,3258,2866,3114
+LASD,Lakewood,Robbery,414,332,312,375
+LASD,Lakewood,Sexual Assault,73,70,65,73
+LASD,Lakewood,Vehicle Theft,884,1276,1762,1753
+LASD,Lancaster,Aggravated Assault,962,946,944,1118
+LASD,Lancaster,Burglary,926,716,679,874
+LASD,Lancaster,Homicide,10,22,30,20
+LASD,Lancaster,Larceny,2123,1469,1339,1535
+LASD,Lancaster,Robbery,401,270,278,352
+LASD,Lancaster,Sexual Assault,136,91,83,89
+LASD,Lancaster,Vehicle Theft,726,875,1236,1274
+LASD,Lomita,Aggravated Assault,78,114,100,112
+LASD,Lomita,Burglary,204,173,181,186
+LASD,Lomita,Homicide,2,5,1,0
+LASD,Lomita,Larceny,473,582,631,580
+LASD,Lomita,Robbery,33,26,28,31
+LASD,Lomita,Sexual Assault,8,7,12,12
+LASD,Lomita,Vehicle Theft,68,91,113,131
+LASD,Malibu/Lost Hills,Aggravated Assault,66,94,104,107
+LASD,Malibu/Lost Hills,Burglary,366,226,259,339
+LASD,Malibu/Lost Hills,Homicide,2,2,2,0
+LASD,Malibu/Lost Hills,Larceny,1075,941,1049,996
+LASD,Malibu/Lost Hills,Robbery,44,38,48,33
+LASD,Malibu/Lost Hills,Sexual Assault,32,21,30,26
+LASD,Malibu/Lost Hills,Vehicle Theft,85,128,147,116
+LASD,Marina Del Rey,Aggravated Assault,53,81,50,60
+LASD,Marina Del Rey,Burglary,153,97,128,141
 LASD,Marina Del Rey,Homicide,2,2,2,2
-LASD,Marina Del Rey,Larceny,566,543,663,538
-LASD,Marina Del Rey,Other or Part 2,758,803,613,477
-LASD,Marina Del Rey,Robbery,39,24,20,36
-LASD,Marina Del Rey,Sexual Assault,5,4,1,1
-LASD,Marina Del Rey,Vehicle Theft,71,146,207,205
-LASD,Norwalk,Aggravated Assault,332,378,267,334
-LASD,Norwalk,Burglary,599,419,326,454
-LASD,Norwalk,Homicide,1,4,5,9
-LASD,Norwalk,Larceny,1736,1976,1734,1802
-LASD,Norwalk,Other or Part 2,5636,5127,4144,4382
-LASD,Norwalk,Robbery,202,193,135,163
-LASD,Norwalk,Sexual Assault,10,8,24,22
-LASD,Norwalk,Vehicle Theft,672,812,953,889
-LASD,Palmdale,Aggravated Assault,389,476,521,565
-LASD,Palmdale,Burglary,597,571,461,585
-LASD,Palmdale,Homicide,7,10,11,21
-LASD,Palmdale,Larceny,1595,1329,1503,1576
-LASD,Palmdale,Other or Part 2,5773,6048,5478,5193
-LASD,Palmdale,Robbery,207,176,161,226
-LASD,Palmdale,Sexual Assault,52,46,52,11
-LASD,Palmdale,Vehicle Theft,522,669,657,797
-LASD,Pico Rivera,Aggravated Assault,187,136,155,220
-LASD,Pico Rivera,Burglary,274,232,237,336
-LASD,Pico Rivera,Homicide,3,4,5,4
-LASD,Pico Rivera,Larceny,803,860,909,909
-LASD,Pico Rivera,Other or Part 2,2930,2596,2084,2000
-LASD,Pico Rivera,Robbery,87,88,90,112
-LASD,Pico Rivera,Sexual Assault,14,10,9,16
-LASD,Pico Rivera,Vehicle Theft,396,491,615,622
-LASD,San Dimas,Aggravated Assault,129,120,100,115
-LASD,San Dimas,Burglary,182,174,186,220
-LASD,San Dimas,Homicide,2,2,4,1
-LASD,San Dimas,Larceny,1024,992,857,935
-LASD,San Dimas,Other or Part 2,1824,1715,1504,1466
+LASD,Marina Del Rey,Larceny,569,567,677,559
+LASD,Marina Del Rey,Robbery,40,24,20,37
+LASD,Marina Del Rey,Sexual Assault,7,13,9,8
+LASD,Marina Del Rey,Vehicle Theft,70,145,195,200
+LASD,Norwalk,Aggravated Assault,446,494,356,418
+LASD,Norwalk,Burglary,603,426,333,458
+LASD,Norwalk,Homicide,7,5,7,9
+LASD,Norwalk,Larceny,1779,2038,1794,1864
+LASD,Norwalk,Robbery,203,193,138,161
+LASD,Norwalk,Sexual Assault,46,41,53,42
+LASD,Norwalk,Vehicle Theft,638,796,917,877
+LASD,Palmdale,Aggravated Assault,491,634,661,764
+LASD,Palmdale,Burglary,592,581,468,587
+LASD,Palmdale,Homicide,14,13,12,22
+LASD,Palmdale,Larceny,1635,1362,1526,1644
+LASD,Palmdale,Robbery,216,172,160,228
+LASD,Palmdale,Sexual Assault,69,67,78,50
+LASD,Palmdale,Vehicle Theft,534,674,682,800
+LASD,Pico Rivera,Aggravated Assault,236,177,216,277
+LASD,Pico Rivera,Burglary,275,241,240,347
+LASD,Pico Rivera,Homicide,4,4,5,4
+LASD,Pico Rivera,Larceny,823,885,928,943
+LASD,Pico Rivera,Robbery,89,89,89,112
+LASD,Pico Rivera,Sexual Assault,25,24,17,31
+LASD,Pico Rivera,Vehicle Theft,388,474,594,601
+LASD,San Dimas,Aggravated Assault,153,131,122,132
+LASD,San Dimas,Burglary,187,174,188,227
+LASD,San Dimas,Homicide,2,2,4,2
+LASD,San Dimas,Larceny,1029,1034,882,953
 LASD,San Dimas,Robbery,47,45,35,39
-LASD,San Dimas,Sexual Assault,23,11,11,23
-LASD,San Dimas,Vehicle Theft,183,260,227,218
-LASD,Santa Clarita Valley,Aggravated Assault,132,179,180,220
-LASD,Santa Clarita Valley,Burglary,503,459,398,436
-LASD,Santa Clarita Valley,Homicide,1,2,4,1
-LASD,Santa Clarita Valley,Larceny,1911,1710,1888,2216
-LASD,Santa Clarita Valley,Other or Part 2,5445,5639,5085,4886
-LASD,Santa Clarita Valley,Robbery,104,90,89,104
-LASD,Santa Clarita Valley,Sexual Assault,46,39,36,14
-LASD,Santa Clarita Valley,Vehicle Theft,303,379,445,483
-LASD,South Los Angeles,Aggravated Assault,506,535,464,491
-LASD,South Los Angeles,Burglary,316,318,211,235
-LASD,South Los Angeles,Homicide,14,18,27,15
-LASD,South Los Angeles,Larceny,850,835,853,691
-LASD,South Los Angeles,Other or Part 2,4344,4547,3514,3780
-LASD,South Los Angeles,Robbery,279,244,185,210
-LASD,South Los Angeles,Sexual Assault,13,8,1,12
-LASD,South Los Angeles,Vehicle Theft,491,664,767,742
-LASD,Temple,Aggravated Assault,245,287,367,342
-LASD,Temple,Burglary,636,531,705,1020
-LASD,Temple,Homicide,4,3,3,4
-LASD,Temple,Larceny,1589,1662,1775,1978
-LASD,Temple,Other or Part 2,5628,6421,4437,4906
-LASD,Temple,Robbery,175,147,169,196
-LASD,Temple,Sexual Assault,32,22,21,25
-LASD,Temple,Vehicle Theft,462,565,693,717
-LASD,Walnut / Diamond Bar,Aggravated Assault,100,123,150,156
-LASD,Walnut / Diamond Bar,Burglary,707,560,539,703
-LASD,Walnut / Diamond Bar,Homicide,1,2,3,2
-LASD,Walnut / Diamond Bar,Larceny,1422,1170,1580,1672
-LASD,Walnut / Diamond Bar,Other or Part 2,2666,2124,2196,2452
-LASD,Walnut / Diamond Bar,Robbery,68,62,61,72
-LASD,Walnut / Diamond Bar,Sexual Assault,15,14,12,18
-LASD,Walnut / Diamond Bar,Vehicle Theft,171,276,322,314
-LASD,West Hollywood,Aggravated Assault,113,87,134,164
-LASD,West Hollywood,Burglary,216,275,308,322
-LASD,West Hollywood,Homicide,1,0,3,0
-LASD,West Hollywood,Larceny,1687,831,1003,1871
-LASD,West Hollywood,Other or Part 2,3347,2501,2170,2708
-LASD,West Hollywood,Robbery,142,83,114,131
-LASD,West Hollywood,Sexual Assault,4,4,4,7
-LASD,West Hollywood,Vehicle Theft,117,104,166,190
-LASD,Admin,Aggravated Assault,28,10,12,16
-LASD,Community College Bureau,Aggravated Assault,2,1,2,3
-LASD,Community Oriented Policing Svcs,Aggravated Assault,0,1,0,0
-LASD,County Services Bur,Aggravated Assault,6,11,11,10
-LASD,Court Services Transportation Bureau,Aggravated Assault,11,2,2,4
-LASD,Crdf,Aggravated Assault,59,59,34,42
-LASD,Custody Operations,Aggravated Assault,0,0,1,0
-LASD,East,Aggravated Assault,4,6,4,6
-LASD,Human Trafficking Task Force,Aggravated Assault,1,0,1,0
-LASD,Inmate Reception Centr,Aggravated Assault,85,37,42,55
-LASD,Lcmc,Aggravated Assault,1,1,5,3
-LASD,Los Angeles County Sheriff Dept,Aggravated Assault,12,7,0,0
-LASD,Major Crimes Bureau,Aggravated Assault,1,0,0,0
-LASD,Men's Central Jail,Aggravated Assault,260,231,324,342
-LASD,Metrolink Bureau,Aggravated Assault,3,4,4,5
-LASD,Narcotics Bureau,Aggravated Assault,2,1,0,2
-LASD,North County Correctional Fac.,Aggravated Assault,64,42,48,49
-LASD,Parks Bureau,Aggravated Assault,4,10,9,10
-LASD,Pdc - North,Aggravated Assault,13,16,15,14
-LASD,Pdc - South,Aggravated Assault,15,3,20,24
-LASD,Transit Serv Bur,Aggravated Assault,65,90,119,127
-LASD,Trap,Aggravated Assault,0,1,0,0
-LASD,Ttcf,Aggravated Assault,122,96,111,100
-LASD,West,Aggravated Assault,9,11,6,5
-LASD,Admin,Burglary,0,1,2,1
-LASD,Community College Bureau,Burglary,41,44,48,52
-LASD,County Services Bur,Burglary,12,14,15,12
-LASD,Fraud & Cyber Crimes Bureau,Burglary,3,1,0,0
-LASD,Major Crimes Bureau,Burglary,0,1,0,0
-LASD,Men's Central Jail,Burglary,1,0,0,0
-LASD,Metrolink Bureau,Burglary,0,2,0,0
-LASD,Narcotics Bureau,Burglary,0,1,0,0
-LASD,Parks Bureau,Burglary,7,7,9,9
-LASD,Pdc - South,Burglary,0,0,1,0
-LASD,Transit Serv Bur,Burglary,5,6,7,6
-LASD,Trap,Burglary,12,4,0,2
-LASD,West,Burglary,1,0,0,0
-LASD,Community College Bureau,Homicide,0,0,0,1
-LASD,County Services Bur,Homicide,1,0,0,0
-LASD,Men's Central Jail,Homicide,0,2,0,1
-LASD,Transit Serv Bur,Homicide,0,0,1,1
-LASD,Ttcf,Homicide,0,1,0,1
-LASD,Admin,Larceny,0,2,2,0
-LASD,Community College Bureau,Larceny,187,57,49,115
-LASD,Community Oriented Policing Svcs,Larceny,0,0,1,0
-LASD,County Services Bur,Larceny,124,90,95,110
-LASD,Crdf,Larceny,4,2,4,2
-LASD,East,Larceny,1,5,1,0
-LASD,Fraud & Cyber Crimes Bureau,Larceny,30,26,23,18
-LASD,Human Trafficking Task Force,Larceny,0,1,0,6
-LASD,Inmate Reception Centr,Larceny,0,1,0,1
-LASD,Los Angeles County Sheriff Dept,Larceny,0,1,0,0
-LASD,Major Crimes Bureau,Larceny,1,0,0,0
-LASD,Men's Central Jail,Larceny,18,24,9,8
-LASD,Metrolink Bureau,Larceny,19,9,9,14
-LASD,Narcotics Bureau,Larceny,7,5,4,1
-LASD,North County Correctional Fac.,Larceny,8,2,1,2
-LASD,Parks Bureau,Larceny,22,29,30,33
-LASD,Pdc - North,Larceny,0,1,2,0
-LASD,Pdc - South,Larceny,2,1,0,0
-LASD,Special Enforcement (Seb),Larceny,0,0,1,0
-LASD,Transit Serv Bur,Larceny,137,101,96,131
-LASD,Trap,Larceny,18,11,9,7
-LASD,Ttcf,Larceny,9,4,2,2
-LASD,West,Larceny,6,2,2,2
-LASD,Admin,Other or Part 2,158,73,115,123
-LASD,Community College Bureau,Other or Part 2,180,87,74,104
-LASD,Community Oriented Policing Svcs,Other or Part 2,42,34,8,16
-LASD,County Services Bur,Other or Part 2,244,255,243,212
-LASD,Court Services Transportation Bureau,Other or Part 2,45,19,23,26
-LASD,Crdf,Other or Part 2,430,428,322,395
-LASD,Custody Operations,Other or Part 2,2,4,10,2
-LASD,East,Other or Part 2,84,40,62,59
-LASD,Fraud & Cyber Crimes Bureau,Other or Part 2,34,38,30,22
-LASD,Homicide Bureau,Other or Part 2,0,0,1,0
-LASD,Human Trafficking Bureau,Other or Part 2,175,0,0,0
-LASD,Human Trafficking Task Force,Other or Part 2,401,596,707,363
-LASD,Inmate Reception Centr,Other or Part 2,1245,1109,1154,945
-LASD,Invest. Svcs-Jail Invest. Unit,Other or Part 2,6,15,20,9
-LASD,Investigative Services,Other or Part 2,71,3,0,0
-LASD,Lcmc,Other or Part 2,0,0,17,7
-LASD,Los Angeles County Sheriff Dept,Other or Part 2,20,13,1,3
-LASD,Major Crimes Bureau,Other or Part 2,145,59,44,92
-LASD,Men's Central Jail,Other or Part 2,1129,1139,1460,1331
-LASD,Metrolink Bureau,Other or Part 2,206,577,1418,789
-LASD,Narcotics Bureau,Other or Part 2,713,647,859,1032
-LASD,North County Correctional Fac.,Other or Part 2,1160,943,1082,1245
-LASD,Oper Safe Streets Bur,Other or Part 2,25,11,17,17
-LASD,Parks Bureau,Other or Part 2,72,60,47,79
-LASD,Pdc - East,Other or Part 2,0,1,0,1
-LASD,Pdc - North,Other or Part 2,174,169,353,189
-LASD,Pdc - South,Other or Part 2,164,75,188,196
-LASD,Special Enforcement (Seb),Other or Part 2,12,5,5,5
-LASD,Special Victims Bureau,Other or Part 2,0,1,0,2
-LASD,Transit Serv Bur,Other or Part 2,905,575,710,675
-LASD,Trap,Other or Part 2,135,109,89,39
-LASD,Ttcf,Other or Part 2,834,611,701,478
-LASD,West,Other or Part 2,137,73,85,104
-LASD,Admin,Robbery,1,1,0,0
-LASD,Community College Bureau,Robbery,6,1,0,1
-LASD,County Services Bur,Robbery,6,3,2,1
-LASD,Court Services Transportation Bureau,Robbery,1,0,0,0
-LASD,Crdf,Robbery,0,0,1,0
-LASD,East,Robbery,1,0,0,0
-LASD,Human Trafficking Task Force,Robbery,1,0,0,0
-LASD,Inmate Reception Centr,Robbery,0,2,0,4
-LASD,Men's Central Jail,Robbery,4,4,1,6
-LASD,Metrolink Bureau,Robbery,0,2,2,1
-LASD,North County Correctional Fac.,Robbery,1,4,2,1
-LASD,Parks Bureau,Robbery,1,0,3,2
-LASD,Pdc - North,Robbery,1,1,0,0
-LASD,Transit Serv Bur,Robbery,72,90,74,116
-LASD,Ttcf,Robbery,0,7,1,0
-LASD,County Services Bur,Sexual Assault,0,1,1,1
-LASD,Crdf,Sexual Assault,0,0,3,2
-LASD,Human Trafficking Bureau,Sexual Assault,1,0,0,0
-LASD,Human Trafficking Task Force,Sexual Assault,1,1,2,0
-LASD,Los Angeles County Sheriff Dept,Sexual Assault,0,1,0,0
-LASD,Men's Central Jail,Sexual Assault,1,7,5,4
-LASD,Metrolink Bureau,Sexual Assault,0,0,1,0
-LASD,North County Correctional Fac.,Sexual Assault,1,0,0,0
-LASD,Parks Bureau,Sexual Assault,0,0,1,2
-LASD,Pdc - North,Sexual Assault,0,0,0,2
-LASD,Transit Serv Bur,Sexual Assault,4,2,3,0
-LASD,Ttcf,Sexual Assault,2,1,2,0
-LASD,Community College Bureau,Vehicle Theft,15,14,14,22
-LASD,County Services Bur,Vehicle Theft,14,11,18,31
-LASD,Fraud & Cyber Crimes Bureau,Vehicle Theft,2,1,2,1
-LASD,Major Crimes Bureau,Vehicle Theft,2,1,0,1
-LASD,Narcotics Bureau,Vehicle Theft,0,1,0,2
-LASD,Parks Bureau,Vehicle Theft,2,0,4,2
-LASD,Pdc - South,Vehicle Theft,0,0,2,1
-LASD,Transit Serv Bur,Vehicle Theft,18,16,15,17
-LASD,Trap,Vehicle Theft,168,83,23,5
+LASD,San Dimas,Sexual Assault,36,25,31,31
+LASD,San Dimas,Vehicle Theft,179,241,219,209
+LASD,Santa Clarita Valley,Aggravated Assault,163,208,227,289
+LASD,Santa Clarita Valley,Burglary,510,463,398,445
+LASD,Santa Clarita Valley,Homicide,3,3,4,1
+LASD,Santa Clarita Valley,Larceny,1953,1771,1931,2280
+LASD,Santa Clarita Valley,Robbery,106,90,89,105
+LASD,Santa Clarita Valley,Sexual Assault,61,53,58,49
+LASD,Santa Clarita Valley,Vehicle Theft,287,365,433,465
+LASD,South Los Angeles,Aggravated Assault,609,679,575,636
+LASD,South Los Angeles,Burglary,319,325,221,243
+LASD,South Los Angeles,Homicide,17,18,30,16
+LASD,South Los Angeles,Larceny,859,888,879,746
+LASD,South Los Angeles,Robbery,283,244,184,190
+LASD,South Los Angeles,Sexual Assault,38,38,19,50
+LASD,South Los Angeles,Vehicle Theft,491,648,759,700
+LASD,Temple,Aggravated Assault,299,355,429,411
+LASD,Temple,Burglary,637,535,704,1029
+LASD,Temple,Homicide,4,3,3,3
+LASD,Temple,Larceny,1572,1730,1798,2022
+LASD,Temple,Robbery,179,147,168,195
+LASD,Temple,Sexual Assault,42,39,45,47
+LASD,Temple,Vehicle Theft,456,554,683,704
+LASD,Walnut/Diamond Bar,Aggravated Assault,122,144,194,192
+LASD,Walnut/Diamond Bar,Burglary,708,571,548,710
+LASD,Walnut/Diamond Bar,Homicide,1,2,5,2
+LASD,Walnut/Diamond Bar,Larceny,1445,1197,1618,1702
+LASD,Walnut/Diamond Bar,Robbery,68,63,61,72
+LASD,Walnut/Diamond Bar,Sexual Assault,19,22,24,32
+LASD,Walnut/Diamond Bar,Vehicle Theft,168,263,303,290
+LASD,West Hollywood,Aggravated Assault,135,95,153,192
+LASD,West Hollywood,Burglary,219,282,308,320
+LASD,West Hollywood,Homicide,1,0,4,0
+LASD,West Hollywood,Larceny,1706,847,1021,1887
+LASD,West Hollywood,Robbery,141,85,114,133
+LASD,West Hollywood,Sexual Assault,24,28,24,24
+LASD,West Hollywood,Vehicle Theft,118,102,159,183

@@ -250,17 +250,17 @@ You can find your neighborhood by using the box at the top of the map to search 
 
 # Set bins for numbers of crimes for robberies map
 robberybins1 <- c(0,
-                300,
-                600,
-                700,
-                800,
-                1000)
+                100,
+                200,
+                500,
+                750,
+                1200)
 robberybins2 <- c(0,
                 250,
                 500,
                 600,
                 800,
-                1000)
+                1200)
 robberypal1 <- colorBin(c("#99a0a5",
                              "#2787d6",
                              "#0058f6",

@@ -49,7 +49,11 @@ cal_places$place <- sub(" CDP.*", "\\1", cal_places$place)
 
 cal_places2 <- left_join(cal_places,cal_crime21,by=c("place"="NCICCode"))
 
-cal_crime <- california_crime_annual %>% janitor::clean_names()
+
+# list of region's counties
+counties <- c("Los Angeles County", "Orange County","Ventura County","San Bernardino County","Riverside County")
+# filter anything not in the five counties
+cal_crime <- california_crime_annual %>% filter(County %in% counties) %>% janitor::clean_names()
 cal_crime_murder <- cal_crime %>% select(year,county,ncic_code,homicide_sum) %>% spread(year,homicide_sum) %>% select(1,2,18:39)
 cal_crime_rape <- cal_crime %>% select(year,county,ncic_code,for_rape_sum) %>% spread(year,for_rape_sum) %>% select(1,2,18:39)
 cal_crime_assault <- cal_crime %>% select(year,county,ncic_code,agg_assault_sum) %>% spread(year,agg_assault_sum) %>% select(1,2,18:39)
@@ -58,6 +62,264 @@ cal_crime_burglary <- cal_crime %>% select(year,county,ncic_code,burglary_sum) %
 cal_crime_theft <- cal_crime %>% select(year,county,ncic_code,l_ttotal_sum) %>% spread(year,l_ttotal_sum) %>% select(1,2,18:39)
 cal_crime_autotheft <- cal_crime %>% select(year,county,ncic_code,vehicle_theft_sum) %>% spread(year,vehicle_theft_sum) %>% select(1,2,18:39)
 
+# make quick tables that we can use for a quick simple map to be improved later
+murders_region <- inner_join(cal_places,cal_crime_murder,by=c("place"="ncic_code")) %>% rename("total19"="2019","total20"="2020","total21"="2021") %>% select(5,6,3,7:28)
+sexassaults_region <- inner_join(cal_places,cal_crime_rape,by=c("place"="ncic_code")) %>% rename("total19"="2019","total20"="2020","total21"="2021") %>% select(5,6,3,7:28)
+assaults_region <- inner_join(cal_places,cal_crime_assault,by=c("place"="ncic_code")) %>% rename("total19"="2019","total20"="2020","total21"="2021") %>% select(5,6,3,7:28)
+robberies_region <- inner_join(cal_places,cal_crime_robbery,by=c("place"="ncic_code")) %>% rename("total19"="2019","total20"="2020","total21"="2021") %>% select(5,6,3,7:28)
+burglaries_region <- inner_join(cal_places,cal_crime_burglary,by=c("place"="ncic_code")) %>% rename("total19"="2019","total20"="2020","total21"="2021") %>% select(5,6,3,7:28)
+thefts_region <- inner_join(cal_places,cal_crime_theft,by=c("place"="ncic_code")) %>% rename("total19"="2019","total20"="2020","total21"="2021") %>% select(5,6,3,7:28)
+autothefts_region <- inner_join(cal_places,cal_crime_autotheft,by=c("place"="ncic_code")) %>% rename("total19"="2019","total20"="2020","total21"="2021") %>% select(5,6,3,7:28)
+
+# for murders_region
+# add zeros where there were no crimes tallied that year
+murders_region[is.na(murders_region)] <- 0
+# add 3-year totals and annualized averages
+murders_region$total_prior3years <- murders_region$total19+
+  murders_region$total20+
+  murders_region$total21
+murders_region$avg_prior3years <- round(((murders_region$total19+
+                                            murders_region$total20+
+                                            murders_region$total21)/3),1)
+# now add the increases or change percentages
+murders_region$inc_19to21 <- round(murders_region$total21/murders_region$total19*100-100,1)
+# murders_region$inc_19tolast12 <- round(murders_region$last12mos/murders_region$total19*100-100,1)
+# murders_region$inc_21tolast12 <- round(murders_region$last12mos/murders_region$total21*100-100,1)
+# murders_region$inc_prior3yearavgtolast12 <- round((murders_region$last12mos/murders_region$avg_prior3years)*100-100,0)
+# add crime rates for each year
+murders_region$rate19 <- round((murders_region$total19/murders_region$population)*100000,1)
+murders_region$rate20 <- round((murders_region$total20/murders_region$population)*100000,1)
+murders_region$rate21 <- round((murders_region$total21/murders_region$population)*100000,1)
+# murders_region$rate_last12 <- round((murders_region$last12mos/murders_region$population)*100000,1)
+murders_region$rate_prior3years <- 
+  round((murders_region$avg_prior3years/murders_region$population)*100000,1)
+# for map/table making purposes, changing Inf and NaN in calc fields to NA
+murders_region <- murders_region %>%
+  mutate(across(where(is.numeric), ~na_if(., Inf)))
+murders_region <- murders_region %>%
+  mutate(across(where(is.numeric), ~na_if(., "NaN")))
+
+
+# for sex assaults
+# add zeros where there were no crimes tallied that year
+sexassaults_region[is.na(sexassaults_region)] <- 0
+# add 3-year totals and annualized averages
+sexassaults_region$total_prior3years <- sexassaults_region$total19+
+  sexassaults_region$total20+
+  sexassaults_region$total21
+sexassaults_region$avg_prior3years <- round(((sexassaults_region$total19+
+                                            sexassaults_region$total20+
+                                            sexassaults_region$total21)/3),1)
+# now add the increases or change percentages
+sexassaults_region$inc_19to21 <- round(sexassaults_region$total21/sexassaults_region$total19*100-100,1)
+# sexassaults_region$inc_19tolast12 <- round(sexassaults_region$last12mos/sexassaults_region$total19*100-100,1)
+# sexassaults_region$inc_21tolast12 <- round(sexassaults_region$last12mos/sexassaults_region$total21*100-100,1)
+# sexassaults_region$inc_prior3yearavgtolast12 <- round((sexassaults_region$last12mos/sexassaults_region$avg_prior3years)*100-100,0)
+# add crime rates for each year
+sexassaults_region$rate19 <- round((sexassaults_region$total19/sexassaults_region$population)*100000,1)
+sexassaults_region$rate20 <- round((sexassaults_region$total20/sexassaults_region$population)*100000,1)
+sexassaults_region$rate21 <- round((sexassaults_region$total21/sexassaults_region$population)*100000,1)
+# sexassaults_region$rate_last12 <- round((sexassaults_region$last12mos/sexassaults_region$population)*100000,1)
+sexassaults_region$rate_prior3years <- 
+  round((sexassaults_region$avg_prior3years/sexassaults_region$population)*100000,1)
+# for map/table making purposes, changing Inf and NaN in calc fields to NA
+sexassaults_region <- sexassaults_region %>%
+  mutate(across(where(is.numeric), ~na_if(., Inf)))
+sexassaults_region <- sexassaults_region %>%
+  mutate(across(where(is.numeric), ~na_if(., "NaN")))
+
+
+
+
+# for murders_region
+# add zeros where there were no crimes tallied that year
+assaults_region[is.na(assaults_region)] <- 0
+# add 3-year totals and annualized averages
+assaults_region$total_prior3years <- assaults_region$total19+
+  assaults_region$total20+
+  assaults_region$total21
+assaults_region$avg_prior3years <- round(((assaults_region$total19+
+                                            assaults_region$total20+
+                                            assaults_region$total21)/3),1)
+# now add the increases or change percentages
+assaults_region$inc_19to21 <- round(assaults_region$total21/assaults_region$total19*100-100,1)
+# assaults_region$inc_19tolast12 <- round(assaults_region$last12mos/assaults_region$total19*100-100,1)
+# assaults_region$inc_21tolast12 <- round(assaults_region$last12mos/assaults_region$total21*100-100,1)
+# assaults_region$inc_prior3yearavgtolast12 <- round((assaults_region$last12mos/assaults_region$avg_prior3years)*100-100,0)
+# add crime rates for each year
+assaults_region$rate19 <- round((assaults_region$total19/assaults_region$population)*100000,1)
+assaults_region$rate20 <- round((assaults_region$total20/assaults_region$population)*100000,1)
+assaults_region$rate21 <- round((assaults_region$total21/assaults_region$population)*100000,1)
+# assaults_region$rate_last12 <- round((assaults_region$last12mos/assaults_region$population)*100000,1)
+assaults_region$rate_prior3years <- 
+  round((assaults_region$avg_prior3years/assaults_region$population)*100000,1)
+# for map/table making purposes, changing Inf and NaN in calc fields to NA
+assaults_region <- assaults_region %>%
+  mutate(across(where(is.numeric), ~na_if(., Inf)))
+assaults_region <- assaults_region %>%
+  mutate(across(where(is.numeric), ~na_if(., "NaN")))
+
+# city versions
+# saveRDS(regionwide_crime,"scripts/rds/regionwide_crime.rds")
+
+saveRDS(murders_region,"scripts/rds/murders_region.rds")
+saveRDS(sexassaults_region,"scripts/rds/sexassaults_region.rds")
+saveRDS(robberies_region,"scripts/rds/robberies_region.rds")
+saveRDS(assaults_region,"scripts/rds/assaults_region.rds")
+saveRDS(burglaries_region,"scripts/rds/burglaries_region.rds")
+saveRDS(thefts_region,"scripts/rds/thefts_region.rds")
+saveRDS(autothefts_region,"scripts/rds/autothefts_region.rds")
+
+
+
+
+# for robbery_region
+# add zeros where there were no crimes tallied that year
+robberies_region[is.na(robberies_region)] <- 0
+# add 3-year totals and annualized averages
+robberies_region$total_prior3years <- robberies_region$total19+
+  robberies_region$total20+
+  robberies_region$total21
+robberies_region$avg_prior3years <- round(((robberies_region$total19+
+                                            robberies_region$total20+
+                                            robberies_region$total21)/3),1)
+# now add the increases or change percentages
+robberies_region$inc_19to21 <- round(robberies_region$total21/robberies_region$total19*100-100,1)
+# robberies_region$inc_19tolast12 <- round(robberies_region$last12mos/robberies_region$total19*100-100,1)
+# robberies_region$inc_21tolast12 <- round(robberies_region$last12mos/robberies_region$total21*100-100,1)
+# robberies_region$inc_prior3yearavgtolast12 <- round((robberies_region$last12mos/robberies_region$avg_prior3years)*100-100,0)
+# add crime rates for each year
+robberies_region$rate19 <- round((robberies_region$total19/robberies_region$population)*100000,1)
+robberies_region$rate20 <- round((robberies_region$total20/robberies_region$population)*100000,1)
+robberies_region$rate21 <- round((robberies_region$total21/robberies_region$population)*100000,1)
+# robberies_region$rate_last12 <- round((robberies_region$last12mos/robberies_region$population)*100000,1)
+robberies_region$rate_prior3years <- 
+  round((robberies_region$avg_prior3years/robberies_region$population)*100000,1)
+# for map/table making purposes, changing Inf and NaN in calc fields to NA
+robberies_region <- robberies_region %>%
+  mutate(across(where(is.numeric), ~na_if(., Inf)))
+robberies_region <- robberies_region %>%
+  mutate(across(where(is.numeric), ~na_if(., "NaN")))
+
+
+
+
+
+# for burglaries_region
+# add zeros where there were no crimes tallied that year
+burglaries_region[is.na(burglaries_region)] <- 0
+# add 3-year totals and annualized averages
+burglaries_region$total_prior3years <- burglaries_region$total19+
+  burglaries_region$total20+
+  burglaries_region$total21
+burglaries_region$avg_prior3years <- round(((burglaries_region$total19+
+                                            burglaries_region$total20+
+                                            burglaries_region$total21)/3),1)
+# now add the increases or change percentages
+burglaries_region$inc_19to21 <- round(burglaries_region$total21/burglaries_region$total19*100-100,1)
+# burglaries_region$inc_19tolast12 <- round(burglaries_region$last12mos/burglaries_region$total19*100-100,1)
+# burglaries_region$inc_21tolast12 <- round(burglaries_region$last12mos/burglaries_region$total21*100-100,1)
+# burglaries_region$inc_prior3yearavgtolast12 <- round((burglaries_region$last12mos/burglaries_region$avg_prior3years)*100-100,0)
+# add crime rates for each year
+burglaries_region$rate19 <- round((burglaries_region$total19/burglaries_region$population)*100000,1)
+burglaries_region$rate20 <- round((burglaries_region$total20/burglaries_region$population)*100000,1)
+burglaries_region$rate21 <- round((burglaries_region$total21/burglaries_region$population)*100000,1)
+# burglaries_region$rate_last12 <- round((burglaries_region$last12mos/burglaries_region$population)*100000,1)
+burglaries_region$rate_prior3years <- 
+  round((burglaries_region$avg_prior3years/burglaries_region$population)*100000,1)
+# for map/table making purposes, changing Inf and NaN in calc fields to NA
+burglaries_region <- burglaries_region %>%
+  mutate(across(where(is.numeric), ~na_if(., Inf)))
+burglaries_region <- burglaries_region %>%
+  mutate(across(where(is.numeric), ~na_if(., "NaN")))
+
+
+
+
+
+# for thefts_region
+# add zeros where there were no crimes tallied that year
+thefts_region[is.na(thefts_region)] <- 0
+# add 3-year totals and annualized averages
+thefts_region$total_prior3years <- thefts_region$total19+
+  thefts_region$total20+
+  thefts_region$total21
+thefts_region$avg_prior3years <- round(((thefts_region$total19+
+                                            thefts_region$total20+
+                                            thefts_region$total21)/3),1)
+# now add the increases or change percentages
+thefts_region$inc_19to21 <- round(thefts_region$total21/thefts_region$total19*100-100,1)
+# thefts_region$inc_19tolast12 <- round(thefts_region$last12mos/thefts_region$total19*100-100,1)
+# thefts_region$inc_21tolast12 <- round(thefts_region$last12mos/thefts_region$total21*100-100,1)
+# thefts_region$inc_prior3yearavgtolast12 <- round((thefts_region$last12mos/thefts_region$avg_prior3years)*100-100,0)
+# add crime rates for each year
+thefts_region$rate19 <- round((thefts_region$total19/thefts_region$population)*100000,1)
+thefts_region$rate20 <- round((thefts_region$total20/thefts_region$population)*100000,1)
+thefts_region$rate21 <- round((thefts_region$total21/thefts_region$population)*100000,1)
+# thefts_region$rate_last12 <- round((thefts_region$last12mos/thefts_region$population)*100000,1)
+thefts_region$rate_prior3years <- 
+  round((thefts_region$avg_prior3years/thefts_region$population)*100000,1)
+# for map/table making purposes, changing Inf and NaN in calc fields to NA
+thefts_region <- thefts_region %>%
+  mutate(across(where(is.numeric), ~na_if(., Inf)))
+thefts_region <- thefts_region %>%
+  mutate(across(where(is.numeric), ~na_if(., "NaN")))
+
+
+
+# for autothefts_region
+# add zeros where there were no crimes tallied that year
+autothefts_region[is.na(autothefts_region)] <- 0
+# add 3-year totals and annualized averages
+autothefts_region$total_prior3years <- autothefts_region$total19+
+  autothefts_region$total20+
+  autothefts_region$total21
+autothefts_region$avg_prior3years <- round(((autothefts_region$total19+
+                                               autothefts_region$total20+
+                                               autothefts_region$total21)/3),1)
+# now add the increases or change percentages
+autothefts_region$inc_19to21 <- round(autothefts_region$total21/autothefts_region$total19*100-100,1)
+# autothefts_region$inc_19tolast12 <- round(autothefts_region$last12mos/autothefts_region$total19*100-100,1)
+# autothefts_region$inc_21tolast12 <- round(autothefts_region$last12mos/autothefts_region$total21*100-100,1)
+# autothefts_region$inc_prior3yearavgtolast12 <- round((autothefts_region$last12mos/autothefts_region$avg_prior3years)*100-100,0)
+# add crime rates for each year
+autothefts_region$rate19 <- round((autothefts_region$total19/autothefts_region$population)*100000,1)
+autothefts_region$rate20 <- round((autothefts_region$total20/autothefts_region$population)*100000,1)
+autothefts_region$rate21 <- round((autothefts_region$total21/autothefts_region$population)*100000,1)
+# autothefts_region$rate_last12 <- round((autothefts_region$last12mos/autothefts_region$population)*100000,1)
+autothefts_region$rate_prior3years <- 
+  round((autothefts_region$avg_prior3years/autothefts_region$population)*100000,1)
+# for map/table making purposes, changing Inf and NaN in calc fields to NA
+autothefts_region <- autothefts_region %>%
+  mutate(across(where(is.numeric), ~na_if(., Inf)))
+autothefts_region <- autothefts_region %>%
+  mutate(across(where(is.numeric), ~na_if(., "NaN")))
+
+
+cal_crime21 <- california_crime_annual %>% filter(Year==2021) %>% filter(County %in% counties) 
+cal_crime19 <- california_crime_annual %>% filter(Year==2019) %>% filter(County %in% counties) 
+# make totals file for whole region
+murders21 <- sum(cal_crime21$Homicide_sum)
+murders19 <- sum(cal_crime19$Homicide_sum)
+
+
+
+
+# create a quick long-term annual table
+district_yearly <- district_crime %>% select(1,2,4:7,9) %>% st_drop_geometry()
+write_csv(district_yearly,"data/output/yearly/district_yearly.csv")
+
+
+
+
+
+
+
+
+
+
+
+# this makes the archive year tables for the Los Angeles area
 lac_archive_murder <- cal_crime %>% filter(ncic_code=="Los Angeles" | ncic_code=="Los Angeles Co. Sheriff's Department") %>% 
   select(year,county,ncic_code,homicide_sum) %>% 
   group_by(county,year) %>%

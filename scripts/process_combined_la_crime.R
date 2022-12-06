@@ -149,9 +149,6 @@ district_crime$rate21 <- round((district_crime$total21/district_crime$population
 district_crime$rate_last12 <- round((district_crime$last12mos/district_crime$population)*100000,1)
 district_crime$rate_prior3years <- 
   round((district_crime$avg_prior3years/district_crime$population)*100000,1)
-
-# Now reduce the precinct down to just the columns we likely need for the tracker pages
-# district_crime <- district_crime %>% select(1,4,5,6,26:28,36:40,44:55,29,42)
 # for map/table making purposes, changing Inf and NaN in calc fields to NA
 district_crime <- district_crime %>%
   mutate(across(where(is.numeric), ~na_if(., Inf)))

@@ -242,7 +242,7 @@ One way to think about the danger: three years ago, the murder rate in the area 
 <br>
 <!-- <subhead>Risk of being murdered in Los Angeles vs. other causes of death in Harris County</subhead> -->
 
-<iframe title="Risk of homicide in Los Angeles vs. other causes of death" aria-label="Bar Chart" id="datawrapper-chart-V16iO" src="https://datawrapper.dwcdn.net/V16iO/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="402" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(e){if(void 0!==e.data["datawrapper-height"]){var t=document.querySelectorAll("iframe");for(var a in e.data["datawrapper-height"])for(var r=0;r<t.length;r++){if(t[r].contentWindow===e.source)t[r].style.height=e.data["datawrapper-height"][a]+"px"}}}))}();
+<iframe title="Current risk of homicide in LA area vs. other causes of death" aria-label="Bar Chart" id="datawrapper-chart-DHBJ9" src="https://datawrapper.dwcdn.net/DHBJ9/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="402" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(e){if(void 0!==e.data["datawrapper-height"]){var t=document.querySelectorAll("iframe");for(var a in e.data["datawrapper-height"])for(var r=0;r<t.length;r++){if(t[r].contentWindow===e.source)t[r].style.height=e.data["datawrapper-height"][a]+"px"}}}))}();
 </script>
 
 The risk is not the same neighborhood to neighborhood.
@@ -433,7 +433,7 @@ losangeles_murder_map
 <br>
 <br>
 <!-- <subhead> comparison to other cities chart </subhead> -->
-<iframe title="2021 homicide rate comparison in select major cities" aria-label="Bar Chart" id="datawrapper-chart-pxJU3" src="https://datawrapper.dwcdn.net/pxJU3/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="436" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(e){if(void 0!==e.data["datawrapper-height"]){var t=document.querySelectorAll("iframe");for(var a in e.data["datawrapper-height"])for(var r=0;r<t.length;r++){if(t[r].contentWindow===e.source)t[r].style.height=e.data["datawrapper-height"][a]+"px"}}}))}();
+<iframe title="2021 homicide rate comparison in select major cities" aria-label="Bar Chart" id="datawrapper-chart-no4Y1" src="https://datawrapper.dwcdn.net/no4Y1/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="580" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(e){if(void 0!==e.data["datawrapper-height"]){var t=document.querySelectorAll("iframe");for(var a in e.data["datawrapper-height"])for(var r=0;r<t.length;r++){if(t[r].contentWindow===e.source)t[r].style.height=e.data["datawrapper-height"][a]+"px"}}}))}();
 </script>
 <br>
 <br>

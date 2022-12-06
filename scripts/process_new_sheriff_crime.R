@@ -2,52 +2,54 @@ library(tidyverse)
 library(lubridate)
 library(readxl)
 
-options(timeout=300)
-# Source page for LA Sheriff
-# https://lasd.org/transparency/part1and2crimedata/#part1
+# Source page for LA Sheriff: https://lasd.org/transparency/part1and2crimedata/#part1
 #LA Sheriff Last 30 Days
 download.file("http://shq.lasdnews.net/CrimeStats/CAASS/PART_I_AND_II_CRIMES.csv","data/source/recent/lasd_recent.csv")
 #LA Sheriff Year To Date
 download.file("http://shq.lasdnews.net/CrimeStats/CAASS/PART_I_AND_II_CRIMES-YTD.csv","data/source/recent/lasd_ytd.csv")
+# LASheriff Annuals
+# download.file("http://shq.lasdnews.net/CrimeStats/CAASS/2021-PART_I_AND_II_CRIMES.csv","data/source/annual/lasd_2021.csv")
+# download.file("http://shq.lasdnews.net/CrimeStats/CAASS/2020-PART_I_AND_II_CRIMES.csv","data/source/annual/lasd_2020.csv")
+# download.file("http://shq.lasdnews.net/CrimeStats/CAASS/2019-PART_I_AND_II_CRIMES.csv","data/source/annual/lasd_2019.csv")
 
 # Read LA Sheriff annual rds files pre-processed
 # lasd_past <- readRDS("scripts/rds/lasd_past.rds")
-lasd_compstat <- readxl::read_xlsx("data/source/lasd_past_years.xlsx")
+lasd_compstat <- readxl::read_xlsx("data/source/recent/lasd_compstat.xlsx")
 
 # Read in, then merge LA Sheriff newly downloaded year to date and recent files
 lasd_recent <- read_csv("data/source/recent/lasd_recent.csv") %>% janitor::clean_names()
 lasd_ytd <- read_csv("data/source/recent/lasd_ytd.csv") %>% janitor::clean_names()
-
-#lasd_recent$date <- as.Date(lubridate::mdy_hms(lasd_recent$incident_date))
-#lasd_ytd$date <- as.Date(lubridate::mdy_hms(lasd_ytd$incident_date))
-#lasd_recent$reported_date <- lubridate::mdy(lasd_recent$incident_reported_date)
-#lasd_ytd$reported_date <- lubridate::mdy(lasd_ytd$incident_reported_date)
+lasd_past <- read_csv("data/source/annual/lasd_2021.csv") %>% janitor::clean_names()
 
 # Merge these five files for some tightening and clean_up
-lasd_crime <- rbind(lasd_ytd,lasd_recent)
+lasd_crime <- rbind(lasd_ytd,lasd_recent,lasd_past)
 
-# Trim down to base set of columns we'll need
+# Trim down to base set of columns we'll need and do some consistent col cleanup
 lasd_crime <- lasd_crime %>% select(2,4:7,11,12,15:19) 
-lasd_crime <- lasd_crime %>% unique
-# removes roughly 3K duplicates/overlaps from ytd file to recent file
-
-# Merge the cleaned recent file with the past years' archive files
-lasd_crime <- rbind(lasd_crime,lasd_past)
 lasd_crime <- lasd_crime %>% rename("lasd_category" = "category")
+lasd_crime$agency <- "LASD"
+lasd_crime$unit_name <-  str_to_title(lasd_crime$unit_name, locale = "en")
 
 # Fix the date fields to match and then filter past file to extract just 2019
 lasd_crime$date <- as.Date(lubridate::mdy_hms(lasd_crime$incident_date))
 lasd_crime$year <- lubridate::year(lasd_crime$date)
 lasd_crime$month <- lubridate::floor_date(as.Date(lasd_crime$date),"month")
 lasd_crime$hour <- lubridate::hour(lasd_crime$date)
-# Clean out some records with bad dates listed
-lasd_crime <- lasd_crime %>% filter(year>2018) # was 596K; about 4K records with bad dates; less than 1% total
 
-lasd_crime$agency <- "LASD"
 
-lasd_crime$unit_name <-  str_to_title(lasd_crime$unit_name, locale = "en")
 
-# rm(lasd_ytd,lasd_recent,lasd_2021,lasd_2020,lasd_2019)
+# removes roughly 3K duplicates/overlaps from ytd file to recent file
+#lasd_crime <- lasd_crime %>% unique
+#lasd_crime = lasd_crime[order(lasd_crime[,'date'],]
+#df = df[!duplicated(df$Date),]
+
+
+
+# rm(lasd_ytd,lasd_recent)
+
+
+
+
 
 # incident id is unique
 # lasd categorization very straightforward; categories of Cat I crimes are unique and can be the filter
@@ -63,7 +65,7 @@ lasd_crime$category <- case_when(lasd_crime$lasd_category == 'AGGRAVATED ASSAULT
 
 # Fix two division names in data to match division names in geo file
 lasd_crime$unit_name <- gsub("/", " / ", lasd_crime$unit_name)
-lasd_crime$unit_name <- gsub("Walnut", "Walnut / Diamond Bar", lasd_crime$unit_name)
+# lasd_crime$unit_name <- gsub("Walnut", "Walnut / Diamond Bar", lasd_crime$unit_name)
 lasd_crime$unit_name <- ifelse(lasd_crime$unit_name=="Lost Hills", "Malibu / Lost Hills", lasd_crime$unit_name)
 lasd_crime$unit_name <- str_to_title(lasd_crime$unit_name)
 
@@ -118,11 +120,11 @@ lasd_district_category_adjust <- lasd_district_category_adjust %>% rename("distr
 
 ## OPEN WORK
 ## STOPPED HERE
-lasd_compstat_countywide <- lasd_compstat %>% filter(district=="Departmentwide")
-lasd_category <- left_join(lasd_category_adjust,lasd_compstat_countywide,by=c("category")) 
-lasd_category$total22 <- lasd_category$ytd22 + lasd_category$adjust22
-lasd_category$last12mos <- lasd_category$total22+(lasd_category$total21-(lasd_category$ytd21+lasd_category$adjust21))
-lasd_category <- lasd_category %>% select(1,6,7,8,11,12)
+lasd_compstat_district <- lasd_compstat %>% filter(district!="Departmentwide")
+lasd_category_district <- left_join(lasd_district_category_adjust,lasd_compstat_district,by=c("category","district","agency")) 
+lasd_category_district$total22 <- lasd_category_district$ytd22 + lasd_category_district$adjust22
+lasd_category_district$last12mos <- lasd_category_district$total22+(lasd_category_district$total21-(lasd_category_district$ytd21+lasd_category_district$adjust21))
+lasd_category_district <- lasd_category_district %>% select(1,6,7,8,11,12)
 
 
 # districts <- readRDS("scripts/rds/la_police_districts.rds")

@@ -201,7 +201,7 @@ sf_population <- 815201
 <option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker_SexualAssaults.html">Sexual Assaults</option>
 <option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker_Thefts.html">Thefts</option>
 </select></h2>
-<h2>Choose a different Bay Area city to explore: <select onchange="window.location=this.value">
+<h2>Choose a different area to explore: <select onchange="window.location=this.value">
 <option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker.html">Los Angeles</option>
 <option value="https://abcotvdata.github.io/safetytracker_socal/Southern_California_Safety_Tracker.html">Southern California</option>
 </select></h2>

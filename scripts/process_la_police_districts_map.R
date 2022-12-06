@@ -71,9 +71,22 @@ la_districts_map <- leaflet(districts) %>%
               fillColor = ~poppal(`population`))
 la_districts_map
 
+
+
+# Calculate the estimated population of LAPD/LASD geographies/interpolate with tidycensus bgs
+beats_withpop <- st_interpolate_aw(blocks, beats, ext = TRUE)
+# Drops geometry so it's not duplicated in the merge
+beats_withpop <- st_drop_geometry(beats_withpop)
+# Binds that new population column to the table
+beats <- cbind(beats,beats_withpop)
+# Cleans up unneeded calculation file
+# rm(beats_withpop, blocks)
+beats <- beats %>% st_transform(4326)
+beats <- st_make_valid(beats)
+
 # FULL LA COUNTYWIDE POLICE REPORTING DISTRICTS MAPS
 # Set bins for beats pop map
-popbins <- c(0,1000,2000,5000,7500,10000, Inf)
+popbins <- c(0,1000,2000,3000,5000,10000, Inf)
 poppal <- colorBin("viridis", beats$population, bins = popbins)
 poplabel <- paste(sep = "<br>", beats$omega_name,beats$agency,prettyNum(beats$population, big.mark = ","))
 # Create maps

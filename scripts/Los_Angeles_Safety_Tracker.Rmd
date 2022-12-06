@@ -244,7 +244,8 @@ One way to think about the danger: three years ago, the murder rate in the area 
 
 <iframe title="Current risk of homicide in LA area vs. other causes of death" aria-label="Bar Chart" id="datawrapper-chart-DHBJ9" src="https://datawrapper.dwcdn.net/DHBJ9/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="402" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(e){if(void 0!==e.data["datawrapper-height"]){var t=document.querySelectorAll("iframe");for(var a in e.data["datawrapper-height"])for(var r=0;r<t.length;r++){if(t[r].contentWindow===e.source)t[r].style.height=e.data["datawrapper-height"][a]+"px"}}}))}();
 </script>
-
+<br>
+<br>
 The risk is not the same neighborhood to neighborhood.
 
 ABC7's data team looked at data from the Los Angeles Police Department and Los Angeles County Sheriff's Department by neighborhood from 2019 through `r format(asofdate, "%B %d, %Y")`, the latest date for which records are available from the two agencies. Totals here include murders, but not involuntary manslaughter or justifiable homicide.

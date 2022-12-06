@@ -58,6 +58,50 @@ cal_crime_burglary <- cal_crime %>% select(year,county,ncic_code,burglary_sum) %
 cal_crime_theft <- cal_crime %>% select(year,county,ncic_code,l_ttotal_sum) %>% spread(year,l_ttotal_sum) %>% select(1,2,18:39)
 cal_crime_autotheft <- cal_crime %>% select(year,county,ncic_code,vehicle_theft_sum) %>% spread(year,vehicle_theft_sum) %>% select(1,2,18:39)
 
+lac_archive_murder <- cal_crime %>% filter(ncic_code=="Los Angeles" | ncic_code=="Los Angeles Co. Sheriff's Department") %>% 
+  select(year,county,ncic_code,homicide_sum) %>% 
+  group_by(county,year) %>%
+  summarise(homicide_sum=sum(homicide_sum)) %>%
+  spread(year,homicide_sum) %>% select(1,17:38) %>% mutate(category="Homicide")
+lac_archive_rape <- cal_crime %>% filter(ncic_code=="Los Angeles" | ncic_code=="Los Angeles Co. Sheriff's Department") %>% 
+  select(year,county,ncic_code,for_rape_sum) %>% 
+  group_by(county,year) %>%
+  summarise(for_rape_sum=sum(for_rape_sum)) %>%
+  spread(year,for_rape_sum) %>% select(1,17:38) %>% mutate(category="Sexual Assault")
+lac_archive_assault <- cal_crime %>% filter(ncic_code=="Los Angeles" | ncic_code=="Los Angeles Co. Sheriff's Department") %>% 
+  select(year,county,ncic_code,agg_assault_sum) %>% 
+  group_by(county,year) %>%
+  summarise(agg_assault_sum=sum(agg_assault_sum)) %>%
+  spread(year,agg_assault_sum) %>% select(1,17:38) %>% mutate(category="Aggravated Assault")
+lac_archive_robbery <- cal_crime %>% filter(ncic_code=="Los Angeles" | ncic_code=="Los Angeles Co. Sheriff's Department") %>% 
+  select(year,county,ncic_code,robbery_sum) %>% 
+  group_by(county,year) %>%
+  summarise(robbery_sum=sum(robbery_sum)) %>%
+  spread(year,robbery_sum) %>% select(1,17:38) %>% mutate(category="Robbery")
+lac_archive_burglary <- cal_crime %>% filter(ncic_code=="Los Angeles" | ncic_code=="Los Angeles Co. Sheriff's Department") %>% 
+  select(year,county,ncic_code,burglary_sum) %>% 
+  group_by(county,year) %>%
+  summarise(burglary_sum=sum(burglary_sum)) %>%
+  spread(year,burglary_sum) %>% select(1,17:38) %>% mutate(category="Burglary")
+lac_archive_theft <- cal_crime %>% filter(ncic_code=="Los Angeles" | ncic_code=="Los Angeles Co. Sheriff's Department") %>% 
+  select(year,county,ncic_code,l_ttotal_sum) %>% 
+  group_by(county,year) %>%
+  summarise(l_ttotal_sum=sum(l_ttotal_sum)) %>%
+  spread(year,l_ttotal_sum) %>% select(1,17:38) %>% mutate(category="Larceny")
+lac_archive_autotheft <- cal_crime %>% filter(ncic_code=="Los Angeles" | ncic_code=="Los Angeles Co. Sheriff's Department") %>% 
+  select(year,county,ncic_code,vehicle_theft_sum) %>% 
+  group_by(county,year) %>%
+  summarise(vehicle_theft_sum=sum(vehicle_theft_sum)) %>%
+  spread(year,vehicle_theft_sum) %>% select(1,17:38) %>% mutate(category="Vehicle Theft")
+lac_yearly_archive <- rbind(lac_archive_murder,lac_archive_rape,lac_archive_assault,
+                            lac_archive_robbery,lac_archive_burglary,lac_archive_theft,lac_archive_autotheft)
+
+
+cal_la_murder <- cal_crime_murder %>% filter(ncic_code=="Los Angeles" | ncic_code=="Los Angeles Co. Sheriff's Department") %>% group_by(county) %>% mutate(category="Murder")
+cal_la_rape <- cal_crime_murder %>% filter(ncic_code=="Los Angeles" | ncic_code=="Los Angeles Co. Sheriff's Department") %>% group_by(county) %>% mutate(category="Rape")
+
+
+
 
 # BARE PRECINCT MAP JUST FOR TESTING PURPOSES
 # CAN COMMENT OUT ONCE FINALIZED

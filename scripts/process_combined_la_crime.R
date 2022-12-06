@@ -80,9 +80,8 @@ citywide_crime <- citywide_crime %>%
 citywide_yearly <- citywide_crime %>% select(1:4,6)
 # add additional years from state archive of reported ucr crimes back to 2000
 #yearly_archive <- read_csv("data/source/annual/oakland_annual_state.csv")
-#yearly_archive$category <- ifelse(yearly_archive$category=="Homicide","Murder",yearly_archive$category)
-#yearly_archive$category <- ifelse(yearly_archive$category=="Rape","Sexual Assault",yearly_archive$category)
-#citywide_yearly <- right_join(citywide_yearly,yearly_archive %>% select(1:17,23),by="category") %>% select(1,9:25,2:6,8)
+citywide_yearly <- right_join(citywide_yearly,lac_yearly_archive %>% select(2:24),by="category") %>%
+  select(1,7:25,2:5) %>% rename("2019"="total19","2020"="total20","2021"="total21","Last 12 months"="last12mos")
 # save for annual charts  
 write_csv(citywide_yearly,"data/output/yearly/citywide_yearly.csv")
 

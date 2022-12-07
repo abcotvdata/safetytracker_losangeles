@@ -275,13 +275,13 @@ murderbins2 <- c(0,
                 25,
                 50,
                 75)
-murderpal1 <- colorBin(c("#99a0a5",
+murderpal1 <- colorBin(c("#aecfe6",
                              "#2787d6",
                              "#0058f6",
                              "#003ca6",
                              "#00215c"), murders_district$rate_last12, bins = murderbins1,na.color = "#51585f")
 
-murderpal2 <- colorBin(c("#99a0a5",
+murderpal2 <- colorBin(c("#aecfe6",
                              "#2787d6",
                              "#0058f6",
                              "#003ca6",

@@ -170,9 +170,6 @@ saveRDS(burglaries_region,"scripts/rds/burglaries_region.rds")
 saveRDS(thefts_region,"scripts/rds/thefts_region.rds")
 saveRDS(autothefts_region,"scripts/rds/autothefts_region.rds")
 
-
-
-
 # for robbery_region
 # add zeros where there were no crimes tallied that year
 robberies_region[is.na(robberies_region)] <- 0
@@ -301,8 +298,8 @@ cal_crime19 <- california_crime_annual %>% filter(Year==2019) %>% filter(County 
 # make totals file for whole region
 murders21 <- sum(cal_crime21$Homicide_sum)
 murders19 <- sum(cal_crime19$Homicide_sum)
-autothefts21 <- sum(cal_crime21$Homicide_sum)
-autothefts19 <- sum(cal_crime19$Homicide_sum)
+autothefts21 <- sum(cal_crime21$VehicleTheft_sum)
+autothefts19 <- sum(cal_crime19$VehicleTheft_sum)
 
 
 

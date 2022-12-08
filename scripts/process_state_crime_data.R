@@ -34,7 +34,7 @@ la_table_test$rate19 <- round(la_table_test$`2019`/la_table_test$population*1000
 la_table_test$rate20 <- round(la_table_test$`2020`/la_table_test$population*100000,1)
 la_table_test$rate21 <- round(la_table_test$`2021`/la_table_test$population*100000,1)
 la_table_test$moredata <- ifelse(la_table_test$agency=="LAPD","Live data available. <a href='https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker.html'>Go to Los Angeles Tracker</a>.",NA)
-la_table_test$place <- paste0(la_table_test$place_name," ^",la_table_test$county,"^")
+la_table_test$place <- paste0(la_table_test$district," ^",la_table_test$agency,"^")
 la_table_test %>% st_drop_geometry() %>% write_csv("data/output/la_table_test.csv")
 
 Puerto Rico ^United States^

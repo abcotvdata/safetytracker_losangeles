@@ -6,8 +6,8 @@ library(rmarkdown)
 
 # MURDERS
 # Load RDS
-murders_district <- readRDS("scripts/rds/murders_district.rds")
-murders_city <- readRDS("scripts/rds/murders_city.rds")
+murders_district <- readRDS("scripts/rds/murders_region.rds")
+murders_city <- readRDS("scripts/rds/murders_region.rds")
 # Render page
 rmarkdown::render('scripts/So_Cal_Safety_Tracker.Rmd', 
                   output_dir = "docs",
@@ -15,8 +15,8 @@ rmarkdown::render('scripts/So_Cal_Safety_Tracker.Rmd',
 
 # BURGLARIES
 # Load RDS
-burglaries_district <- readRDS("scripts/rds/burglaries_district.rds")
-burglaries_city <- readRDS("scripts/rds/burglaries_city.rds")
+burglaries_district <- readRDS("scripts/rds/burglaries_region.rds")
+burglaries_city <- readRDS("scripts/rds/burglaries_region.rds")
 # Render page
 rmarkdown::render('scripts/So_Cal_Safety_Tracker_Burglaries.Rmd', 
                   output_dir = "docs",
@@ -33,8 +33,8 @@ rmarkdown::render('scripts/So_Cal_Safety_Tracker_Thefts.Rmd',
 
 # AUTO THEFTS
 # Load RDS
-autothefts_district <- readRDS("scripts/rds/autothefts_district.rds")
-autothefts_city <- readRDS("scripts/rds/autothefts_city.rds")
+autothefts_district <- readRDS("scripts/rds/autothefts_region.rds")
+autothefts_city <- readRDS("scripts/rds/autothefts_region.rds")
 # Render page
 rmarkdown::render('scripts/So_Cal_Safety_Tracker_VehicleThefts.Rmd', 
                   output_dir = "docs",

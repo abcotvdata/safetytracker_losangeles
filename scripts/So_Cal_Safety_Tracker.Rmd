@@ -201,8 +201,12 @@ sf_population <- 815201
 <option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker_Thefts.html">Thefts</option>
 </select></h2>
 <h2>Choose a different area to explore: <select onchange="window.location=this.value">
-<option value="https://abcotvdata.github.io/safetytracker_socal/Southern_California_Safety_Tracker.html">Southern California</option>
-<option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker.html">Los Angeles</option>
+<option value="https://abcotvdata.github.io/safetytracker_losangeles/Southern_California_Safety_Tracker.html">Los Angeles County</option>
+<option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker.html">City of Los Angeles</option>
+<option value="https://abcotvdata.github.io/safetytracker_losangeles/Southern_California_Safety_Tracker.html">Orange County</option>
+<option value="https://abcotvdata.github.io/safetytracker_losangeles/Southern_California_Safety_Tracker.html">Riverside County</option>
+<option value="https://abcotvdata.github.io/safetytracker_losangeles/Southern_California_Safety_Tracker.html">San Bernardino County</option>
+<option value="https://abcotvdata.github.io/safetytracker_losangeles/Southern_California_Safety_Tracker.html">Ventura County</option>
 </select></h2>
 <br>
 There were <h8>`r prettyNum(murders21,big.mark=",")`</h8> homicides in 2021 across every Southern California police jurisdiction, according to data that law enforcement agencies report to the state of Californina. In 2019, the data show that number was <h8>`r prettyNum(murders19,big.mark=",")`</h8> a month.

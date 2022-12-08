@@ -310,7 +310,8 @@ socal_murder_map <- leaflet(murders_region, options = leafletOptions(zoomControl
 L.control.zoom({ position: 'topright' }).addTo(this)
 }") %>%
   setView(-118.24, 34.05, zoom = 10) %>% 
-  addProviderTiles(provider = "CartoDB.Positron") %>%
+  addProviderTiles(provider = "Esri.WorldImagery") %>%
+  addProviderTiles(provider = "CartoDB.PositronOnlyLabels") %>%
   addPolygons(color = "white", 
               popup = murderlabel_region,
               popupOptions = popupOptions(maxWidth ="200", 

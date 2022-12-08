@@ -2,6 +2,7 @@ library(tidyverse)
 library(tidycensus)
 library(leaflet)
 library(leaflet.providers)
+library(leaflet.extras)
 library(sf)
 
 # GEOGRAPHY FOR LOS ANGELES MAPS
@@ -44,6 +45,7 @@ sum(districts$population) # result is 6,853,094
 
 # Round the population figure; rounded to nearest thousand
 districts$population <- round(districts$population,-3)
+
 districts <- districts %>% st_transform(4326)
 districts <- st_make_valid(districts)
 districts <- districts %>% rename("district"="st_name")

@@ -27,11 +27,15 @@ cal_places <- get_decennial(geography = "place",
   rename("population"="P1_001N") %>%
   janitor::clean_names()
 
-#beats <- beats %>% st_transform(4326)
-#beats <- st_make_valid(beats)
+cal_places$place <- cal_places$name
+cal_places$place <- str_replace(cal_places$place," City CDP, California","")
+cal_places$place <- str_replace(cal_places$place," CDP, California","")
+cal_places$place <- str_replace(cal_places$place," city, California","")
+cal_places$place <- str_replace(cal_places$place," town, California","")
+cal_places$place <- sub(" CDP.*", "\\1", cal_places$place)
 
 # saving a clean geojson and separate RDS for use in tracker
-st_write(cal_places,"data/source/geo/cal_places.geojson",append=FALSE)
+# st_write(cal_places,"data/source/geo/cal_places.geojson",append=FALSE)
 saveRDS(cal_places,"scripts/rds/cal_places.rds")
 # add line  below when uploading data for pages
 # beats <- st_read("data/source/geo/beats.geojson")
@@ -41,11 +45,7 @@ california_crime_annual <- read_csv("data/source/reference/california_crime_annu
 
 cal_crime21 <- california_crime_annual %>% filter(Year==2021)
 
-cal_places$place <- cal_places$name
-cal_places$place <- str_replace(cal_places$place," CDP, California","")
-cal_places$place <- str_replace(cal_places$place," city, California","")
-cal_places$place <- str_replace(cal_places$place," town, California","")
-cal_places$place <- sub(" CDP.*", "\\1", cal_places$place)
+
 
 cal_places2 <- left_join(cal_places,cal_crime21,by=c("place"="NCICCode"))
 

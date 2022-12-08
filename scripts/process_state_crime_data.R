@@ -28,15 +28,37 @@ cal_places <- readRDS("scripts/rds/cal_places.rds")
 z33z_socal_test <- left_join(cal_places,cal_crime_assault,by=c("place"="ncic_code"))
 
 
+# Starter file for a table for MURDERS
+laco_murders <- left_join(districts,cal_crime_murder %>% filter(county=="Los Angeles County"),by=c("place_name"="ncic_code"))
+laco_murders$rate19 <- round(laco_murders$`2019`/laco_murders$population*100000,1)
+laco_murders$rate20 <- round(laco_murders$`2020`/laco_murders$population*100000,1)
+laco_murders$rate21 <- round(laco_murders$`2021`/laco_murders$population*100000,1)
+laco_murders$moredata <- ifelse(laco_murders$agency=="LAPD","<a href='https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker.html'>Live data available.</a>.",NA)
+laco_murders$place <- paste0(laco_murders$district," ^",laco_murders$agency,"^")
+laco_murders %>% st_drop_geometry() %>% select(34,8:32,33) %>% write_csv("data/output/laco_murders.csv")
+# Starter file for ROBBERIES
+laco_robberies <- left_join(districts,cal_crime_robbery %>% filter(county=="Los Angeles County"),by=c("place_name"="ncic_code"))
+laco_robberies$rate19 <- round(laco_robberies$`2019`/laco_robberies$population*100000,1)
+laco_robberies$rate20 <- round(laco_robberies$`2020`/laco_robberies$population*100000,1)
+laco_robberies$rate21 <- round(laco_robberies$`2021`/laco_robberies$population*100000,1)
+laco_robberies$moredata <- ifelse(laco_robberies$agency=="LAPD","<a href='https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker.html'>Live data available.</a>.",NA)
+laco_robberies$place <- paste0(laco_robberies$district," ^",laco_robberies$agency,"^")
+laco_robberies %>% st_drop_geometry() %>% select(34,8:32,33) %>% write_csv("data/output/laco_robberies.csv")
+# Starter file for a BURGLARIES
+laco_burglaries <- left_join(districts,cal_crime_burglary %>% filter(county=="Los Angeles County"),by=c("place_name"="ncic_code"))
+laco_burglaries$rate19 <- round(laco_burglaries$`2019`/laco_burglaries$population*100000,1)
+laco_burglaries$rate20 <- round(laco_burglaries$`2020`/laco_burglaries$population*100000,1)
+laco_burglaries$rate21 <- round(laco_burglaries$`2021`/laco_burglaries$population*100000,1)
+laco_burglaries$moredata <- ifelse(laco_burglaries$agency=="LAPD","<a href='https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker.html'>Live data available.</a>.",NA)
+laco_burglaries$place <- paste0(laco_burglaries$district," ^",laco_burglaries$agency,"^")
+laco_burglaries %>% st_drop_geometry() %>% select(34,8:32,33) %>% write_csv("data/output/laco_burglaries.csv")
 # Starter file for a table
-la_table_test <- left_join(districts,cal_crime_murder %>% filter(county=="Los Angeles County"),by=c("place_name"="ncic_code"))
-la_table_test$rate19 <- round(la_table_test$`2019`/la_table_test$population*100000,1)
-la_table_test$rate20 <- round(la_table_test$`2020`/la_table_test$population*100000,1)
-la_table_test$rate21 <- round(la_table_test$`2021`/la_table_test$population*100000,1)
-la_table_test$moredata <- ifelse(la_table_test$agency=="LAPD","<a href='https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker.html'>Live data available.</a>.",NA)
-la_table_test$place <- paste0(la_table_test$district," ^",la_table_test$agency,"^")
-la_table_test %>% st_drop_geometry() %>% select(34,8:32,33) %>% write_csv("data/output/la_table_test.csv")
+laco_autothefts <- left_join(districts,cal_crime_autotheft %>% filter(county=="Los Angeles County"),by=c("place_name"="ncic_code"))
+laco_autothefts$rate19 <- round(laco_autothefts$`2019`/laco_autothefts$population*100000,1)
+laco_autothefts$rate20 <- round(laco_autothefts$`2020`/laco_autothefts$population*100000,1)
+laco_autothefts$rate21 <- round(laco_autothefts$`2021`/laco_autothefts$population*100000,1)
+laco_autothefts$moredata <- ifelse(laco_autothefts$agency=="LAPD","<a href='https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker.html'>Live data available.</a>.",NA)
+laco_autothefts$place <- paste0(laco_autothefts$district," ^",laco_autothefts$agency,"^")
+laco_autothefts %>% st_drop_geometry() %>% select(34,8:32,33) %>% write_csv("data/output/laco_autothefts.csv")
 
-Puerto Rico ^United States^
-  
   

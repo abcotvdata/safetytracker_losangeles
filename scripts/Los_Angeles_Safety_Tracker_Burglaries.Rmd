@@ -42,7 +42,7 @@ h1.title {
 
 select {
   margin: 0px;
-  width: 180px;
+  width: 225px;
   color: #00318b;
   padding: 5px 35px 5px 5px;
     font-family: roboto;

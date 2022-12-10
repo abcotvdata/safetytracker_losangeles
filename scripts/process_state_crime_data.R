@@ -25,7 +25,7 @@ z2z_la_county_test <- left_join(districts,cal_crime_assault %>% filter(county=="
 
 # Quick look/test at the other counties
 cal_places <- readRDS("scripts/rds/cal_places.rds")
-z33z_socal_test <- left_join(cal_places,cal_crime_assault,by=c("place"="ncic_code"))
+z33z_socal_test <- left_join(cal_places,cal_crime_assault,by=c("place"="ncic_code")) %>% filter(!is.na(county))
 
 
 # Starter file for a table for MURDERS

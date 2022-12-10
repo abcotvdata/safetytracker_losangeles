@@ -16,3 +16,5 @@ lapd_past$hour <- substr(lapd_past$time_occ,1,2)
 lapd_past <- lapd_past %>% filter(year>2018)
 
 saveRDS(lapd_past,"scripts/rds/lapd_past.rds")
+
+#lapd_test <- read_csv("https://data.lacity.org/api/views/ety7-pb9j/rows.csv")

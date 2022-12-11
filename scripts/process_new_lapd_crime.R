@@ -15,8 +15,8 @@ lapd_recent$month <- lubridate::floor_date(as.Date(lapd_recent$date),"month")
 lapd_recent$hour <- substr(lapd_recent$time_occ,1,2)
 
 # Load past file and then merge with new for formatting, cleanup
-lapd_past <- readRDS("scripts/rds/lapd_past.rds")
-lapd_crime <- rbind(lapd_past,lapd_recent)
+#lapd_past <- readRDS("scripts/rds/lapd_past.rds")
+lapd_crime <- lapd_recent
 # dr_no is a unique identifier
 
 # OPEN WORK: skinny file to just what we need - or not??

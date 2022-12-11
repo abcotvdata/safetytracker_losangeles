@@ -7,7 +7,9 @@ library(zoo)
 # extract text from latest file
 pdftext <- pdf_text("data/source/lasd_bystation_2020to2021.pdf") %>% strsplit(split = "\n")
 
-df <- pdf_data("data/source/lasd_bystation_2020to2021.pdf")[[1]]
+# THIS IS KEY TO POSITIONING FIELDS TO GRAB DATA FROM TABLE
+df3 <- pdf_data("data/source/lasd_bystation_2020to2021.pdf")[[3]] %>% arrange(y,x)
+df37 <- pdf_data("data/source/lasd_bystation_2020to2021.pdf")[[37]] %>% arrange(y,x)
 
 
 

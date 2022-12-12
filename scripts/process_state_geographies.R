@@ -45,7 +45,6 @@ counties <- c("Los Angeles County", "Orange County","Ventura County","San Bernar
 socal_places <- st_join(cal_places, cal_counties %>% select(5), left = FALSE, largest = TRUE) %>%
   filter(county %in% counties)
 
-
 saveRDS(cal_places,"scripts/rds/socal_places.rds")
 saveRDS(cal_places,"scripts/rds/cal_places.rds")
 saveRDS(cal_places,"scripts/rds/cal_counties.rds")
@@ -69,7 +68,19 @@ rural_orange <- st_difference(orange_county,all_socal_places)
 rural_sanbern <- st_difference(sanbern_county,all_socal_places)
 rural_ventura <- st_difference(ventura_county,all_socal_places)
 
+# Make the rural "remnant" area polygons for each county
+rural_riverside$place <- "Riverside Co. Sheriff's Department"
+rural_orange$place <- "Orange Co. Sheriff's Department"
+rural_sanbern$place <- "San Bernardino Co. Sheriff's Department"
+rural_ventura$place <- "Ventura Co. Sheriff's Department"
+
+# Add these rural sheriff's coverage areas back into socal_places
+socal_places <- rbind(socal_places, rural_riverside,rural_orange,rural_sanbern,rural_ventura)
+
 # Jurisdiction mapping for testing purposes only
+# just processing this for testing map
+cal_crime21 <- california_crime_annual %>% filter(Year=="2021")
+cal_places2 <- inner_join(socal_places,cal_crime21,by=c("place"="NCICCode")) %>% filter(county!="Los Angeles County")
 
 # Set bins for beats pop map
 popbins <- c(0,5000,50000,100000,125000,200000,Inf)
@@ -83,14 +94,14 @@ so_cal_map <- leaflet(cal_places2) %>%
   addPolygons(color = "white", popup = poplabel, weight = 2, smoothFactor = 0.5,
               opacity = 0.5, fillOpacity = 0.3,
               fillColor = ~poppal(`population`), group="notla") %>%
-  addPolygons(data = rural_riverside, color = "transparent", popup = paste("YO HO HO ALMOST NOBODY LIVES HERE<br>We will be adding rural sheriff data here"), weight = 2, smoothFactor = 0.5,
-              opacity = 0.5, fillOpacity = 0, group="notla") %>%
-  addPolygons(data = rural_orange, color = "transparent", popup = paste("YO HO HO ALMOST NOBODY LIVES HERE<br>We will be adding rural sheriff data here"), weight = 2, smoothFactor = 0.5,
-              opacity = 0.5, fillOpacity = 0, group="notla") %>%
-  addPolygons(data = rural_sanbern, color = "transparent", popup = paste("YO HO HO ALMOST NOBODY LIVES HERE<br>We will be adding rural sheriff data here"), weight = 2, smoothFactor = 0.5,
-              opacity = 0.5, fillOpacity = 0, group="notla") %>%
-  addPolygons(data = rural_ventura, color = "transparent", popup = paste("YO HO HO ALMOST NOBODY LIVES HERE<br>We will be adding rural sheriff data here"), weight = 2, smoothFactor = 0.5,
-              opacity = 0.5, fillOpacity = 0, group="notla") %>%
+#  addPolygons(data = rural_riverside, color = "transparent", popup = paste("YO HO HO ALMOST NOBODY LIVES HERE<br>We will be adding rural sheriff data here"), weight = 2, smoothFactor = 0.5,
+#              opacity = 0.5, fillOpacity = 0, group="notla") %>%
+#  addPolygons(data = rural_orange, color = "transparent", popup = paste("YO HO HO ALMOST NOBODY LIVES HERE<br>We will be adding rural sheriff data here"), weight = 2, smoothFactor = 0.5,
+#              opacity = 0.5, fillOpacity = 0, group="notla") %>%
+#  addPolygons(data = rural_sanbern, color = "transparent", popup = paste("YO HO HO ALMOST NOBODY LIVES HERE<br>We will be adding rural sheriff data here"), weight = 2, smoothFactor = 0.5,
+#              opacity = 0.5, fillOpacity = 0, group="notla") %>%
+#  addPolygons(data = rural_ventura, color = "transparent", popup = paste("YO HO HO ALMOST NOBODY LIVES HERE<br>We will be adding rural sheriff data here"), weight = 2, smoothFactor = 0.5,
+#              opacity = 0.5, fillOpacity = 0, group="notla") %>%
   addPolygons(data = murders_district, color = "red", popup = paste("LA area disrict",murders_district$district,murders_district$agency), weight = 2, smoothFactor = 0.5,
             opacity = 0.5, fillOpacity = 0.3, group="la") %>%
   addLayersControl(
@@ -101,15 +112,9 @@ so_cal_map <- leaflet(cal_places2) %>%
 so_cal_map
 
 
-socal_places_missing <- socal_places %>% filter(!socal_places$place %in% california_crime_annual$NCICCode)
 
-cal_crime21 <- california_crime_annual %>% filter(Year=="2021")
 
-cal_places2 <- inner_join(socal_places,cal_crime21,by=c("place"="NCICCode"))
 
-murders_district
-  
-  
   
   
   

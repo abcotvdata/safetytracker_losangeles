@@ -202,11 +202,12 @@ sf_population <- 815201
 <option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker_Thefts.html">Thefts</option>
 </select></h2>
 <h2>Choose a different area to explore: <select onchange="window.location=this.value">
-<option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker.html">City of Los Angeles</option><option value="https://abcotvdata.github.io/safetytracker_losangeles/Southern_California_Safety_Tracker.html">Los Angeles County</option>
-<option value="https://abcotvdata.github.io/safetytracker_losangeles/Southern_California_Safety_Tracker.html">Orange County</option>
-<option value="https://abcotvdata.github.io/safetytracker_losangeles/Southern_California_Safety_Tracker.html">Riverside County</option>
-<option value="https://abcotvdata.github.io/safetytracker_losangeles/Southern_California_Safety_Tracker.html">San Bernardino County</option>
-<option value="https://abcotvdata.github.io/safetytracker_losangeles/Southern_California_Safety_Tracker.html">Ventura County</option>
+<option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_County_Safety_Tracker.html">Los Angeles County</option>
+<option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker.html">City of Los Angeles</option>
+<option value="https://abcotvdata.github.io/safetytracker_losangeles/Orange_County_Safety_Tracker.html">Orange County</option>
+<option value="https://abcotvdata.github.io/safetytracker_losangeles/Riverside_County_Safety_Tracker.html">Riverside County</option>
+<option value="https://abcotvdata.github.io/safetytracker_losangeles/San_Bernardino_County_Safety_Tracker.html">San Bernardino County</option>
+<option value="https://abcotvdata.github.io/safetytracker_losangeles/Ventura_County_Safety_Tracker.html">Ventura County</option>
 </select></h2>
 
 <div class="cardContainer">

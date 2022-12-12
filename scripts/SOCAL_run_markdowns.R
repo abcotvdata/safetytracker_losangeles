@@ -6,6 +6,15 @@ library(rmarkdown)
 
 # MURDERS
 # Load RDS
+murders_places <- readRDS("scripts/rds/murders_places.rds")
+murders_county <- readRDS("scripts/rds/murders_county.rds")
+# Render page
+rmarkdown::render('scripts/Orange_County_Safety_Tracker.Rmd', 
+                  output_dir = "docs",
+                  output_file = 'Orange_County_Safety_Tracker.html')
+
+# MURDERS
+# Load RDS
 murders_district <- readRDS("scripts/rds/murders_region.rds")
 murders_city <- readRDS("scripts/rds/murders_region.rds")
 # Render page

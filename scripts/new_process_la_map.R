@@ -19,7 +19,7 @@ beats$name <- ifelse(beats$st_name=="Redondo Beach" & beats$name==" ","Redondo B
 beats$name <- ifelse(beats$st_name=="Long Beach" & beats$name==" ","Long Beach",beats$name)
 beats$name <- ifelse(beats$st_name=="Avalon" & beats$name==" ","Avalon",beats$name)
 beats$name <- ifelse(beats$name=="City of Commerce","Commerce",beats$name)
-beats$name <- ifelse(beats$name=="La Canada Flintridge","La Canada-Flintridge",beats$name)
+beats <- beats %>% filter(omega_label != "LASD 0593")
 
 # Adding a column to help merge these into districts 
 beats$place_name <- ifelse(beats$commtype=="Unincorporated","Unincorporated",beats$name)

@@ -22,7 +22,7 @@ sheriffs <- c("Los Angeles Co. Sheriff's Department", "Orange Co. Sheriff's Depa
 
 # Filter for crime incident counts in jurisdictions in our five counties 
 cal_crime <- california_crime_annual %>% filter(County %in% counties) %>% janitor::clean_names()
-cal_crime_murder <- cal_crime %>% select(year,county,ncic_code,homicide_clr_sum) %>% spread(year,homicide_sum) %>% select(1,2,18:39)
+cal_crime_murder <- cal_crime %>% select(year,county,ncic_code,homicide_sum) %>% spread(year,homicide_sum) %>% select(1,2,18:39)
 cal_crime_rape <- cal_crime %>% select(year,county,ncic_code,for_rape_sum) %>% spread(year,for_rape_sum) %>% select(1,2,18:39)
 cal_crime_assault <- cal_crime %>% select(year,county,ncic_code,agg_assault_sum) %>% spread(year,agg_assault_sum) %>% select(1,2,18:39)
 cal_crime_robbery <- cal_crime %>% select(year,county,ncic_code,robbery_sum) %>% spread(year,robbery_sum) %>% select(1,2,18:39)
@@ -59,7 +59,6 @@ murders_places <- murders_places %>%
   mutate(across(where(is.numeric), ~na_if(., Inf)))
 murders_places <- murders_places %>%
   mutate(across(where(is.numeric), ~na_if(., "NaN")))
-
 
 # SEXUAL ASSAULTS
 # By Place add change columns for maps
@@ -269,4 +268,5 @@ clearance_places <- clearance_places %>%
 clearance_places <- clearance_places %>%
   mutate(across(where(is.numeric), ~na_if(., "NaN")))
 
-write_csv(clearance_places,"clearances_byagency_20102021.csv")
+write_csv(clearance_places,"data/output/clearances_byagency_20102021.csv")
+clearance_places %>% filter(county=="Los Angeles County") %>% write_csv(clearance_places,"data/output/clearances_losangeles.csv")

@@ -19,10 +19,6 @@ lapd_recent$hour <- substr(lapd_recent$time_occ,1,2)
 lapd_crime <- lapd_recent
 # dr_no is a unique identifier
 
-# OPEN WORK: skinny file to just what we need - or not??
-# lapd_crime <- lasd_crime %>% select(2,4:7,11,12,14:19) 
-# lapd_crime <- lapd_crime %>% unique # this is not needed; appear to be no duplicates
-
 lapd_crime$category <- case_when(lapd_crime$crm_cd == '230' ~ 'Aggravated Assault',
                                  lapd_crime$crm_cd == '231' ~ 'Aggravated Assault',
                                  lapd_crime$crm_cd == '235' ~ 'Aggravated Assault',
@@ -81,9 +77,11 @@ lapd_crime$category <- case_when(lapd_crime$crm_cd == '230' ~ 'Aggravated Assaul
 # Clean address field of stray spacing
 lapd_crime$location <- gsub("\\s+", " ", lapd_crime$location) %>% trimws
 lapd_crime$cross_street <- gsub("\\s+", " ", lapd_crime$cross_street) %>% trimws         
+
 # Fix two division names in data to match division names in geo file
 lapd_crime$area_name <- gsub("N Hollywood", "North Hollywood", lapd_crime$area_name)
 lapd_crime$area_name <- gsub("West LA", "West Los Angeles", lapd_crime$area_name)
+
 # Remove repetitive fields we no longer need to keep rds file smaller
 lapd_crime <- lapd_crime %>% select(5:10,15,16,25:33)
 lapd_crime$agency <- "LAPD"
@@ -97,17 +95,6 @@ saveRDS(lapd_asofdate,"scripts/rds/lapd_asofdate.rds")
 #lapd_crime$premise <- case_when(lapd_crime$premise == 'Amusement Park' ~ 'Amusement park',
 #                                   lapd_crime$premise == 'Bank, Savings & Loan' ~ 'Bank',
 #                                   lapd_crime$premise == 'Bar, Nightclub' ~ 'Bar or nightclub',
-#                                   lapd_crime$premise == 'Church, Synagogue, Temple' ~ 'Place of worship',
-#                                   lapd_crime$premise == 'Commercial, Office Building' ~ 'Commercial or office building',
-#                                   lapd_crime$premise == 'Convenience Store' ~ 'Convenience store',
-#                                   lapd_crime$premise == 'Department, Discount Store' ~ 'Store',
-#                                   lapd_crime$premise == 'Drug Store, Doctors Office, Hospital' ~ 'Medical care facility',
-#                                   lapd_crime$premise == 'Field, Woods' ~ 'Field or woods',
-#                                   lapd_crime$premise == 'Gambling Facility/Casino/Race Track' ~ 'Gambling facility',
-#                                   lapd_crime$premise == 'Grocery, Supermarket' ~ 'Grocery',
-#                                   lapd_crime$premise == 'Highway, Road, Street, Alley' ~ 'Highway, street or alley',
-#                                   lapd_crime$premise == 'Hotel, Motel, ETC' ~ 'Hotel',
-#                                   lapd_crime$premise == 'Industrial Site' ~ 'Industrial site',
 #                                   TRUE ~ 'Unknown or other')
 
 saveRDS(lapd_crime,"scripts/rds/lapd_crime.rds")

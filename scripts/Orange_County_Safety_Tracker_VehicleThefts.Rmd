@@ -308,7 +308,7 @@ autotheftlabel_places <- paste(sep="",
                      " vehicle theft </popuptitle><br>",
                      " vehicle thefts </popuptitle><br>"),
                      " in 2021 in <b>",
-                     socal_autotheft$place,
+                     ifelse(socal_autotheft$place %in% sheriffs,paste0("the combined unincorporated areas patrolled by the ",socal_autotheft$place),socal_autotheft$place),
                      "</b>, home to an estimated ",
                      prettyNum(socal_autotheft$population, big.mark=","),
                      " people.

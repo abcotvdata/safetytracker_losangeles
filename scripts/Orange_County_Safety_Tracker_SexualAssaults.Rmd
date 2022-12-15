@@ -306,7 +306,7 @@ sexassaultlabel_places <- paste(sep="",
                      " sexual assault </popuptitle><br>",
                      " sexual assaults </popuptitle><br>"),
                      " in 2021 in <b>",
-                     socal_sexassault$place,
+                     ifelse(socal_sexassault$place %in% sheriffs,paste0("the combined unincorporated areas patrolled by the ",socal_sexassault$place),socal_sexassault$place),
                      "</b>, home to an estimated ",
                      prettyNum(socal_sexassault$population, big.mark=","),
                      " people.

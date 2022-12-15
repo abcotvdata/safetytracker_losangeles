@@ -286,7 +286,7 @@ burglarybins2 <- c(0,
                 200,
                 300,
                 500,
-                1000)
+                2500)
 burglarypal1 <- colorBin(c("#aecfe6",
                              "#2787d6",
                              "#0058f6",
@@ -308,7 +308,7 @@ burglarylabel_places <- paste(sep="",
                      " burglary </popuptitle><br>",
                      " burglaries </popuptitle><br>"),
                      " in 2021 in <b>",
-                     socal_burglary$place,
+                     ifelse(socal_burglary$place %in% sheriffs,paste0("the combined unincorporated areas patrolled by the ",socal_burglary$place),socal_burglary$place),
                      "</b>, home to an estimated ",
                      prettyNum(socal_burglary$population, big.mark=","),
                      " people.

@@ -308,7 +308,7 @@ murderlabel_places <- paste(sep="",
                      " homicide </popuptitle><br>",
                      " homicides </popuptitle><br>"),
                      " in 2021 in <b>",
-                     socal_murder$place,
+                     ifelse(socal_murder$place %in% sheriffs,paste0("the combined unincorporated areas patrolled by the ",socal_murder$place),socal_murder$place),
                      "</b>, home to an estimated ",
                      prettyNum(socal_murder$population, big.mark=","),
                      " people.

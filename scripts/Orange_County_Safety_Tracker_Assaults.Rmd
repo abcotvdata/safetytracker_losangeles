@@ -291,13 +291,13 @@ assaultbins2 <- c(0,
                 150,
                 500,
                 2500)
-assaultpal1 <- colorBin(c("#a5cbe6",
+assaultpal1 <- colorBin(c("#76baf9",
                              "#2787d6",
                              "#0058f6",
                              "#003ca6",
                              "#00215c"), socal_assault$rate21, bins = assaultbins1,na.color = "#51585f")
 
-assaultpal2 <- colorBin(c("#a5cbe6",
+assaultpal2 <- colorBin(c("#76baf9",
                              "#2787d6",
                              "#0058f6",
                              "#003ca6",

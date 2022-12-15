@@ -290,13 +290,13 @@ sexassaultbins2 <- c(0,
                 20,
                 50,
                 300)
-sexassaultpal1 <- colorBin(c("#a5cbe6",
+sexassaultpal1 <- colorBin(c("#76baf9",
                              "#2787d6",
                              "#0058f6",
                              "#003ca6",
                              "#00215c"), socal_sexassault$rate21, bins = sexassaultbins1,na.color = "#51585f")
 
-sexassaultpal2 <- colorBin(c("#a5cbe6",
+sexassaultpal2 <- colorBin(c("#76baf9",
                              "#2787d6",
                              "#0058f6",
                              "#003ca6",

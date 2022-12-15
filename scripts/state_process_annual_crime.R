@@ -228,26 +228,56 @@ socal_autotheft$place_chart <- case_when(socal_autotheft$agency=="LASD" ~ paste0
                                          socal_autotheft$agency=="LAPD" ~ paste0(socal_autotheft$place,"^Division of Los Angeles PD^"),
                                          TRUE ~ socal_murder$place)
 
-# Add notations for LA area departments with newer data
-socal_murder$data <- case_when(socal_murder$agency=="LAPD" ~ "[See current data](https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker.html)",
-                               TRUE ~ "")
-socal_sexassault$data <- case_when(socal_sexassault$agency=="LAPD" ~ "[See current data](https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker.html)",
-                               TRUE ~ "")
-socal_assault$data <- case_when(socal_assault$agency=="LAPD" ~ "[See current data](https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker.html)",
-                               TRUE ~ "")
-socal_robbery$data <- case_when(socal_robbery$agency=="LAPD" ~ "[See current data](https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker.html)",
-                               TRUE ~ "")
-socal_burglary$data <- case_when(socal_burglary$agency=="LAPD" ~ "[See current data](https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker.html)",
-                               TRUE ~ "")
-socal_theft$data <- case_when(socal_theft$agency=="LAPD" ~ "[See current data](https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker.html)",
-                               TRUE ~ "")
-socal_autotheft$data <- case_when(socal_autotheft$agency=="LAPD" ~ "[See current data](https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker.html)",
-                               TRUE ~ "")
-
 # Output county level files for each crime category
-socal_murder %>% st_drop_geometry() %>% filter(county=="Riverside County") %>% select(26,4:15,20,21,24,27) %>% write_csv("data/output/annual/riverside_murder.csv")
-socal_sexassault %>% st_drop_geometry() %>% filter(county=="Riverside County") %>% select(26,4:15,20,21,24,27) %>% write_csv("data/output/annual/riverside_sexassault.csv")
-socal_murder %>% st_drop_geometry() %>% select(26,4:15,20,21,24,27) %>% write_csv("data/output/annual/socal_murder.csv")
+# RIVERSIDE
+socal_murder %>% st_drop_geometry() %>% filter(county=="Riverside County") %>% select(26,4:15,20,21,24) %>% write_csv("data/output/annual/riverside_murder.csv")
+socal_sexassault %>% st_drop_geometry() %>% filter(county=="Riverside County") %>% select(26,4:15,20,21,24) %>% write_csv("data/output/annual/riverside_sexassault.csv")
+socal_assault %>% st_drop_geometry() %>% filter(county=="Riverside County") %>% select(26,4:15,20,21,24) %>% write_csv("data/output/annual/riverside_assault.csv")
+socal_robbery %>% st_drop_geometry() %>% filter(county=="Riverside County") %>% select(26,4:15,20,21,24) %>% write_csv("data/output/annual/riverside_robbery.csv")
+socal_burglary %>% st_drop_geometry() %>% filter(county=="Riverside County") %>% select(26,4:15,20,21,24) %>% write_csv("data/output/annual/riverside_burglary.csv")
+socal_theft %>% st_drop_geometry() %>% filter(county=="Riverside County") %>% select(26,4:15,20,21,24) %>% write_csv("data/output/annual/riverside_theft.csv")
+socal_autotheft %>% st_drop_geometry() %>% filter(county=="Riverside County") %>% select(26,4:15,20,21,24) %>% write_csv("data/output/annual/riverside_autotheft.csv")
+# ORANGE
+socal_murder %>% st_drop_geometry() %>% filter(county=="Orange County") %>% select(26,4:15,20,21,24) %>% write_csv("data/output/annual/orange_murder.csv")
+socal_sexassault %>% st_drop_geometry() %>% filter(county=="Orange County") %>% select(26,4:15,20,21,24) %>% write_csv("data/output/annual/orange_sexassault.csv")
+socal_assault %>% st_drop_geometry() %>% filter(county=="Orange County") %>% select(26,4:15,20,21,24) %>% write_csv("data/output/annual/orange_assault.csv")
+socal_robbery %>% st_drop_geometry() %>% filter(county=="Orange County") %>% select(26,4:15,20,21,24) %>% write_csv("data/output/annual/orange_robbery.csv")
+socal_burglary %>% st_drop_geometry() %>% filter(county=="Orange County") %>% select(26,4:15,20,21,24) %>% write_csv("data/output/annual/orange_burglary.csv")
+socal_theft %>% st_drop_geometry() %>% filter(county=="Orange County") %>% select(26,4:15,20,21,24) %>% write_csv("data/output/annual/orange_theft.csv")
+socal_autotheft %>% st_drop_geometry() %>% filter(county=="Orange County") %>% select(26,4:15,20,21,24) %>% write_csv("data/output/annual/orange_autotheft.csv")
+# RIVERSIDE
+socal_murder %>% st_drop_geometry() %>% filter(county=="San Bernardino County") %>% select(26,4:15,20,21,24) %>% write_csv("data/output/annual/sb_murder.csv")
+socal_sexassault %>% st_drop_geometry() %>% filter(county=="San Bernardino County") %>% select(26,4:15,20,21,24) %>% write_csv("data/output/annual/sb_sexassault.csv")
+socal_assault %>% st_drop_geometry() %>% filter(county=="San Bernardino County") %>% select(26,4:15,20,21,24) %>% write_csv("data/output/annual/sb_assault.csv")
+socal_robbery %>% st_drop_geometry() %>% filter(county=="San Bernardino County") %>% select(26,4:15,20,21,24) %>% write_csv("data/output/annual/sb_robbery.csv")
+socal_burglary %>% st_drop_geometry() %>% filter(county=="San Bernardino County") %>% select(26,4:15,20,21,24) %>% write_csv("data/output/annual/sb_burglary.csv")
+socal_theft %>% st_drop_geometry() %>% filter(county=="San Bernardino County") %>% select(26,4:15,20,21,24) %>% write_csv("data/output/annual/sb_theft.csv")
+socal_autotheft %>% st_drop_geometry() %>% filter(county=="San Bernardino County") %>% select(26,4:15,20,21,24) %>% write_csv("data/output/annual/sb_autotheft.csv")
+# RIVERSIDE
+socal_murder %>% st_drop_geometry() %>% filter(county=="Ventura County") %>% select(26,4:15,20,21,24) %>% write_csv("data/output/annual/ventura_murder.csv")
+socal_sexassault %>% st_drop_geometry() %>% filter(county=="Ventura County") %>% select(26,4:15,20,21,24) %>% write_csv("data/output/annual/ventura_sexassault.csv")
+socal_assault %>% st_drop_geometry() %>% filter(county=="Ventura County") %>% select(26,4:15,20,21,24) %>% write_csv("data/output/annual/ventura_assault.csv")
+socal_robbery %>% st_drop_geometry() %>% filter(county=="Ventura County") %>% select(26,4:15,20,21,24) %>% write_csv("data/output/annual/ventura_robbery.csv")
+socal_burglary %>% st_drop_geometry() %>% filter(county=="Ventura County") %>% select(26,4:15,20,21,24) %>% write_csv("data/output/annual/ventura_burglary.csv")
+socal_theft %>% st_drop_geometry() %>% filter(county=="Ventura County") %>% select(26,4:15,20,21,24) %>% write_csv("data/output/annual/ventura_theft.csv")
+socal_autotheft %>% st_drop_geometry() %>% filter(county=="Ventura County") %>% select(26,4:15,20,21,24) %>% write_csv("data/output/annual/ventura_autotheft.csv")
+# RIVERSIDE
+socal_murder %>% st_drop_geometry() %>% filter(county=="Los Angeles County") %>% select(26,4:15,20,21,24) %>% write_csv("data/output/annual/laco_murder.csv")
+socal_sexassault %>% st_drop_geometry() %>% filter(county=="Los Angeles County") %>% select(26,4:15,20,21,24) %>% write_csv("data/output/annual/laco_sexassault.csv")
+socal_assault %>% st_drop_geometry() %>% filter(county=="Los Angeles County") %>% select(26,4:15,20,21,24) %>% write_csv("data/output/annual/laco_assault.csv")
+socal_robbery %>% st_drop_geometry() %>% filter(county=="Los Angeles County") %>% select(26,4:15,20,21,24) %>% write_csv("data/output/annual/laco_robbery.csv")
+socal_burglary %>% st_drop_geometry() %>% filter(county=="Los Angeles County") %>% select(26,4:15,20,21,24) %>% write_csv("data/output/annual/laco_burglary.csv")
+socal_theft %>% st_drop_geometry() %>% filter(county=="Los Angeles County") %>% select(26,4:15,20,21,24) %>% write_csv("data/output/annual/laco_theft.csv")
+socal_autotheft %>% st_drop_geometry() %>% filter(county=="Los Angeles County") %>% select(26,4:15,20,21,24) %>% write_csv("data/output/annual/laco_autotheft.csv")
+# REGION WIDE
+socal_murder %>% st_drop_geometry() %>% select(26,4:15,20,21,24) %>% write_csv("data/output/annual/socal_murder.csv")
+socal_sexassault %>% st_drop_geometry() %>% select(26,4:15,20,21,24) %>% write_csv("data/output/annual/socal_sexassault.csv")
+socal_assault %>% st_drop_geometry() %>% select(26,4:15,20,21,24) %>% write_csv("data/output/annual/socal_assault.csv")
+socal_robbery %>% st_drop_geometry() %>% select(26,4:15,20,21,24) %>% write_csv("data/output/annual/socal_robbery.csv")
+socal_burglary %>% st_drop_geometry() %>% select(26,4:15,20,21,24) %>% write_csv("data/output/annual/socal_burglary.csv")
+socal_theft %>% st_drop_geometry() %>% select(26,4:15,20,21,24) %>% write_csv("data/output/annual/socal_theft.csv")
+socal_autotheft %>% st_drop_geometry() %>% select(26,4:15,20,21,24) %>% write_csv("data/output/annual/socal_autotheft.csv")
+
 
 
 

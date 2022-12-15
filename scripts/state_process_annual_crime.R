@@ -228,28 +228,26 @@ socal_autotheft$place_chart <- case_when(socal_autotheft$agency=="LASD" ~ paste0
                                          socal_autotheft$agency=="LAPD" ~ paste0(socal_autotheft$place,"^Division of Los Angeles PD^"),
                                          TRUE ~ socal_murder$place)
 
-laco_autothefts$moredata <- ifelse(laco_autothefts$agency=="LAPD","<a href='https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker.html'>See current data.</a>.",NA)
-
 # Add notations for LA area departments with newer data
-socal_murder$data <- case_when(socal_murder$agency=="LAPD" ~ "<a href='https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker.html'>See current data.</a>.",
+socal_murder$data <- case_when(socal_murder$agency=="LAPD" ~ "[See current data](https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker.html)",
                                TRUE ~ "")
-socal_sexassault$data <- case_when(socal_sexassault$agency=="LAPD" ~ "<a href='https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker.html'>See current data.</a>.",
+socal_sexassault$data <- case_when(socal_sexassault$agency=="LAPD" ~ "[See current data](https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker.html)",
                                TRUE ~ "")
-socal_assault$data <- case_when(socal_assault$agency=="LAPD" ~ "<a href='https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker.html'>See current data.</a>.",
+socal_assault$data <- case_when(socal_assault$agency=="LAPD" ~ "[See current data](https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker.html)",
                                TRUE ~ "")
-socal_robbery$data <- case_when(socal_robbery$agency=="LAPD" ~ "<a href='https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker.html'>See current data.</a>.",
+socal_robbery$data <- case_when(socal_robbery$agency=="LAPD" ~ "[See current data](https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker.html)",
                                TRUE ~ "")
-socal_burglary$data <- case_when(socal_burglary$agency=="LAPD" ~ "<a href='https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker.html'>See current data.</a>.",
+socal_burglary$data <- case_when(socal_burglary$agency=="LAPD" ~ "[See current data](https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker.html)",
                                TRUE ~ "")
-socal_theft$data <- case_when(socal_theft$agency=="LAPD" ~ "<a href='https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker.html'>See current data.</a>.",
+socal_theft$data <- case_when(socal_theft$agency=="LAPD" ~ "[See current data](https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker.html)",
                                TRUE ~ "")
-socal_autotheft$data <- case_when(socal_autotheft$agency=="LAPD" ~ "<a href='https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker.html'>See current data.</a>.",
+socal_autotheft$data <- case_when(socal_autotheft$agency=="LAPD" ~ "[See current data](https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker.html)",
                                TRUE ~ "")
 
 # Output county level files for each crime category
-socal_murder %>% st_drop_geometry() %>% filter(county=="Riverside County") %>% select(26,4:15,21,24,27) %>% write_csv("data/output/annual/riverside_murder.csv")
-socal_sexassault %>% st_drop_geometry() %>% filter(county=="Riverside County") %>% select(26,4:15,21,24,27) %>% write_csv("data/output/annual/riverside_sexassault.csv")
-socal_murder %>% st_drop_geometry() %>% select(26,4:15,21,24,27) %>% write_csv("data/output/annual/socal_murder.csv")
+socal_murder %>% st_drop_geometry() %>% filter(county=="Riverside County") %>% select(26,4:15,20,21,24,27) %>% write_csv("data/output/annual/riverside_murder.csv")
+socal_sexassault %>% st_drop_geometry() %>% filter(county=="Riverside County") %>% select(26,4:15,20,21,24,27) %>% write_csv("data/output/annual/riverside_sexassault.csv")
+socal_murder %>% st_drop_geometry() %>% select(26,4:15,20,21,24,27) %>% write_csv("data/output/annual/socal_murder.csv")
 
 
 

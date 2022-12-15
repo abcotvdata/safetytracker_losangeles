@@ -211,6 +211,10 @@ th {
    }
 ```
 
+```{r countywide totals, include=FALSE}
+murders_county <- countywide_murder %>% filter(county=="Orange County")
+```
+
 <h2>ABC7 is tracking crime and safety in communities across Orange County. 
 
 You can choose which crime to examine: <select onchange="window.location=this.value">
@@ -223,9 +227,9 @@ You can choose which crime to examine: <select onchange="window.location=this.va
 <option value="https://abcotvdata.github.io/safetytracker_losangeles/Orange_County_Safety_Tracker_VehicleThefts.html">Vehicle Thefts</option>
 </select></h2>
 <h2>Choose a different area to explore: <select onchange="window.location=this.value">
+<option value="https://abcotvdata.github.io/safetytracker_losangeles/Orange_County_Safety_Tracker.html">Orange County</option>
 <option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_County_Safety_Tracker.html">Los Angeles County</option>
 <option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker.html">City of Los Angeles</option>
-<option value="https://abcotvdata.github.io/safetytracker_losangeles/Orange_County_Safety_Tracker.html">Orange County</option>
 <option value="https://abcotvdata.github.io/safetytracker_losangeles/Riverside_County_Safety_Tracker.html">Riverside County</option>
 <option value="https://abcotvdata.github.io/safetytracker_losangeles/San_Bernardino_County_Safety_Tracker.html">San Bernardino County</option>
 <option value="https://abcotvdata.github.io/safetytracker_losangeles/Ventura_County_Safety_Tracker.html">Ventura County</option>
@@ -233,7 +237,7 @@ You can choose which crime to examine: <select onchange="window.location=this.va
 
 There were <h8>`r prettyNum(murders_county$total21,big.mark=",")`</h8> homicides in 2021 across Orange County, according to data that law enforcement agencies report to the state of California.
 
-In 2019, the data show that number was <h8>`r prettyNum(murders_county$total19,big.mark=",")`</h8>. In 2010, it was `r prettyNum(murders_county$total10,big.mark=",")`</h8>.
+In 2019, the data show that number was <h8>`r prettyNum(murders_county$total19,big.mark=",")`</h8>. In 2010, it was <h8>`r prettyNum(murders_county$total10,big.mark=",")`</h8>.
 
 The risk is not the same in every community.
 
@@ -288,26 +292,26 @@ murderpal1 <- colorBin(c("#aecfe6",
                              "#2787d6",
                              "#0058f6",
                              "#003ca6",
-                             "#00215c"), murders_places$rate21, bins = murderbins1,na.color = "#51585f")
+                             "#00215c"), socal_murder$rate21, bins = murderbins1,na.color = "#51585f")
 
 murderpal2 <- colorBin(c("#aecfe6",
                              "#2787d6",
                              "#0058f6",
                              "#003ca6",
-                             "#00215c"), murders_places$total21, bins = murderbins2,na.color = "#51585f")
+                             "#00215c"), socal_murder$`2021`, bins = murderbins2,na.color = "#51585f")
 
                             
 # Create labels for murders map
 murderlabel_places <- paste(sep="",
                      "<popuptitle>",
-                     murders_places$total21,
-                     ifelse(murders_places$total21==1,
+                     socal_murder$`2021`,
+                     ifelse(socal_murder$`2021`==1,
                      " homicide </popuptitle><br>",
                      " homicides </popuptitle><br>"),
                      " in 2021 in <b>",
-                     murders_places$place,
+                     socal_murder$place,
                      "</b> home to an estimated ",
-                     prettyNum(murders_places$population, big.mark=","),
+                     prettyNum(socal_murder$population, big.mark=","),
                      " people.
 <br>
 <table>      
@@ -319,48 +323,48 @@ murderlabel_places <- paste(sep="",
 			<tr>
 				<td>2019</td>
 				<td>",
-murders_places$total19,
+socal_murder$`2019`,
 "</td>
 				<td>",
-murders_places$rate19,
+socal_murder$rate19,
 "</td>
 			</tr>
 			<tr>
 				<td>2020</td>
 				<td>",
-murders_places$total20,
+socal_murder$`2020`,
 "</td>
 				<td>",
-murders_places$rate20,
+socal_murder$rate20,
 "</td>
 			</tr>
 						<tr>
 				<td>2021</td>
 				<td>",
-murders_places$total21,
+socal_murder$`2021`,
 "</td>
 				<td>",
-murders_places$rate21,
+socal_murder$rate21,
 "</td>
 			</tr>
 						<tr>
 				<td>3-year Average</td>
 				<td>",
-murders_places$avg_prior3years,
+socal_murder$avg_prior3years,
 "</td>
 				<td>",
-murders_places$rate_prior3years,
+socal_murder$rate_prior3years,
 "</td>
 			</tr>
 </table>")
 
 
 # Creating police beats map for types of crimes
-orange_murder_map <- leaflet(murders_places, options = leafletOptions(zoomControl = FALSE, zoomSnap = 0.5, zoomDelta=0.5)) %>%
+orange_murder_map <- leaflet(socal_murder, options = leafletOptions(zoomControl = FALSE, zoomSnap = 0.5, zoomDelta=0.5)) %>%
   htmlwidgets::onRender("function(el, x) {
 L.control.zoom({ position: 'topright' }).addTo(this)
 }") %>%
-  setView(-117.8, 33.67, zoom = 11) %>% 
+  setView(-117.91, 33.83, zoom = 11) %>% 
   addProviderTiles(provider = "Esri.WorldImagery") %>%
   addProviderTiles(provider = "CartoDB.PositronOnlyLabels") %>%
   addPolygons(color = "white", 
@@ -381,21 +385,21 @@ L.control.zoom({ position: 'topright' }).addTo(this)
               smoothFactor = 0.5,
               opacity = 0.6, 
               fillOpacity = 0.6,
-              fillColor = ~murderpal2(total21),
+              fillColor = ~murderpal2(`2021`),
               group="Number") %>% 
   addSearchOSM(options = searchOptions(autoCollapse=FALSE, minLength = 3,zoom=13, position="topleft")) %>%
     onRender("function(el, x) {
         $('input.search-input')[0].placeholder = 'Search street, place or zip code'
         }") %>%
   addLegend(opacity = 0.6,
-            values = murders_places$rate21, 
+            values = socal_murder$rate21, 
             pal = murderpal1,
             position = "bottomleft", 
             title = paste(sep="","<popuptitle>Murder Rate<br><popupchatter>Murders/100K people<br>"),
             group = "Rate",
             className = "info legend Rate") %>%
   addLegend(opacity = 0.6,
-            values = murders_places$total21, 
+            values = socal_murder$`2021`, 
             pal = murderpal2,
             position = "bottomleft", 
             title = paste(sep="","<popuptitle>Murders<br>"),
@@ -425,8 +429,7 @@ orange_murder_map
 <br>
 <br>
 <!-- <subhead> Look up year by year city table-->
-<iframe title="Homicides by area across Southern California" aria-label="Table" id="datawrapper-chart-Dnmam" src="https://datawrapper.dwcdn.net/Dnmam/3/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="3289" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(e){if(void 0!==e.data["datawrapper-height"]){var t=document.querySelectorAll("iframe");for(var a in e.data["datawrapper-height"])for(var r=0;r<t.length;r++){if(t[r].contentWindow===e.source)t[r].style.height=e.data["datawrapper-height"][a]+"px"}}}))}();
-</script>
+<iframe title="Homicides by area across Orange County" aria-label="Table" id="datawrapper-chart-EcHQV" src="https://datawrapper.dwcdn.net/EcHQV/2/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="2105" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(e){if(void 0!==e.data["datawrapper-height"]){var t=document.querySelectorAll("iframe");for(var a in e.data["datawrapper-height"])for(var r=0;r<t.length;r++){if(t[r].contentWindow===e.source)t[r].style.height=e.data["datawrapper-height"][a]+"px"}}}))}();</script>
 <br>
 <br>
 <!-- <subhead>Update to add clearance rates table -->

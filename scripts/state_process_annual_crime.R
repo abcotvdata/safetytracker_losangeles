@@ -30,13 +30,13 @@ socal_theft <- socal_annual %>% select(year,county,ncic_code,l_ttotal_sum) %>% s
 socal_autotheft <- socal_annual %>% select(year,county,ncic_code,vehicle_theft_sum) %>% spread(year,vehicle_theft_sum) %>% select(1,2,28:39) %>% rename("place"="ncic_code")
 
 # Before we start to make changes for maps we want to create countywide totals for charts/tracker text
-countywide_murder <- socal_murder %>% group_by(county) %>% summarise(`2021`=sum(`2021`,na.rm=TRUE),`2019`=sum(`2019`,na.rm=TRUE),`2010`=sum(`2010`,na.rm=TRUE))
-countywide_sexassault <- socal_sexassault %>% group_by(county) %>% summarise(`2021`=sum(`2021`,na.rm=TRUE),`2019`=sum(`2019`,na.rm=TRUE),`2010`=sum(`2010`,na.rm=TRUE))
-countywide_assault <- socal_assault %>% group_by(county) %>% summarise(`2021`=sum(`2021`,na.rm=TRUE),`2019`=sum(`2019`,na.rm=TRUE),`2010`=sum(`2010`,na.rm=TRUE))
-countywide_robbery <- socal_robbery %>% group_by(county) %>% summarise(`2021`=sum(`2021`,na.rm=TRUE),`2019`=sum(`2019`,na.rm=TRUE),`2010`=sum(`2010`,na.rm=TRUE))
-countywide_burglary <- socal_burglary %>% group_by(county) %>% summarise(`2021`=sum(`2021`,na.rm=TRUE),`2019`=sum(`2019`,na.rm=TRUE),`2010`=sum(`2010`,na.rm=TRUE))
-countywide_theft <- socal_theft %>% group_by(county) %>% summarise(`2021`=sum(`2021`,na.rm=TRUE),`2019`=sum(`2019`,na.rm=TRUE),`2010`=sum(`2010`,na.rm=TRUE))
-countywide_autotheft <- socal_autotheft %>% group_by(county) %>% summarise(`2021`=sum(`2021`,na.rm=TRUE),`2019`=sum(`2019`,na.rm=TRUE),`2010`=sum(`2010`,na.rm=TRUE))
+countywide_murder <- socal_murder %>% group_by(county) %>% summarise(total21=sum(`2021`,na.rm=TRUE),total19=sum(`2019`,na.rm=TRUE),total10=sum(`2010`,na.rm=TRUE))
+countywide_sexassault <- socal_sexassault %>% group_by(county) %>% summarise(total21=sum(`2021`,na.rm=TRUE),total19=sum(`2019`,na.rm=TRUE),total10=sum(`2010`,na.rm=TRUE))
+countywide_assault <- socal_assault %>% group_by(county) %>% summarise(total21=sum(`2021`,na.rm=TRUE),total19=sum(`2019`,na.rm=TRUE),total10=sum(`2010`,na.rm=TRUE))
+countywide_robbery <- socal_robbery %>% group_by(county) %>% summarise(total21=sum(`2021`,na.rm=TRUE),total19=sum(`2019`,na.rm=TRUE),total10=sum(`2010`,na.rm=TRUE))
+countywide_burglary <- socal_burglary %>% group_by(county) %>% summarise(total21=sum(`2021`,na.rm=TRUE),total19=sum(`2019`,na.rm=TRUE),total10=sum(`2010`,na.rm=TRUE))
+countywide_theft <- socal_theft %>% group_by(county) %>% summarise(total21=sum(`2021`,na.rm=TRUE),total19=sum(`2019`,na.rm=TRUE),total10=sum(`2010`,na.rm=TRUE))
+countywide_autotheft <- socal_autotheft %>% group_by(county) %>% summarise(total21=sum(`2021`,na.rm=TRUE),total19=sum(`2019`,na.rm=TRUE),total10=sum(`2010`,na.rm=TRUE))
 
 sheriff_contracts <- c("Avalon","Carson","Lynwood","Cerritos","Compton",
                        "La Canada Flintridge","Commerce","Cudahy","Maywood",

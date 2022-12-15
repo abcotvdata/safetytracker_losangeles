@@ -63,21 +63,25 @@ sum(districts$population) # result is 6,853,094
 # Round the population figure; rounded to nearest thousand
 districts$population <- round(districts$population,-2)
 
-districts <- districts %>% st_transform(4326)
-districts <- st_make_valid(districts)
+# la_districts <- districts %>% st_transform(4269)
+la_districts <- districts %>% 
+  st_transform(4269) %>% 
+  st_make_valid
+# rm(districts)
 
 # saving a clean geojson and separate RDS for use in tracker
 file.remove("data/output/geo/la_county_police_districts.geojson")
-st_write(districts,"data/output/geo/la_county_police_districts.geojson")
-saveRDS(districts,"scripts/rds/la_county_police_districts.rds")
+st_write(la_districts,"data/output/geo/la_county_police_districts.geojson")
+saveRDS(la_districts,"scripts/rds/la_county_police_districts.rds")
+
 
 # District Map for proofing/testing
 # Set bins for beats pop map
 popbins <- c(0,50000,100000,125000,150000,200000,Inf)
-poppal <- colorBin("viridis", districts$population, bins = popbins)
-poplabel <- paste(sep = "<br>", districts$agency,districts$district,districts$s_type,districts$commtype,districts$place_name,prettyNum(districts$population, big.mark = ","))
+poppal <- colorBin("viridis", la_districts$population, bins = popbins)
+poplabel <- paste(sep = "<br>", la_districts$agency,la_districts$district,la_districts$s_type,la_districts$commtype,la_districts$place_name,prettyNum(la_districts$population, big.mark = ","))
 # Make map
-la_county_districts_map <- leaflet(districts) %>%
+la_county_districts_map <- leaflet(la_districts) %>%
   setView(-118.243, 34.052, zoom = 10) %>% 
   addProviderTiles(provider = "Esri.WorldImagery") %>%
   addProviderTiles(provider = "CartoDB.PositronOnlyLabels") %>%

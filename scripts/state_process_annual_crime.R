@@ -20,254 +20,185 @@ sheriffs <- c("Los Angeles Co. Sheriff's Department", "Orange Co. Sheriff's Depa
 # Filter for crime incident counts in jurisdictions in our five counties 
 socal_annual <- california_annual %>% filter(county %in% counties)
 
-socal_murder <- socal_annual %>% select(year,county,ncic_code,homicide_sum) %>% spread(year,homicide_sum) %>% select(1,2,28:39)
-socal_rape <- socal_annual %>% select(year,county,ncic_code,for_rape_sum) %>% spread(year,for_rape_sum) %>% select(1,2,28:39)
-socal_assault <- socal_annual %>% select(year,county,ncic_code,agg_assault_sum) %>% spread(year,agg_assault_sum) %>% select(1,2,28:39)
-socal_robbery <- socal_annual %>% select(year,county,ncic_code,robbery_sum) %>% spread(year,robbery_sum) %>% select(1,2,28:39)
-socal_burglary <- socal_annual %>% select(year,county,ncic_code,burglary_sum) %>% spread(year,burglary_sum) %>% select(1,2,28:39)
-socal_theft <- socal_annual %>% select(year,county,ncic_code,l_ttotal_sum) %>% spread(year,l_ttotal_sum) %>% select(1,2,28:39)
-socal_autotheft <- socal_annual %>% select(year,county,ncic_code,vehicle_theft_sum) %>% spread(year,vehicle_theft_sum) %>% select(1,2,28:39)
+# Create a baseline count file for so cal agencies, by crime category, for charts
+socal_murder <- socal_annual %>% select(year,county,ncic_code,homicide_sum) %>% spread(year,homicide_sum) %>% select(1,2,28:39) %>% rename("place"="ncic_code")
+socal_sexassault <- socal_annual %>% select(year,county,ncic_code,for_rape_sum) %>% spread(year,for_rape_sum) %>% select(1,2,28:39) %>% rename("place"="ncic_code")
+socal_assault <- socal_annual %>% select(year,county,ncic_code,agg_assault_sum) %>% spread(year,agg_assault_sum) %>% select(1,2,28:39) %>% rename("place"="ncic_code")
+socal_robbery <- socal_annual %>% select(year,county,ncic_code,robbery_sum) %>% spread(year,robbery_sum) %>% select(1,2,28:39) %>% rename("place"="ncic_code")
+socal_burglary <- socal_annual %>% select(year,county,ncic_code,burglary_sum) %>% spread(year,burglary_sum) %>% select(1,2,28:39) %>% rename("place"="ncic_code")
+socal_theft <- socal_annual %>% select(year,county,ncic_code,l_ttotal_sum) %>% spread(year,l_ttotal_sum) %>% select(1,2,28:39) %>% rename("place"="ncic_code")
+socal_autotheft <- socal_annual %>% select(year,county,ncic_code,vehicle_theft_sum) %>% spread(year,vehicle_theft_sum) %>% select(1,2,28:39) %>% rename("place"="ncic_code")
 
+# Before we start to make changes for maps we want to create countywide totals for charts/tracker text
+countywide_murder <- socal_murder %>% group_by(county) %>% summarise(`2021`=sum(`2021`,na.rm=TRUE),`2019`=sum(`2019`,na.rm=TRUE),`2010`=sum(`2010`,na.rm=TRUE))
+countywide_sexassault <- socal_sexassault %>% group_by(county) %>% summarise(`2021`=sum(`2021`,na.rm=TRUE),`2019`=sum(`2019`,na.rm=TRUE),`2010`=sum(`2010`,na.rm=TRUE))
+countywide_assault <- socal_assault %>% group_by(county) %>% summarise(`2021`=sum(`2021`,na.rm=TRUE),`2019`=sum(`2019`,na.rm=TRUE),`2010`=sum(`2010`,na.rm=TRUE))
+countywide_robbery <- socal_robbery %>% group_by(county) %>% summarise(`2021`=sum(`2021`,na.rm=TRUE),`2019`=sum(`2019`,na.rm=TRUE),`2010`=sum(`2010`,na.rm=TRUE))
+countywide_burglary <- socal_burglary %>% group_by(county) %>% summarise(`2021`=sum(`2021`,na.rm=TRUE),`2019`=sum(`2019`,na.rm=TRUE),`2010`=sum(`2010`,na.rm=TRUE))
+countywide_theft <- socal_theft %>% group_by(county) %>% summarise(`2021`=sum(`2021`,na.rm=TRUE),`2019`=sum(`2019`,na.rm=TRUE),`2010`=sum(`2010`,na.rm=TRUE))
+countywide_autotheft <- socal_autotheft %>% group_by(county) %>% summarise(`2021`=sum(`2021`,na.rm=TRUE),`2019`=sum(`2019`,na.rm=TRUE),`2010`=sum(`2010`,na.rm=TRUE))
 
+sheriff_contracts <- c("Avalon","Carson","Lynwood","Cerritos","Compton",
+                       "La Canada Flintridge","Commerce","Cudahy","Maywood",
+                       "Industry","La Habra Heights","La Puente","Artesia",
+                       "Bellflower","Hawaiian Gardens","Lakewood",
+                       "Paramount","Lancaster","Lomita","Rancho Palos Verdes",
+                       "Rolling Hills","Rolling Hills Estates","Agoura Hills",
+                       "Calabasas","Hidden Hills","Malibu","Westlake Village",
+                       "La Mirada","Norwalk","Palmdale","Pico Rivera",
+                       "San Dimas","Santa Clarita","Lawndale","Bradbury",
+                       "Duarte","Rosemead","South El Monte","Temple City",
+                       "Diamond Bar","Walnut","West Hollywood")
 
+## Add in LAPD districts and LASD unincorporated districts 
+socal_murder <- bind_rows(socal_murder %>% filter(!place %in% sheriff_contracts),lapd_murder,lasheriff_murder)
+socal_sexassault <- bind_rows(socal_sexassault %>% filter(!place %in% sheriff_contracts),lapd_sexassault,lasheriff_sexassault)
+socal_assault <- bind_rows(socal_assault %>% filter(!place %in% sheriff_contracts),lapd_assault,lasheriff_assault)
+socal_robbery <- bind_rows(socal_robbery %>% filter(!place %in% sheriff_contracts),lapd_robbery,lasheriff_robbery)
+socal_burglary <- bind_rows(socal_burglary %>% filter(!place %in% sheriff_contracts),lapd_burglary,lasheriff_burglary)
+socal_theft <- bind_rows(socal_theft %>% filter(!place %in% sheriff_contracts),lapd_theft,lasheriff_theft)
+socal_autotheft <- bind_rows(socal_autotheft %>% filter(!place %in% sheriff_contracts),lapd_autotheft,lasheriff_autotheft)
 
 # make quick tables that we can use for a quick simple map to be improved later
-murders_places <- inner_join(socal_places %>% select(3:6),cal_crime_murder,by=c("place"="ncic_code"))
-sexassaults_places <- inner_join(socal_places %>% select(3:6),cal_crime_rape,by=c("place"="ncic_code"))
-assaults_places <- inner_join(socal_places %>% select(3:6),cal_crime_assault,by=c("place"="ncic_code"))
-robberies_places <- inner_join(socal_places %>% select(3:6),cal_crime_robbery,by=c("place"="ncic_code"))
-burglaries_places <- inner_join(socal_places %>% select(3:6),cal_crime_burglary,by=c("place"="ncic_code"))
-thefts_places <- inner_join(socal_places %>% select(3:6),cal_crime_theft,by=c("place"="ncic_code"))
-autothefts_places <- inner_join(socal_places %>% select(3:6),cal_crime_autotheft,by=c("place"="ncic_code"))
+socal_murder <- inner_join(police_map %>% select(3:5),socal_murder,by="place")
+socal_sexassault <- inner_join(police_map %>% select(3:5),socal_sexassault,by="place")
+socal_assault <- inner_join(police_map %>% select(3:5),socal_assault,by="place")
+socal_robbery <- inner_join(police_map %>% select(3:5),socal_robbery,by="place")
+socal_burglary <- inner_join(police_map %>% select(3:5),socal_burglary,by="place")
+socal_theft <- inner_join(police_map %>% select(3:5),socal_theft,by="place")
+socal_autotheft <- inner_join(police_map %>% select(3:5),socal_autotheft,by="place")
+
+# OPEN WORK: Unincorporated Walnut/Diamond Bar is not showing up
 
 # MURDERS
 # By Place add change columns for maps
-# add zeros where there were no crimes tallied that year
-murders_places[is.na(murders_places)] <- 0
 # add 3-year totals and annualized average over three years
-murders_places$total_prior3years <- murders_places$`2019` + murders_places$`2020` + murders_places$`2021`
-murders_places$avg_prior3years <- round((murders_places$total_prior3years/3),1)
+socal_murder$total_prior3years <- socal_murder$`2019` + socal_murder$`2020` + socal_murder$`2021`
+socal_murder$avg_prior3years <- round((socal_murder$total_prior3years/3),1)
 # now add the increases or change percentages vs prepandemic vs last decade
-murders_places$inc_19to21 <- round(murders_places$`2021`/murders_places$`2019`*100-100,1)
-murders_places$inc_10to21 <- round(murders_places$`2021`/murders_places$`2010`*100-100,1)
+socal_murder$inc_19to21 <- round(socal_murder$`2021`/socal_murder$`2019`*100-100,1)
+socal_murder$inc_10to21 <- round(socal_murder$`2021`/socal_murder$`2010`*100-100,1)
 # add crime rates for each year
-murders_places$rate19 <- round((murders_places$`2019`/murders_places$population)*100000,1)
-murders_places$rate20 <- round((murders_places$`2020`/murders_places$population)*100000,1)
-murders_places$rate21 <- round((murders_places$`2021`/murders_places$population)*100000,1)
-murders_places$rate_prior3years <-round((murders_places$avg_prior3years/murders_places$population)*100000,1)
+socal_murder$rate19 <- round((socal_murder$`2019`/socal_murder$population)*100000,1)
+socal_murder$rate20 <- round((socal_murder$`2020`/socal_murder$population)*100000,1)
+socal_murder$rate21 <- round((socal_murder$`2021`/socal_murder$population)*100000,1)
+socal_murder$rate_prior3years <-round((socal_murder$avg_prior3years/socal_murder$population)*100000,1)
 # for map/table making purposes, changing Inf and NaN in calc fields to NA
-murders_places <- murders_places %>%
+socal_murder <- socal_murder %>%
   mutate(across(where(is.numeric), ~na_if(., Inf)))
-murders_places <- murders_places %>%
+socal_murder <- socal_murder %>%
   mutate(across(where(is.numeric), ~na_if(., "NaN")))
 
 # SEXUAL ASSAULTS
 # By Place add change columns for maps
-# add zeros where there were no crimes tallied that year
-sexassaults_places[is.na(sexassaults_places)] <- 0
 # add 3-year totals and annualized average over three years
-sexassaults_places$total_prior3years <- sexassaults_places$`2019` + sexassaults_places$`2020` + sexassaults_places$`2021`
-sexassaults_places$avg_prior3years <- round((sexassaults_places$total_prior3years/3),1)
+socal_sexassault$total_prior3years <- socal_sexassault$`2019` + socal_sexassault$`2020` + socal_sexassault$`2021`
+socal_sexassault$avg_prior3years <- round((socal_sexassault$total_prior3years/3),1)
 # now add the increases or change percentages vs prepandemic vs last decade
-sexassaults_places$inc_19to21 <- round(sexassaults_places$`2021`/sexassaults_places$`2019`*100-100,1)
-sexassaults_places$inc_10to21 <- round(sexassaults_places$`2021`/sexassaults_places$`2010`*100-100,1)
+socal_sexassault$inc_19to21 <- round(socal_sexassault$`2021`/socal_sexassault$`2019`*100-100,1)
+socal_sexassault$inc_10to21 <- round(socal_sexassault$`2021`/socal_sexassault$`2010`*100-100,1)
 # add crime rates for each year
-sexassaults_places$rate19 <- round((sexassaults_places$`2019`/sexassaults_places$population)*100000,1)
-sexassaults_places$rate20 <- round((sexassaults_places$`2020`/sexassaults_places$population)*100000,1)
-sexassaults_places$rate21 <- round((sexassaults_places$`2021`/sexassaults_places$population)*100000,1)
-sexassaults_places$rate_prior3years <-round((sexassaults_places$avg_prior3years/sexassaults_places$population)*100000,1)
+socal_sexassault$rate19 <- round((socal_sexassault$`2019`/socal_sexassault$population)*100000,1)
+socal_sexassault$rate20 <- round((socal_sexassault$`2020`/socal_sexassault$population)*100000,1)
+socal_sexassault$rate21 <- round((socal_sexassault$`2021`/socal_sexassault$population)*100000,1)
+socal_sexassault$rate_prior3years <-round((socal_sexassault$avg_prior3years/socal_sexassault$population)*100000,1)
 # for map/table making purposes, changing Inf and NaN in calc fields to NA
-sexassaults_places <- sexassaults_places %>%
+socal_sexassault <- socal_sexassault %>%
   mutate(across(where(is.numeric), ~na_if(., Inf)))
-sexassaults_places <- sexassaults_places %>%
+socal_sexassault <- socal_sexassault %>%
   mutate(across(where(is.numeric), ~na_if(., "NaN")))
-
 
 # ROBBERIES
 # By Place add change columns for maps
-# add zeros where there were no crimes tallied that year
-robberies_places[is.na(robberies_places)] <- 0
 # add 3-year totals and annualized average over three years
-robberies_places$total_prior3years <- robberies_places$`2019` + robberies_places$`2020` + robberies_places$`2021`
-robberies_places$avg_prior3years <- round((robberies_places$total_prior3years/3),1)
+socal_robbery$total_prior3years <- socal_robbery$`2019` + socal_robbery$`2020` + socal_robbery$`2021`
+socal_robbery$avg_prior3years <- round((socal_robbery$total_prior3years/3),1)
 # now add the increases or change percentages vs prepandemic vs last decade
-robberies_places$inc_19to21 <- round(robberies_places$`2021`/robberies_places$`2019`*100-100,1)
-robberies_places$inc_10to21 <- round(robberies_places$`2021`/robberies_places$`2010`*100-100,1)
+socal_robbery$inc_19to21 <- round(socal_robbery$`2021`/socal_robbery$`2019`*100-100,1)
+socal_robbery$inc_10to21 <- round(socal_robbery$`2021`/socal_robbery$`2010`*100-100,1)
 # add crime rates for each year
-robberies_places$rate19 <- round((robberies_places$`2019`/robberies_places$population)*100000,1)
-robberies_places$rate20 <- round((robberies_places$`2020`/robberies_places$population)*100000,1)
-robberies_places$rate21 <- round((robberies_places$`2021`/robberies_places$population)*100000,1)
-robberies_places$rate_prior3years <-round((robberies_places$avg_prior3years/robberies_places$population)*100000,1)
+socal_robbery$rate19 <- round((socal_robbery$`2019`/socal_robbery$population)*100000,1)
+socal_robbery$rate20 <- round((socal_robbery$`2020`/socal_robbery$population)*100000,1)
+socal_robbery$rate21 <- round((socal_robbery$`2021`/socal_robbery$population)*100000,1)
+socal_robbery$rate_prior3years <-round((socal_robbery$avg_prior3years/socal_robbery$population)*100000,1)
 # for map/table making purposes, changing Inf and NaN in calc fields to NA
-robberies_places <- robberies_places %>%
+socal_robbery <- socal_robbery %>%
   mutate(across(where(is.numeric), ~na_if(., Inf)))
-robberies_places <- robberies_places %>%
+socal_robbery <- socal_robbery %>%
   mutate(across(where(is.numeric), ~na_if(., "NaN")))
 
 # ASSAULTS
 # By Place add change columns for maps
-# add zeros where there were no crimes tallied that year
-assaults_places[is.na(assaults_places)] <- 0
 # add 3-year totals and annualized average over three years
-assaults_places$total_prior3years <- assaults_places$`2019` + assaults_places$`2020` + assaults_places$`2021`
-assaults_places$avg_prior3years <- round((assaults_places$total_prior3years/3),1)
+socal_assault$total_prior3years <- socal_assault$`2019` + socal_assault$`2020` + socal_assault$`2021`
+socal_assault$avg_prior3years <- round((socal_assault$total_prior3years/3),1)
 # now add the increases or change percentages vs prepandemic vs last decade
-assaults_places$inc_19to21 <- round(assaults_places$`2021`/assaults_places$`2019`*100-100,1)
-assaults_places$inc_10to21 <- round(assaults_places$`2021`/assaults_places$`2010`*100-100,1)
+socal_assault$inc_19to21 <- round(socal_assault$`2021`/socal_assault$`2019`*100-100,1)
+socal_assault$inc_10to21 <- round(socal_assault$`2021`/socal_assault$`2010`*100-100,1)
 # add crime rates for each year
-assaults_places$rate19 <- round((assaults_places$`2019`/assaults_places$population)*100000,1)
-assaults_places$rate20 <- round((assaults_places$`2020`/assaults_places$population)*100000,1)
-assaults_places$rate21 <- round((assaults_places$`2021`/assaults_places$population)*100000,1)
-assaults_places$rate_prior3years <-round((assaults_places$avg_prior3years/assaults_places$population)*100000,1)
+socal_assault$rate19 <- round((socal_assault$`2019`/socal_assault$population)*100000,1)
+socal_assault$rate20 <- round((socal_assault$`2020`/socal_assault$population)*100000,1)
+socal_assault$rate21 <- round((socal_assault$`2021`/socal_assault$population)*100000,1)
+socal_assault$rate_prior3years <-round((socal_assault$avg_prior3years/socal_assault$population)*100000,1)
 # for map/table making purposes, changing Inf and NaN in calc fields to NA
-assaults_places <- assaults_places %>%
+socal_assault <- socal_assault %>%
   mutate(across(where(is.numeric), ~na_if(., Inf)))
-assaults_places <- assaults_places %>%
+socal_assault <- socal_assault %>%
   mutate(across(where(is.numeric), ~na_if(., "NaN")))
-
 
 # BURGLARIES
 # By Place add change columns for maps
-# add zeros where there were no crimes tallied that year
-burglaries_places[is.na(burglaries_places)] <- 0
 # add 3-year totals and annualized average over three years
-burglaries_places$total_prior3years <- burglaries_places$`2019` + burglaries_places$`2020` + burglaries_places$`2021`
-burglaries_places$avg_prior3years <- round((burglaries_places$total_prior3years/3),1)
+socal_burglary$total_prior3years <- socal_burglary$`2019` + socal_burglary$`2020` + socal_burglary$`2021`
+socal_burglary$avg_prior3years <- round((socal_burglary$total_prior3years/3),1)
 # now add the increases or change percentages vs prepandemic vs last decade
-burglaries_places$inc_19to21 <- round(burglaries_places$`2021`/burglaries_places$`2019`*100-100,1)
-burglaries_places$inc_10to21 <- round(burglaries_places$`2021`/burglaries_places$`2010`*100-100,1)
+socal_burglary$inc_19to21 <- round(socal_burglary$`2021`/socal_burglary$`2019`*100-100,1)
+socal_burglary$inc_10to21 <- round(socal_burglary$`2021`/socal_burglary$`2010`*100-100,1)
 # add crime rates for each year
-burglaries_places$rate19 <- round((burglaries_places$`2019`/burglaries_places$population)*100000,1)
-burglaries_places$rate20 <- round((burglaries_places$`2020`/burglaries_places$population)*100000,1)
-burglaries_places$rate21 <- round((burglaries_places$`2021`/burglaries_places$population)*100000,1)
-burglaries_places$rate_prior3years <-round((burglaries_places$avg_prior3years/burglaries_places$population)*100000,1)
+socal_burglary$rate19 <- round((socal_burglary$`2019`/socal_burglary$population)*100000,1)
+socal_burglary$rate20 <- round((socal_burglary$`2020`/socal_burglary$population)*100000,1)
+socal_burglary$rate21 <- round((socal_burglary$`2021`/socal_burglary$population)*100000,1)
+socal_burglary$rate_prior3years <-round((socal_burglary$avg_prior3years/socal_burglary$population)*100000,1)
 # for map/table making purposes, changing Inf and NaN in calc fields to NA
-burglaries_places <- burglaries_places %>%
+socal_burglary <- socal_burglary %>%
   mutate(across(where(is.numeric), ~na_if(., Inf)))
-burglaries_places <- burglaries_places %>%
+socal_burglary <- socal_burglary %>%
   mutate(across(where(is.numeric), ~na_if(., "NaN")))
-
 
 # VEHICLE THEFTS
 # By Place add change columns for maps
-# add zeros where there were no crimes tallied that year
-autothefts_places[is.na(autothefts_places)] <- 0
 # add 3-year totals and annualized average over three years
-autothefts_places$total_prior3years <- autothefts_places$`2019` + autothefts_places$`2020` + autothefts_places$`2021`
-autothefts_places$avg_prior3years <- round((autothefts_places$total_prior3years/3),1)
+socal_autotheft$total_prior3years <- socal_autotheft$`2019` + socal_autotheft$`2020` + socal_autotheft$`2021`
+socal_autotheft$avg_prior3years <- round((socal_autotheft$total_prior3years/3),1)
 # now add the increases or change percentages vs prepandemic vs last decade
-autothefts_places$inc_19to21 <- round(autothefts_places$`2021`/autothefts_places$`2019`*100-100,1)
-autothefts_places$inc_10to21 <- round(autothefts_places$`2021`/autothefts_places$`2010`*100-100,1)
+socal_autotheft$inc_19to21 <- round(socal_autotheft$`2021`/socal_autotheft$`2019`*100-100,1)
+socal_autotheft$inc_10to21 <- round(socal_autotheft$`2021`/socal_autotheft$`2010`*100-100,1)
 # add crime rates for each year
-autothefts_places$rate19 <- round((autothefts_places$`2019`/autothefts_places$population)*100000,1)
-autothefts_places$rate20 <- round((autothefts_places$`2020`/autothefts_places$population)*100000,1)
-autothefts_places$rate21 <- round((autothefts_places$`2021`/autothefts_places$population)*100000,1)
-autothefts_places$rate_prior3years <-round((autothefts_places$avg_prior3years/autothefts_places$population)*100000,1)
+socal_autotheft$rate19 <- round((socal_autotheft$`2019`/socal_autotheft$population)*100000,1)
+socal_autotheft$rate20 <- round((socal_autotheft$`2020`/socal_autotheft$population)*100000,1)
+socal_autotheft$rate21 <- round((socal_autotheft$`2021`/socal_autotheft$population)*100000,1)
+socal_autotheft$rate_prior3years <-round((socal_autotheft$avg_prior3years/socal_autotheft$population)*100000,1)
 # for map/table making purposes, changing Inf and NaN in calc fields to NA
-autothefts_places <- autothefts_places %>%
+socal_autotheft <- socal_autotheft %>%
   mutate(across(where(is.numeric), ~na_if(., Inf)))
-autothefts_places <- autothefts_places %>%
+socal_autotheft <- socal_autotheft %>%
   mutate(across(where(is.numeric), ~na_if(., "NaN")))
-
 
 # THEFTS
 # By Place add change columns for maps
-# add zeros where there were no crimes tallied that year
-thefts_places[is.na(thefts_places)] <- 0
 # add 3-year totals and annualized average over three years
-thefts_places$total_prior3years <- thefts_places$`2019` + thefts_places$`2020` + thefts_places$`2021`
-thefts_places$avg_prior3years <- round((thefts_places$total_prior3years/3),1)
+socal_theft$total_prior3years <- socal_theft$`2019` + socal_theft$`2020` + socal_theft$`2021`
+socal_theft$avg_prior3years <- round((socal_theft$total_prior3years/3),1)
 # now add the increases or change percentages vs prepandemic vs last decade
-thefts_places$inc_19to21 <- round(thefts_places$`2021`/thefts_places$`2019`*100-100,1)
-thefts_places$inc_10to21 <- round(thefts_places$`2021`/thefts_places$`2010`*100-100,1)
+socal_theft$inc_19to21 <- round(socal_theft$`2021`/socal_theft$`2019`*100-100,1)
+socal_theft$inc_10to21 <- round(socal_theft$`2021`/socal_theft$`2010`*100-100,1)
 # add crime rates for each year
-thefts_places$rate19 <- round((thefts_places$`2019`/thefts_places$population)*100000,1)
-thefts_places$rate20 <- round((thefts_places$`2020`/thefts_places$population)*100000,1)
-thefts_places$rate21 <- round((thefts_places$`2021`/thefts_places$population)*100000,1)
-thefts_places$rate_prior3years <-round((thefts_places$avg_prior3years/thefts_places$population)*100000,1)
-
-## NOW GATHER/PROCESS SHERIFF RURAL/UNINCORPORATED AREAS
-# gather the figures for the unincorporated/rural areas covered by sheriffs departments
-sheriffs_crime_murder <- cal_crime %>% select(year,county,ncic_code,homicide_sum) %>% filter(ncic_code %in% sheriffs) %>% spread(year,homicide_sum) %>% select(1,2,18:39) %>% rename("place"="ncic_code")
-sheriffs_crime_rape <- cal_crime %>% select(year,county,ncic_code,for_rape_sum) %>% filter(ncic_code %in% sheriffs) %>% spread(year,for_rape_sum) %>% select(1,2,18:39) %>% rename("place"="ncic_code")
-sheriffs_crime_assault <- cal_crime %>% select(year,county,ncic_code,agg_assault_sum) %>% filter(ncic_code %in% sheriffs) %>% spread(year,agg_assault_sum) %>% select(1,2,18:39) %>% rename("place"="ncic_code")
-sheriffs_crime_robbery <- cal_crime %>% select(year,county,ncic_code,robbery_sum) %>% filter(ncic_code %in% sheriffs) %>% spread(year,robbery_sum) %>% select(1,2,18:39) %>% rename("place"="ncic_code")
-sheriffs_crime_burglary <- cal_crime %>% select(year,county,ncic_code,burglary_sum) %>% filter(ncic_code %in% sheriffs) %>% spread(year,burglary_sum) %>% select(1,2,18:39) %>% rename("place"="ncic_code")
-sheriffs_crime_theft <- cal_crime %>% select(year,county,ncic_code,l_ttotal_sum) %>% filter(ncic_code %in% sheriffs) %>% spread(year,l_ttotal_sum) %>% select(1,2,18:39) %>% rename("place"="ncic_code")
-sheriffs_crime_autotheft <- cal_crime %>% select(year,county,ncic_code,vehicle_theft_sum) %>% filter(ncic_code %in% sheriffs) %>% spread(year,vehicle_theft_sum) %>% select(1,2,18:39) %>% rename("place"="ncic_code")
-
-# gather the figures for the unincorporated/rural areas covered by sheriffs departments
-sheriffs_clearance_murder <- cal_crime %>% select(year,county,ncic_code,homicide_clr_sum) %>% filter(ncic_code %in% sheriffs) %>% spread(year,homicide_clr_sum) %>% select(1,2,18:39) %>% rename("place"="ncic_code")
-sheriffs_clearance_rape <- cal_crime %>% select(year,county,ncic_code,for_rape_clr_sum) %>% filter(ncic_code %in% sheriffs) %>% spread(year,for_rape_clr_sum) %>% select(1,2,18:39) %>% rename("place"="ncic_code")
-sheriffs_clearance_assault <- cal_crime %>% select(year,county,ncic_code,agg_assault_clr_sum) %>% filter(ncic_code %in% sheriffs) %>% spread(year,agg_assault_clr_sum) %>% select(1,2,18:39) %>% rename("place"="ncic_code")
-sheriffs_clearance_robbery <- cal_crime %>% select(year,county,ncic_code,robbery_clr_sum) %>% filter(ncic_code %in% sheriffs) %>% spread(year,robbery_clr_sum) %>% select(1,2,18:39) %>% rename("place"="ncic_code")
-sheriffs_clearance_burglary <- cal_crime %>% select(year,county,ncic_code,burglary_clr_sum) %>% filter(ncic_code %in% sheriffs) %>% spread(year,burglary_clr_sum) %>% select(1,2,18:39) %>% rename("place"="ncic_code")
-sheriffs_clearance_theft <- cal_crime %>% select(year,county,ncic_code,l_ttotal_clr_sum) %>% filter(ncic_code %in% sheriffs) %>% spread(year,l_ttotal_clr_sum) %>% select(1,2,18:39) %>% rename("place"="ncic_code")
-sheriffs_clearance_autotheft <- cal_crime %>% select(year,county,ncic_code,vehicle_theft_clr_sum) %>% filter(ncic_code %in% sheriffs) %>% spread(year,vehicle_theft_clr_sum) %>% select(1,2,18:39) %>% rename("place"="ncic_code")
-
-
-
-## Clearance Rates By Agency
-# Filter for crime incident counts in jurisdictions in our five counties 
-cal_clearance_murder <- cal_crime %>% select(year,county,ncic_code,homicide_clr_sum) %>% spread(year,homicide_clr_sum) %>% select(1,2,28:39)
-cal_clearance_rape <- cal_crime %>% select(year,county,ncic_code,for_rape_clr_sum) %>% spread(year,for_rape_clr_sum) %>% select(1,2,28:39)
-cal_clearance_assault <- cal_crime %>% select(year,county,ncic_code,agg_assault_clr_sum) %>% spread(year,agg_assault_clr_sum) %>% select(1,2,28:39)
-cal_clearance_robbery <- cal_crime %>% select(year,county,ncic_code,robbery_clr_sum) %>% spread(year,robbery_clr_sum) %>% select(1,2,28:39)
-cal_clearance_burglary <- cal_crime %>% select(year,county,ncic_code,burglary_clr_sum) %>% spread(year,burglary_clr_sum) %>% select(1,2,28:39)
-cal_clearance_theft <- cal_crime %>% select(year,county,ncic_code,l_ttotal_clr_sum) %>% spread(year,l_ttotal_clr_sum) %>% select(1,2,28:39)
-cal_clearance_autotheft <- cal_crime %>% select(year,county,ncic_code,vehicle_theft_clr_sum) %>% spread(year,vehicle_theft_clr_sum) %>% select(1,2,28:39)
-
-# make quick tables that we can use for a quick simple map to be improved later
-murders_clearance_places <- inner_join(socal_places %>% st_drop_geometry() %>% select(4),cal_clearance_murder,by=c("place"="ncic_code")) %>% left_join(murders_places %>% st_drop_geometry() %>% select(2,15:26),by="place") %>% mutate(crime="Murder")
-sexassaults_clearance_places <- inner_join(socal_places %>% st_drop_geometry() %>% select(4),cal_clearance_rape,by=c("place"="ncic_code")) %>% left_join(sexassaults_places %>% st_drop_geometry() %>% select(2,15:26),by="place") %>% mutate(crime="Sexual Assault")
-assaults_clearance_places <- inner_join(socal_places %>% st_drop_geometry() %>% select(4),cal_clearance_assault,by=c("place"="ncic_code")) %>% left_join(assaults_places %>% st_drop_geometry() %>% select(2,15:26),by="place") %>% mutate(crime="Aggravated Assault")
-robberies_clearance_places <- inner_join(socal_places %>% st_drop_geometry() %>% select(4),cal_clearance_robbery,by=c("place"="ncic_code")) %>% left_join(robberies_places %>% st_drop_geometry() %>% select(2,15:26),by="place") %>% mutate(crime="Robbery")
-burglaries_clearance_places <- inner_join(socal_places %>% st_drop_geometry() %>% select(4),cal_clearance_burglary,by=c("place"="ncic_code")) %>% left_join(burglaries_places %>% st_drop_geometry() %>% select(2,15:26),by="place") %>% mutate(crime="Burglary")
-thefts_clearance_places <- inner_join(socal_places %>% st_drop_geometry() %>% select(4),cal_clearance_theft,by=c("place"="ncic_code")) %>% left_join(thefts_places %>% st_drop_geometry() %>% select(2,15:26),by="place") %>% mutate(crime="Theft")
-autothefts_clearance_places <- inner_join(socal_places %>% st_drop_geometry() %>% select(4),cal_clearance_autotheft,by=c("place"="ncic_code")) %>% left_join(autothefts_places %>% st_drop_geometry() %>% select(2,15:26),by="place") %>% mutate(crime="Vehicle Theft")
-
-colnames(murders_clearance_places) <- sub(".x", "clr", colnames(murders_clearance_places))
-colnames(sexassaults_clearance_places) <- sub(".x", "clr", colnames(sexassaults_clearance_places))
-colnames(assaults_clearance_places) <- sub(".x", "clr", colnames(assaults_clearance_places))
-colnames(robberies_clearance_places) <- sub(".x", "clr", colnames(robberies_clearance_places))
-colnames(burglaries_clearance_places) <- sub(".x", "clr", colnames(burglaries_clearance_places))
-colnames(thefts_clearance_places) <- sub(".x", "clr", colnames(thefts_clearance_places))
-colnames(autothefts_clearance_places) <- sub(".x", "clr", colnames(autothefts_clearance_places))
-colnames(murders_clearance_places) <- sub(".y", "total", colnames(murders_clearance_places))
-colnames(sexassaults_clearance_places) <- sub(".y", "total", colnames(sexassaults_clearance_places))
-colnames(assaults_clearance_places) <- sub(".y", "total", colnames(assaults_clearance_places))
-colnames(robberies_clearance_places) <- sub(".y", "total", colnames(robberies_clearance_places))
-colnames(burglaries_clearance_places) <- sub(".y", "total", colnames(burglaries_clearance_places))
-colnames(thefts_clearance_places) <- sub(".y", "total", colnames(thefts_clearance_places))
-colnames(autothefts_clearance_places) <- sub(".y", "total", colnames(autothefts_clearance_places))
-colnames(murders_clearance_places) <- sub("countotal", "county", colnames(murders_clearance_places))
-colnames(sexassaults_clearance_places) <- sub("countotal", "county", colnames(sexassaults_clearance_places))
-colnames(assaults_clearance_places) <- sub("countotal", "county", colnames(assaults_clearance_places))
-colnames(robberies_clearance_places) <- sub("countotal", "county", colnames(robberies_clearance_places))
-colnames(burglaries_clearance_places) <- sub("countotal", "county", colnames(burglaries_clearance_places))
-colnames(thefts_clearance_places) <- sub("countotal", "county", colnames(thefts_clearance_places))
-colnames(autothefts_clearance_places) <- sub("countotal", "county", colnames(autothefts_clearance_places))
-
-clearance_places <- rbind(murders_clearance_places,sexassaults_clearance_places,assaults_clearance_places,robberies_clearance_places,burglaries_clearance_places,thefts_clearance_places,autothefts_clearance_places)
-
-clearance_places$`2010clr_pct` <- round(clearance_places$`2010clr`/clearance_places$`2010total`,3)*100
-clearance_places$`2011clr_pct` <- round(clearance_places$`2011clr`/clearance_places$`2011total`,3)*100
-clearance_places$`2012clr_pct` <- round(clearance_places$`2012clr`/clearance_places$`2012total`,3)*100
-clearance_places$`2013clr_pct` <- round(clearance_places$`2013clr`/clearance_places$`2013total`,3)*100
-clearance_places$`2014clr_pct` <- round(clearance_places$`2014clr`/clearance_places$`2014total`,3)*100
-clearance_places$`2015clr_pct` <- round(clearance_places$`2015clr`/clearance_places$`2015total`,3)*100
-clearance_places$`2016clr_pct` <- round(clearance_places$`2016clr`/clearance_places$`2016total`,3)*100
-clearance_places$`2017clr_pct` <- round(clearance_places$`2017clr`/clearance_places$`2017total`,3)*100
-clearance_places$`2018clr_pct` <- round(clearance_places$`2018clr`/clearance_places$`2018total`,3)*100
-clearance_places$`2019clr_pct` <- round(clearance_places$`2019clr`/clearance_places$`2019total`,3)*100
-clearance_places$`2020clr_pct` <- round(clearance_places$`2020clr`/clearance_places$`2020total`,3)*100
-clearance_places$`2021clr_pct` <- round(clearance_places$`2021clr`/clearance_places$`2021total`,3)*100
-
+socal_theft$rate19 <- round((socal_theft$`2019`/socal_theft$population)*100000,1)
+socal_theft$rate20 <- round((socal_theft$`2020`/socal_theft$population)*100000,1)
+socal_theft$rate21 <- round((socal_theft$`2021`/socal_theft$population)*100000,1)
+socal_theft$rate_prior3years <-round((socal_theft$avg_prior3years/socal_theft$population)*100000,1)
 # for map/table making purposes, changing Inf and NaN in calc fields to NA
-clearance_places <- clearance_places %>%
+socal_theft <- socal_theft %>%
   mutate(across(where(is.numeric), ~na_if(., Inf)))
-clearance_places <- clearance_places %>%
+socal_theft <- socal_theft %>%
   mutate(across(where(is.numeric), ~na_if(., "NaN")))
-
-write_csv(clearance_places,"data/output/clearances_byagency_20102021.csv")
-clearance_places %>% filter(county=="Los Angeles County") %>% write_csv(clearance_places,"data/output/clearances_losangeles.csv")

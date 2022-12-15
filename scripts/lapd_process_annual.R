@@ -80,14 +80,18 @@ lapd_annual <- lapd_annual %>%
   summarise(count = sum(number_incidents)) %>%
   pivot_wider(names_from=year, values_from=count)
 
+# Add place & county cols that match the new region wide police map file
+lapd_annual$place <- paste(lapd_annual$agency,lapd_annual$district)
+lapd_annual$county <- "Los Angeles County"
+
 # Create a separate file for each crime to map to statewide file and tables
-lapd_murder <- lapd_annual %>% filter(category=="Criminal Homicide")
-lapd_sexassault <- lapd_annual %>% filter(category=="Sexual Assault")
-lapd_assault <- lapd_annual %>% filter(category=="Aggravated Assault")
-lapd_robbery <- lapd_annual %>% filter(category=="Robbery")
-lapd_burglary <- lapd_annual %>% filter(category=="Burglary")
-lapd_theft <- lapd_annual %>% filter(category=="Larceny Theft")
-lapd_autotheft <- lapd_annual %>% filter(category=="Vehicle Theft")
+lapd_murder <- lapd_annual %>% filter(category=="Homicide") %>% ungroup %>% select(17,18,4:16,1)
+lapd_sexassault <- lapd_annual %>% filter(category=="Sexual Assault") %>% ungroup %>% select(17,18,4:16,1)
+lapd_assault <- lapd_annual %>% filter(category=="Aggravated Assault") %>% ungroup %>% select(17,18,4:16,1)
+lapd_robbery <- lapd_annual %>% filter(category=="Robbery") %>% ungroup %>% select(17,18,4:16,1)
+lapd_burglary <- lapd_annual %>% filter(category=="Burglary") %>% ungroup %>% select(17,18,4:16,1)
+lapd_theft <- lapd_annual %>% filter(category=="Larceny") %>% ungroup %>% select(17,18,4:16,1)
+lapd_autotheft <- lapd_annual %>% filter(category=="Vehicle Theft") %>% ungroup %>% select(17,18,4:16,1)
 
 saveRDS(lapd_annual,"scripts/rds/lapd_annual.rds")
 saveRDS(lapd_annual,"data/output/lapd_annual.rds")

@@ -1,0 +1,439 @@
+---
+title: "ABC7 Southern California Neighborhood Safety Tracker"
+# author: "John Kelly"
+# date: Sys.time()
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning=FALSE)
+library(tidyverse)
+library(leaflet)
+library(leaflet.extras)
+library(leaflet.providers)
+library(htmlwidgets)
+library(htmltools)
+library(sf)
+
+```
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+
+![<popupchatter>Updated `r format(Sys.time(), '%B %d, %Y')` by the ABC7 Data Team</popupchatter>](https://github.com/abcotvdata/safetytracker_losangeles/raw/main/docs/banner_kabc.png)
+
+```{css, echo=FALSE}
+
+h1.title {
+  font-family: roboto;
+  color: transparent;
+  font-weight: 700;
+  text-align: left;
+  font-size: 12px;
+  padding: 0px;
+}
+
+.date {
+  font-family: roboto;
+  color: black;
+  font-weight: 300;
+  text-align: left;
+  font-size: 10px;
+    padding: 5px;
+}
+
+select {
+  margin: 0px;
+  width: 225px;
+  color: #00318b;
+  padding: 5px 35px 5px 5px;
+    font-family: roboto;
+  font-size: 18px;
+  font-weight: 900;
+  border: 0px;
+  height: 34px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: url(https://upload.wikimedia.org/wikipedia/commons/9/9d/Arrow-down.svg) 96% / 15% no-repeat #f2f2f2;
+}
+
+h1 {
+  font-family: roboto;
+  color: black;
+  font-weight: bolder;
+  text-align: left;
+  font-size: 36px;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+h2 {
+  font-family: roboto;
+  font-weight: 500;
+  color: black;
+  text-align: center;
+  font-size: 18px;
+  margin-top: 0;
+  margin-bottom: 2;
+}
+
+bignumber {
+  font-family: roboto;
+  color: #00318b;
+  font-weight: 900;
+  text-align: center;
+  font-size: 60px;
+    line-height: 65px;
+  height: 65px;
+    margin-top: 0;
+  margin-bottom: 0;
+}
+
+subhead {
+  font-family: roboto;
+  color: black;
+  font-weight: 700;
+  text-align: left;
+  font-size: 20px;
+    padding: 0px;
+}
+
+body {
+  color: black;
+  font-family: roboto;
+  font-weight: 400;
+  font-size: 18px;
+}
+
+popuptitle {
+  color: #00318b;
+  font-family: roboto;
+  font-weight: 700;
+  font-size: 15px;
+  text-align: left;
+}
+
+popupchatter {
+  font-family: roboto;
+  color: black;
+  font-weight: 300;
+  text-align: left;
+  font-size: 12px;
+  margin-top: 0;
+  margin-bottom: 2;
+}
+
+h8 {
+  color: #00318b;
+  font-family: roboto;
+  font-weight: 900;
+  font-size: 18px;
+}
+
+table {
+  font-family: roboto;
+  width: 100%;
+}
+
+tr {
+  border-bottom: thin solid #99a0a5;
+}
+  
+td {
+  text-align: right;
+  padding: 1px;
+}
+
+th {
+  text-align: right;
+  padding: 1px;
+}
+  
+   * {
+      box-sizing: border-box;
+   }
+   .card {
+      color: white;
+      float: left;
+      width: calc(25% - 10px);
+      padding: 5px;
+      border-radius: 10px;
+      margin-left: 3px;
+      margin-right: 3px;
+      margin-top: 3px;
+      margin-bottom: 3px;
+      height: 100%;
+   }
+   .card p {
+   font-family: roboto;
+   text-align: center;
+   font-size: 14px;
+  margin-bottom: 0;
+   }
+   .cardContainer:after {
+      content: "";
+      display: table;
+      clear: both;
+   }
+      .card2 {
+      color: #00318b;
+      float: left;
+      width: calc(14% - 10px);
+      padding: 5px;
+      border-radius: 10px;
+      margin-left: 3px;
+      margin-right: 3px;
+      margin-top: 3px;
+      margin-bottom: 3px;
+      height: 100%;
+   }
+   .card2 p {
+   font-family: roboto;
+    font-weight: 700;
+   text-align: center;
+   font-size: 12px;
+  margin-bottom: 0;
+   }
+   .cardContainer2:after {
+      content: "";
+      display: table;
+      clear: both;
+   }
+   @media screen and (max-width: 650px) {
+      .card {
+         width: 100%;
+      }
+       .card2 {
+         width: 30%;
+      }
+      h1.title {
+        font-size: 22px;
+      }
+   }
+```
+
+```{r countywide totals, include=FALSE}
+robberies_county <- countywide_robbery %>% filter(county=="Orange County")
+```
+
+<h2>ABC7 is tracking crime and safety in communities across Orange County. 
+
+You can choose which crime to examine: <select onchange="window.location=this.value">
+<option value="https://abcotvdata.github.io/safetytracker_losangeles/Orange_County_Safety_Tracker_Robberies.html">Robberies</option>
+<option value="https://abcotvdata.github.io/safetytracker_losangeles/Orange_County_Safety_Tracker.html">Homicides</option>
+<option value="https://abcotvdata.github.io/safetytracker_losangeles/Orange_County_Safety_Tracker_Assaults.html">Assaults</option>
+<option value="https://abcotvdata.github.io/safetytracker_losangeles/Orange_County_Safety_Tracker_Burglaries.html">Burglaries</option>
+<option value="https://abcotvdata.github.io/safetytracker_losangeles/Orange_County_Safety_Tracker_SexualAssaults.html">Sexual Assaults</option>
+<option value="https://abcotvdata.github.io/safetytracker_losangeles/Orange_County_Safety_Tracker_Thefts.html">Thefts</option>
+<option value="https://abcotvdata.github.io/safetytracker_losangeles/Orange_County_Safety_Tracker_VehicleThefts.html">Vehicle Thefts</option>
+</select></h2>
+<h2>Choose a different area to explore: <select onchange="window.location=this.value">
+<option value="https://abcotvdata.github.io/safetytracker_losangeles/Orange_County_Safety_Tracker.html">Orange County</option>
+<option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_County_Safety_Tracker.html">Los Angeles County</option>
+<option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker.html">City of Los Angeles</option>
+<option value="https://abcotvdata.github.io/safetytracker_losangeles/Riverside_County_Safety_Tracker.html">Riverside County</option>
+<option value="https://abcotvdata.github.io/safetytracker_losangeles/San_Bernardino_County_Safety_Tracker.html">San Bernardino County</option>
+<option value="https://abcotvdata.github.io/safetytracker_losangeles/Ventura_County_Safety_Tracker.html">Ventura County</option>
+</select></h2>
+
+There were <h8>`r prettyNum(robberies_county$total21,big.mark=",")`</h8> robberies in 2021 across Orange County, according to data that law enforcement agencies report to the state of California.
+
+In 2019, the data show that number was <h8>`r prettyNum(robberies_county$total19,big.mark=",")`</h8>. In 2010, it was <h8>`r prettyNum(robberies_county$total10,big.mark=",")`</h8>.
+
+Robbery is generally defined by police as taking something of value from someone by force or threatening force. So while someone taking a smartphone from someone's bag would be theft, taking it while pointing a firearm at the person would be robbery.
+
+The risk is not the same in every community.
+
+ABC7's data team looked at the data that every local police agency reported to the California Department of Justice each year through 2021, the latest date for which records are available. The vast majority of law enforcement agencies in the county do not make public more recent records.
+
+<subhead>A closer look at Orange County robberies where you live</subhead>
+
+The map color codes each community by the rate of incidents per 100,000 residents in 2021. Click the box in the bottom right corner to color-code communities by the number of crimes instead of the rate.
+
+Use the search box at the top of the map to find for any street, place, landmark or zip code and zoom to that location.
+
+Click inside any area to see detailed figures for the last several years or search the table below the map to view and compare data by area over more than a decade. 
+
+Choose a different crime to explore in the county:
+<br>
+<div class="cardContainer2">
+<div class="card2" style="background-color:#99a0a5;">
+<p>Homicides</div>
+<div class="card2" style="background-color:#99a0a5;">
+<p>Assaults</div>
+<div class="card2" style="background-color:#99a0a5;">
+<p>Burglaries</div>
+<div class="card2" style="background-color:#99a0a5;">
+<p>Robberies</div>
+<div class="card2" style="background-color:#99a0a5;">
+<p>Sexual Assaults</div>
+<div class="card2" style="background-color:#99a0a5;">
+<p>Thefts</div>
+<div class="card2" style="background-color:#99a0a5;">
+<p>Vehicle Thefts</div>
+</div>
+
+```{r map, echo=FALSE,out.width='100%',out.height='600'}
+# robbery MAP
+
+# Set bins for numbers of crimes for robberys map
+robberybins1 <- c(0,
+                20,
+                35,
+                75,
+                100,
+                200)
+robberybins2 <- c(0,
+                25,
+                50,
+                100,
+                250,
+                400)
+robberypal1 <- colorBin(c("#aecfe6",
+                             "#2787d6",
+                             "#0058f6",
+                             "#003ca6",
+                             "#00215c"), socal_robbery$rate21, bins = robberybins1,na.color = "#51585f")
+
+robberypal2 <- colorBin(c("#aecfe6",
+                             "#2787d6",
+                             "#0058f6",
+                             "#003ca6",
+                             "#00215c"), socal_robbery$`2021`, bins = robberybins2,na.color = "#51585f")
+
+                            
+# Create labels for robberys map
+robberylabel_places <- paste(sep="",
+                     "<popuptitle>",
+                     socal_robbery$`2021`,
+                     ifelse(socal_robbery$`2021`==1,
+                     " robbery </popuptitle><br>",
+                     " robberies </popuptitle><br>"),
+                     " in 2021 in <b>",
+                     socal_robbery$place,
+                     "</b> home to an estimated ",
+                     prettyNum(socal_robbery$population, big.mark=","),
+                     " people.
+<br>
+<table>      
+      <tr>
+				<th></th>
+				<th>Total</th>
+				<th>Rate</th>
+			</tr>
+			<tr>
+				<td>2019</td>
+				<td>",
+socal_robbery$`2019`,
+"</td>
+				<td>",
+socal_robbery$rate19,
+"</td>
+			</tr>
+			<tr>
+				<td>2020</td>
+				<td>",
+socal_robbery$`2020`,
+"</td>
+				<td>",
+socal_robbery$rate20,
+"</td>
+			</tr>
+						<tr>
+				<td>2021</td>
+				<td>",
+socal_robbery$`2021`,
+"</td>
+				<td>",
+socal_robbery$rate21,
+"</td>
+			</tr>
+						<tr>
+				<td>3-year Average</td>
+				<td>",
+socal_robbery$avg_prior3years,
+"</td>
+				<td>",
+socal_robbery$rate_prior3years,
+"</td>
+			</tr>
+</table>")
+
+
+# Creating police beats map for types of crimes
+orange_robbery_map <- leaflet(socal_robbery, options = leafletOptions(zoomControl = FALSE, zoomSnap = 0.5, zoomDelta=0.5)) %>%
+  htmlwidgets::onRender("function(el, x) {
+L.control.zoom({ position: 'topright' }).addTo(this)
+}") %>%
+  setView(-117.91, 33.83, zoom = 11) %>% 
+  addProviderTiles(provider = "Esri.WorldImagery") %>%
+  addProviderTiles(provider = "CartoDB.PositronOnlyLabels") %>%
+  addPolygons(color = "white", 
+              popup = robberylabel_places,
+              popupOptions = popupOptions(maxWidth ="200", 
+                                          minWidth ="200"),
+              weight = 2, 
+              smoothFactor = 0.5,
+              opacity = 0.6, 
+              fillOpacity = 0.6,
+              fillColor = ~robberypal1(rate21),
+              group="Rate") %>% 
+    addPolygons(color = "white", 
+              popup = robberylabel_places,
+              popupOptions = popupOptions(maxWidth ="200", 
+                                          minWidth ="200"),
+              weight = 2, 
+              smoothFactor = 0.5,
+              opacity = 0.6, 
+              fillOpacity = 0.6,
+              fillColor = ~robberypal2(`2021`),
+              group="Number") %>% 
+  addSearchOSM(options = searchOptions(autoCollapse=FALSE, minLength = 3,zoom=13, position="topleft")) %>%
+    onRender("function(el, x) {
+        $('input.search-input')[0].placeholder = 'Search street, place or zip code'
+        }") %>%
+  addLegend(opacity = 0.6,
+            values = socal_robbery$rate21, 
+            pal = robberypal1,
+            position = "bottomleft", 
+            title = paste(sep="","<popuptitle>Robbery Rate<br><popupchatter>Robberies/100K people<br>"),
+            group = "Rate",
+            className = "info legend Rate") %>%
+  addLegend(opacity = 0.6,
+            values = socal_robbery$`2021`, 
+            pal = robberypal2,
+            position = "bottomleft", 
+            title = paste(sep="","<popuptitle>Robberies<br>"),
+            group = "Number",
+            className = "info legend Number") %>%
+  addLayersControl(
+    baseGroups = c("Rate","Number"),
+    options = layersControlOptions(collapsed = FALSE),
+    position = 'bottomright') %>% hideGroup(c("Number")) %>%
+   htmlwidgets::onRender("
+      function(el, x) {
+         var updateLegend = function () {
+            var selectedGroup = document.querySelectorAll('input:checked')[0].nextSibling.innerText.substr(1);
+
+            document.querySelectorAll('.legend').forEach(a => a.hidden=true);
+            document.querySelectorAll('.legend').forEach(l => {
+               if (l.classList.contains(selectedGroup)) l.hidden=false;
+            });
+         };
+         updateLegend();
+         this.on('baselayerchange', el => updateLegend());
+      }"
+   )
+  
+orange_robbery_map
+```
+<br>
+<br>
+<!-- <subhead> Look up year by year city table-->
+<iframe title="Robberies by area across Orange County" aria-label="Table" id="datawrapper-chart-hiTkI" src="https://datawrapper.dwcdn.net/hiTkI/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="2105" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(e){if(void 0!==e.data["datawrapper-height"]){var t=document.querySelectorAll("iframe");for(var a in e.data["datawrapper-height"])for(var r=0;r<t.length;r++){if(t[r].contentWindow===e.source)t[r].style.height=e.data["datawrapper-height"][a]+"px"}}}))}();
+</script>
+<br>
+<br>
+<!-- <subhead>Update to add clearance rates table -->
+<br>
+<br>
+<!-- <subhead>Upgrade later to add comparison of rates for types of crime-->

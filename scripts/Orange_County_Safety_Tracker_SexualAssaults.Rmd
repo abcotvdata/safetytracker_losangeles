@@ -358,7 +358,8 @@ socal_sexassault$avg_prior3years,
 socal_sexassault$rate_prior3years,
 "</td>
 			</tr>
-</table>")
+</table>",
+"<br>Source: California DOJ, LAPD and LA County Sheriff")
 
 
 # Creating police beats map for types of crimes

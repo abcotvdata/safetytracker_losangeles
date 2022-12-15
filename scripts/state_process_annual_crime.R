@@ -68,7 +68,9 @@ socal_burglary <- inner_join(police_map %>% select(3:5),socal_burglary,by="place
 socal_theft <- inner_join(police_map %>% select(3:5),socal_theft,by="place")
 socal_autotheft <- inner_join(police_map %>% select(3:5),socal_autotheft,by="place")
 
-# OPEN WORK: Unincorporated Walnut/Diamond Bar is not showing up
+
+
+
 
 # MURDERS
 # By Place add change columns for maps
@@ -202,3 +204,33 @@ socal_theft <- socal_theft %>%
   mutate(across(where(is.numeric), ~na_if(., Inf)))
 socal_theft <- socal_theft %>%
   mutate(across(where(is.numeric), ~na_if(., "NaN")))
+
+socal_murder$place_chart <- case_when(socal_murder$agency=="LASD" ~ paste0(socal_murder$place,"^Area policed by ",socal_murder$agency,"^"),
+                                      socal_murder$agency=="LAPD" ~ paste0(socal_murder$place,"^Division of Los Angeles PD^"),
+                                      TRUE ~ socal_murder$place)
+socal_sexassault$place_chart <- case_when(socal_sexassault$agency=="LASD" ~ paste0(socal_sexassault$place,"^Area policed by ",socal_sexassault$agency,"^"),
+                                          socal_sexassault$agency=="LAPD" ~ paste0(socal_sexassault$place,"^Division of Los Angeles PD^"),
+                                          TRUE ~ socal_murder$place)
+socal_assault$place_chart <- case_when(socal_assault$agency=="LASD" ~ paste0(socal_assault$place,"^Area policed by ",socal_assault$agency,"^"),
+                                       socal_assault$agency=="LAPD" ~ paste0(socal_assault$place,"^Division of Los Angeles PD^"),
+                                       TRUE ~ socal_murder$place)
+socal_robbery$place_chart <- case_when(socal_robbery$agency=="LASD" ~ paste0(socal_robbery$place,"^Area policed by ",socal_robbery$agency,"^"),
+                                       socal_robbery$agency=="LAPD" ~ paste0(socal_robbery$place,"^Division of Los Angeles PD^"),
+                                       TRUE ~ socal_murder$place)
+socal_burglary$place_chart <- case_when(socal_burglary$agency=="LASD" ~ paste0(socal_burglary$place,"^Area policed by ",socal_burglary$agency,"^"),
+                                        socal_burglary$agency=="LAPD" ~ paste0(socal_burglary$place,"^Division of Los Angeles PD^"),
+                                        TRUE ~ socal_murder$place)
+socal_theft$place_chart <- case_when(socal_theft$agency=="LASD" ~ paste0(socal_theft$place,"^Area policed by ",socal_theft$agency,"^"),
+                                     socal_theft$agency=="LAPD" ~ paste0(socal_theft$place,"^Division of Los Angeles PD^"),
+                                     TRUE ~ socal_murder$place)
+socal_autotheft$place_chart <- case_when(socal_autotheft$agency=="LASD" ~ paste0(socal_autotheft$place,"^Area policed by ",socal_autotheft$agency,"^"),
+                                         socal_autotheft$agency=="LAPD" ~ paste0(socal_autotheft$place,"^Division of Los Angeles PD^"),
+                                         TRUE ~ socal_murder$place)
+
+# Output county level files for each crime category
+socal_murder %>% st_drop_geometry() %>% filter(county=="Riverside County") %>% select(2,5:16,22,25,26) %>% write_csv("data/output/annual/riverside_murder.csv")
+socal_sexassault %>% st_drop_geometry() %>% filter(county=="Riverside County") %>% select(2,5:16,22,25,26) %>% write_csv("data/output/annual/riverside_sexassault.csv")
+socal_murder %>% st_drop_geometry() %>% select(2,5:16,22,25,26) %>% write_csv("data/output/annual/socal_murder.csv")
+
+
+

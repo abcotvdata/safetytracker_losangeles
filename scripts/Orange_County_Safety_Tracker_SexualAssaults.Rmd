@@ -177,7 +177,7 @@ th {
       .card2 {
       color: #00318b;
       float: left;
-      width: calc(14% - 10px);
+      width: calc(16% - 10px);
       padding: 5px;
       border-radius: 10px;
       margin-left: 3px;
@@ -190,7 +190,7 @@ th {
    font-family: roboto;
     font-weight: 700;
    text-align: center;
-   font-size: 12px;
+   font-size: 14px;
   margin-bottom: 0;
    }
    .cardContainer2:after {
@@ -253,38 +253,37 @@ Click inside any area to see detailed figures for the last several years or sear
 
 Choose a different crime to explore in the county:
 <br>
+<br>
 <div class="cardContainer2">
 <div class="card2" style="background-color:#99a0a5;">
-<p>Homicides</div>
+<p><a href="https://abcotvdata.github.io/safetytracker_losangeles/Orange_County_Safety_Tracker.html">Homicides</a></div>
 <div class="card2" style="background-color:#99a0a5;">
-<p>Assaults</div>
+<p><a href="https://abcotvdata.github.io/safetytracker_losangeles/Orange_County_Safety_Tracker_Assaults.html">Assaults</a></div>
 <div class="card2" style="background-color:#99a0a5;">
-<p>Burglaries</div>
+<p><a href="https://abcotvdata.github.io/safetytracker_losangeles/Orange_County_Safety_Tracker_Burglaries.html">Burglaries</a></div>
 <div class="card2" style="background-color:#99a0a5;">
-<p>Robberies</div>
+<p><a href="https://abcotvdata.github.io/safetytracker_losangeles/Orange_County_Safety_Tracker_Robberies.html">Robberies</a></div>
 <div class="card2" style="background-color:#99a0a5;">
-<p>Sexual Assaults</div>
+<p><a href="https://abcotvdata.github.io/safetytracker_losangeles/Orange_County_Safety_Tracker_Thefts.html">Thefts</a></div>
 <div class="card2" style="background-color:#99a0a5;">
-<p>Thefts</div>
-<div class="card2" style="background-color:#99a0a5;">
-<p>Vehicle Thefts</div>
+<p><a href="https://abcotvdata.github.io/safetytracker_losangeles/Orange_County_Safety_Tracker_VehicleThefts.html">Vehicle Thefts</a></div>
 </div>
-
+<br>
 ```{r map, echo=FALSE,out.width='100%',out.height='600'}
 # sexassault MAP
 
 # Set bins for numbers of crimes for sexassaults map
 sexassaultbins1 <- c(0,
-                10,
+                15,
                 25,
+                30,
                 50,
-                75,
-                100)
+                5000)
 sexassaultbins2 <- c(0,
+                5,
+                10,
+                20,
                 50,
-                100,
-                150,
-                200,
                 300)
 sexassaultpal1 <- colorBin(c("#aecfe6",
                              "#2787d6",
@@ -308,7 +307,7 @@ sexassaultlabel_places <- paste(sep="",
                      " sexual assaults </popuptitle><br>"),
                      " in 2021 in <b>",
                      socal_sexassault$place,
-                     "</b> home to an estimated ",
+                     "</b>, home to an estimated ",
                      prettyNum(socal_sexassault$population, big.mark=","),
                      " people.
 <br>

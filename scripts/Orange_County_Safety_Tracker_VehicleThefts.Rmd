@@ -148,7 +148,7 @@ th {
   padding: 1px;
 }
 
-.legend { margin-bottom: 50px; !important}
+div.legend { margin-bottom: 50px; !important}
   
    * {
       box-sizing: border-box;

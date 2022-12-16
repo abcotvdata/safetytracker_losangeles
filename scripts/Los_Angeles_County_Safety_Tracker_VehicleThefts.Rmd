@@ -247,11 +247,11 @@ ABC7's data team looked at the data that every local police agency reported to t
 
 The totals included here are for theft of a motor vehicle, and do not include thefts of parts of vehicles or thefts of personal valuables from vehicles.
 
-<subhead>A closer look at Los Angeles County vehicle thefts where you live</subhead>
+<subhead>A closer look at vehicle thefts where you live</subhead>
 
 The map color codes each community by the rate of incidents per 100,000 residents in 2021. Click the box in the bottom right corner to color-code communities by the number of crimes instead of the rate.
 
-Use the search box at the top of the map to find for any street, place, landmark or zip code and zoom to that location.
+Use the search box at the top of the map to find for any street, place, landmark or zip code and zoom to that location. The map shows data for every community across Southern California.
 
 Click inside any area to see detailed figures for the last several years or search the table below the map to view and compare data by area over more than a decade. 
 
@@ -368,7 +368,7 @@ laco_autotheft_map <- leaflet(socal_autotheft, options = leafletOptions(zoomCont
   htmlwidgets::onRender("function(el, x) {
 L.control.zoom({ position: 'topright' }).addTo(this)
 }") %>%
-  setView(-118.14, 34.14, zoom = 10.5) %>% 
+  setView(-118.14, 34.14, zoom = 9) %>% 
   addProviderTiles(provider = "Esri.WorldImagery") %>%
   addProviderTiles(provider = "CartoDB.PositronOnlyLabels") %>%
   addPolygons(color = "white", 

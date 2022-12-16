@@ -247,11 +247,11 @@ ABC7's data team looked at the data that every local police agency reported to t
 
 Theft totals here are for larceny, which would include stealing items worth $1,000 or more. The totals also would not include those involving violence, which would be defined as robbery. So someone taking an expensive smartphone from someone's bag would be theft, taking it while pointing a firearm at the person would be instead counted as robbery.
 
-<subhead>A closer look at Los Angeles County larcenies where you live</subhead>
+<subhead>A closer look at larcenies where you live</subhead>
 
 The map color codes each community by the rate of incidents per 100,000 residents in 2021. Click the box in the bottom right corner to color-code communities by the number of crimes instead of the rate.
 
-Use the search box at the top of the map to find for any street, place, landmark or zip code and zoom to that location.
+Use the search box at the top of the map to find for any street, place, landmark or zip code and zoom to that location. The map shows data for every community across Southern California.
 
 Click inside any area to see detailed figures for the last several years or search the table below the map to view and compare data by area over more than a decade. 
 Choose a different crime to explore in the county:
@@ -367,7 +367,7 @@ laco_theft_map <- leaflet(socal_theft, options = leafletOptions(zoomControl = FA
   htmlwidgets::onRender("function(el, x) {
 L.control.zoom({ position: 'topright' }).addTo(this)
 }") %>%
-  setView(-118.14, 34.14, zoom = 10.5) %>% 
+  setView(-118.14, 34.14, zoom = 9) %>% 
   addProviderTiles(provider = "Esri.WorldImagery") %>%
   addProviderTiles(provider = "CartoDB.PositronOnlyLabels") %>%
   addPolygons(color = "white", 

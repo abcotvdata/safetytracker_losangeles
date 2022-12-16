@@ -368,7 +368,7 @@ laco_assault_map <- leaflet(socal_assault, options = leafletOptions(zoomControl 
   htmlwidgets::onRender("function(el, x) {
 L.control.zoom({ position: 'topright' }).addTo(this)
 }") %>%
-  setView(-118.14, 34.14, zoom = 10.5) %>% 
+  setView(-118.14, 34.14, zoom = 10) %>% 
   addProviderTiles(provider = "Esri.WorldImagery") %>%
   addProviderTiles(provider = "CartoDB.PositronOnlyLabels") %>%
   addPolygons(color = "white", 

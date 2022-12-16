@@ -294,13 +294,13 @@ theftpal1 <- colorBin(c("#76baf9",
                              "#2787d6",
                              "#0058f6",
                              "#003ca6",
-                             "#00215c"), socal_theft$rate21, bins = theftbins1,na.color = "#51585f")
+                             "#00215c"), socal_theft$rate21, bins = theftbins1,na.color = "#76baf9")
 
 theftpal2 <- colorBin(c("#76baf9",
                              "#2787d6",
                              "#0058f6",
                              "#003ca6",
-                             "#00215c"), socal_theft$`2021`, bins = theftbins2,na.color = "#51585f")
+                             "#00215c"), socal_theft$`2021`, bins = theftbins2,na.color = "#76baf9")
 
                             
 # Create labels for thefts map

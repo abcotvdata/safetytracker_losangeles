@@ -295,13 +295,13 @@ murderpal1 <- colorBin(c("#76baf9",
                              "#2787d6",
                              "#0058f6",
                              "#003ca6",
-                             "#00215c"), socal_murder$rate21, bins = murderbins1,na.color = "#51585f")
+                             "#00215c"), socal_murder$rate21, bins = murderbins1,na.color = "#76baf9")
 
 murderpal2 <- colorBin(c("#76baf9",
                              "#2787d6",
                              "#0058f6",
                              "#003ca6",
-                             "#00215c"), socal_murder$`2021`, bins = murderbins2,na.color = "#51585f")
+                             "#00215c"), socal_murder$`2021`, bins = murderbins2,na.color = "#76baf9")
 
                             
 # Create labels for murders map

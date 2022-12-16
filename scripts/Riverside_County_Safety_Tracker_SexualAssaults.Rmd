@@ -214,30 +214,30 @@ div.legend { margin-bottom: 50px !important; }
 ```
 
 ```{r countywide totals, include=FALSE}
-sexassaults_county <- countywide_sexassault %>% filter(county=="Orange County")
+sexassaults_county <- countywide_sexassault %>% filter(county=="Riverside County")
 ```
 
-<h2>ABC7 is tracking crime and safety in communities across Orange County. 
+<h2>ABC7 is tracking crime and safety in communities across Riverside County. 
 
 You can choose which crime to examine: <select onchange="window.location=this.value">
-<option value="https://abcotvdata.github.io/safetytracker_losangeles/Orange_County_Safety_Tracker_SexualAssaults.html">Sexual Assaults</option>
-<option value="https://abcotvdata.github.io/safetytracker_losangeles/Orange_County_Safety_Tracker.html">Homicides</option>
-<option value="https://abcotvdata.github.io/safetytracker_losangeles/Orange_County_Safety_Tracker_Assaults.html">Assaults</option>
-<option value="https://abcotvdata.github.io/safetytracker_losangeles/Orange_County_Safety_Tracker_Burglaries.html">Burglaries</option>
-<option value="https://abcotvdata.github.io/safetytracker_losangeles/Orange_County_Safety_Tracker_Robberies.html">Robberies</option>
-<option value="https://abcotvdata.github.io/safetytracker_losangeles/Orange_County_Safety_Tracker_Thefts.html">Thefts</option>
-<option value="https://abcotvdata.github.io/safetytracker_losangeles/Orange_County_Safety_Tracker_VehicleThefts.html">Vehicle Thefts</option>
+<option value="https://abcotvdata.github.io/safetytracker_losangeles/Riverside_County_Safety_Tracker_SexualAssaults.html">Sexual Assaults</option>
+<option value="https://abcotvdata.github.io/safetytracker_losangeles/Riverside_County_Safety_Tracker.html">Homicides</option>
+<option value="https://abcotvdata.github.io/safetytracker_losangeles/Riverside_County_Safety_Tracker_Assaults.html">Assaults</option>
+<option value="https://abcotvdata.github.io/safetytracker_losangeles/Riverside_County_Safety_Tracker_Burglaries.html">Burglaries</option>
+<option value="https://abcotvdata.github.io/safetytracker_losangeles/Riverside_County_Safety_Tracker_Robberies.html">Robberies</option>
+<option value="https://abcotvdata.github.io/safetytracker_losangeles/Riverside_County_Safety_Tracker_Thefts.html">Thefts</option>
+<option value="https://abcotvdata.github.io/safetytracker_losangeles/Riverside_County_Safety_Tracker_VehicleThefts.html">Vehicle Thefts</option>
 </select></h2>
 <h2>Choose a different area to explore: <select onchange="window.location=this.value">
+<option value="https://abcotvdata.github.io/safetytracker_losangeles/Riverside_County_Safety_Tracker.html">Riverside County</option>
 <option value="https://abcotvdata.github.io/safetytracker_losangeles/Orange_County_Safety_Tracker.html">Orange County</option>
 <option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_County_Safety_Tracker.html">Los Angeles County</option>
 <option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker.html">City of Los Angeles</option>
-<option value="https://abcotvdata.github.io/safetytracker_losangeles/Riverside_County_Safety_Tracker.html">Riverside County</option>
 <option value="https://abcotvdata.github.io/safetytracker_losangeles/San_Bernardino_County_Safety_Tracker.html">San Bernardino County</option>
 <option value="https://abcotvdata.github.io/safetytracker_losangeles/Ventura_County_Safety_Tracker.html">Ventura County</option>
 </select></h2>
 
-There were <h8>`r prettyNum(sexassaults_county$total21,big.mark=",")`</h8> sexual assaults in 2021 across Orange County, according to data that law enforcement agencies report to the state of California.
+There were <h8>`r prettyNum(sexassaults_county$total21,big.mark=",")`</h8> sexual assaults in 2021 across Riverside County, according to data that law enforcement agencies report to the state of California.
 
 In 2019, the data show that number was <h8>`r prettyNum(sexassaults_county$total19,big.mark=",")`</h8>. In 2010, it was <h8>`r prettyNum(sexassaults_county$total10,big.mark=",")`</h8>.
 
@@ -245,7 +245,7 @@ The risk is not the same in every community.
 
 ABC7's data team looked at the data that every local police agency reported to the California Department of Justice each year through 2021, the latest date for which records are available. The vast majority of law enforcement agencies in the county do not make public more recent records.
 
-<subhead>A closer look at Orange County sexual assaults where you live</subhead>
+<subhead>A closer look at Riverside County sexual assaults where you live</subhead>
 
 The map color codes each community by the rate of incidents per 100,000 residents in 2021. Click the box in the bottom right corner to color-code communities by the number of crimes instead of the rate.
 
@@ -259,19 +259,19 @@ Choose a different crime to explore in the county:
 <div class="cardContainer2">
 <div class="cardContainer2">
 <div class="card2" style="background-color:#99a0a5;">
-<p><a href="https://abcotvdata.github.io/safetytracker_losangeles/Orange_County_Safety_Tracker_Assaults.html">Assaults</a></div>
+<p><a href="https://abcotvdata.github.io/safetytracker_losangeles/Riverside_County_Safety_Tracker_Assaults.html">Assaults</a></div>
 <div class="card2" style="background-color:#99a0a5;">
-<p><a href="https://abcotvdata.github.io/safetytracker_losangeles/Orange_County_Safety_Tracker_Burglaries.html">Burglaries</a></div>
+<p><a href="https://abcotvdata.github.io/safetytracker_losangeles/Riverside_County_Safety_Tracker_Burglaries.html">Burglaries</a></div>
 <div class="card2" style="background-color:#99a0a5;">
-<p><a href="https://abcotvdata.github.io/safetytracker_losangeles/Orange_County_Safety_Tracker.html">Homicides</a></div>
+<p><a href="https://abcotvdata.github.io/safetytracker_losangeles/Riverside_County_Safety_Tracker.html">Homicides</a></div>
 <div class="card2" style="background-color:#99a0a5;">
-<p><a href="https://abcotvdata.github.io/safetytracker_losangeles/Orange_County_Safety_Tracker_Robberies.html">Robberies</a></div>
+<p><a href="https://abcotvdata.github.io/safetytracker_losangeles/Riverside_County_Safety_Tracker_Robberies.html">Robberies</a></div>
 <div class="card2" style="background-color:#ecaa00;">
-<p><a href="https://abcotvdata.github.io/safetytracker_losangeles/Orange_County_Safety_Tracker_SexualAssaults.html">Sexual Assaults</a></div>
+<p><a href="https://abcotvdata.github.io/safetytracker_losangeles/Riverside_County_Safety_Tracker_SexualAssaults.html">Sexual Assaults</a></div>
 <div class="card2" style="background-color:#99a0a5;">
-<p><a href="https://abcotvdata.github.io/safetytracker_losangeles/Orange_County_Safety_Tracker_Thefts.html">Thefts</a></div>
+<p><a href="https://abcotvdata.github.io/safetytracker_losangeles/Riverside_County_Safety_Tracker_Thefts.html">Thefts</a></div>
 <div class="card2" style="background-color:#99a0a5;">
-<p><a href="https://abcotvdata.github.io/safetytracker_losangeles/Orange_County_Safety_Tracker_VehicleThefts.html">Vehicle Thefts</a></div>
+<p><a href="https://abcotvdata.github.io/safetytracker_losangeles/Riverside_County_Safety_Tracker_VehicleThefts.html">Vehicle Thefts</a></div>
 </div>
 <br>
 ```{r map, echo=FALSE,out.width='100%',out.height='600'}
@@ -363,7 +363,7 @@ socal_sexassault$rate_prior3years,
 
 
 # Creating police beats map for types of crimes
-orange_sexassault_map <- leaflet(socal_sexassault, options = leafletOptions(zoomControl = FALSE, zoomSnap = 0.5, zoomDelta=0.5)) %>%
+riverside_sexassault_map <- leaflet(socal_sexassault, options = leafletOptions(zoomControl = FALSE, zoomSnap = 0.5, zoomDelta=0.5)) %>%
   htmlwidgets::onRender("function(el, x) {
 L.control.zoom({ position: 'topright' }).addTo(this)
 }") %>%
@@ -427,12 +427,12 @@ L.control.zoom({ position: 'topright' }).addTo(this)
       }"
    )
   
-orange_sexassault_map
+riverside_sexassault_map
 ```
 <br>
 <br>
 <!-- <subhead> Look up year by year city table-->
-<iframe title="Sexual assaults by area across Orange County" aria-label="Table" id="datawrapper-chart-2hhk5" src="https://datawrapper.dwcdn.net/2hhk5/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="2105" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(e){if(void 0!==e.data["datawrapper-height"]){var t=document.querySelectorAll("iframe");for(var a in e.data["datawrapper-height"])for(var r=0;r<t.length;r++){if(t[r].contentWindow===e.source)t[r].style.height=e.data["datawrapper-height"][a]+"px"}}}))}();</script>
+<iframe title="Sexual assaults by area across Riverside County" aria-label="Table" id="datawrapper-chart-PmE7s" src="https://datawrapper.dwcdn.net/PmE7s/2/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="2068" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(e){if(void 0!==e.data["datawrapper-height"]){var t=document.querySelectorAll("iframe");for(var a in e.data["datawrapper-height"])for(var r=0;r<t.length;r++){if(t[r].contentWindow===e.source)t[r].style.height=e.data["datawrapper-height"][a]+"px"}}}))}();</script>
 <br>
 <br>
 <!-- <subhead>Update to add clearance rates table -->

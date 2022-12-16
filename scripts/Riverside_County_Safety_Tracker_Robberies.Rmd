@@ -295,7 +295,7 @@ robberypal1 <- colorBin(c("#76baf9",
                              "#2787d6",
                              "#0058f6",
                              "#003ca6",
-                             "#00215c"), socal_robbery$rate21, bins = robberybins1,na.color = "#51585f")
+                             "#00215c"), socal_robbery$rate21, bins = robberybins1,na.color = "#76baf9")
 
 robberypal2 <- colorBin(c("#76baf9",
                              "#2787d6",

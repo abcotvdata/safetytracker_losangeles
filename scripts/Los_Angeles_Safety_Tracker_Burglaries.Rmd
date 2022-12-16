@@ -395,7 +395,7 @@ losangeles_burglary_map <- leaflet(burglaries_district, options = leafletOptions
   htmlwidgets::onRender("function(el, x) {
 L.control.zoom({ position: 'topright' }).addTo(this)
 }") %>%
-  setView(-118.24, 34.05, zoom = 11) %>% 
+  setView(-118.362, 34.09, zoom = 11) %>% 
   addProviderTiles(provider = "Esri.WorldImagery") %>%
   addProviderTiles(provider = "CartoDB.PositronOnlyLabels") %>%
   addPolygons(color = "white", 

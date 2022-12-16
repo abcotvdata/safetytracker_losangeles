@@ -74,6 +74,14 @@ file.remove("data/output/geo/la_county_police_districts.geojson")
 st_write(la_districts,"data/output/geo/la_county_police_districts.geojson")
 saveRDS(la_districts,"scripts/rds/la_county_police_districts.rds")
 
+# Make JUST LAPD districts for LA city only page in tracker
+lapd_districts <- la_districts %>% filter(agency=="LAPD")
+
+# saving a clean geojson and separate RDS for use in tracker
+file.remove("data/output/geo/lapd_districts.geojson")
+st_write(la_districts,"data/output/geo/lapd_districts.geojson")
+saveRDS(la_districts,"scripts/rds/lapd_districts.rds")
+
 
 # District Map for proofing/testing
 # Set bins for beats pop map
@@ -90,3 +98,17 @@ la_county_districts_map <- leaflet(la_districts) %>%
               fillColor = ~poppal(`population`))
 la_county_districts_map
 
+# District Map for proofing/testing
+# Set bins for beats pop map
+popbins <- c(0,50000,100000,125000,150000,200000,Inf)
+lapoppal <- colorBin("viridis", lapd_districts$population, bins = popbins)
+lapoplabel <- paste(sep = "<br>", lapd_districts$agency,lapd_districts$district,lapd_districts$s_type,lapd_districts$commtype,lapd_districts$place_name,prettyNum(lapd_districts$population, big.mark = ","))
+# Make map
+lapd_districts_map <- leaflet(lapd_districts) %>%
+  setView(-118.4, 34.052, zoom = 10.5) %>% 
+  addProviderTiles(provider = "Esri.WorldImagery") %>%
+  addProviderTiles(provider = "CartoDB.PositronOnlyLabels") %>%
+  addPolygons(color = "white", popup = lapoplabel, weight = 2, smoothFactor = 0.5,
+              opacity = 0.5, fillOpacity = 0.3,
+              fillColor = ~lapoppal(`population`))
+lapd_districts_map

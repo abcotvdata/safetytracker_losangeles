@@ -19,6 +19,7 @@ beats$name <- ifelse(beats$st_name=="Redondo Beach" & beats$name==" ","Redondo B
 beats$name <- ifelse(beats$st_name=="Long Beach" & beats$name==" ","Long Beach",beats$name)
 beats$name <- ifelse(beats$st_name=="Avalon" & beats$name==" ","Avalon",beats$name)
 beats$name <- ifelse(beats$name=="City of Commerce","Commerce",beats$name)
+beats$name <- ifelse(beats$name=="Hawthorne" & beats$st_name=="El Segundo","El Segundo",beats$name)
 beats <- beats %>% filter(omega_label != "LASD 0593")
 
 # Adding a column to help merge these into districts 
@@ -56,10 +57,10 @@ districts_withpop <- st_interpolate_aw(blocks, districts, ext = TRUE)
 districts_withpop <- st_drop_geometry(districts_withpop)
 # Binds that new population column to the table
 districts <- cbind(districts,districts_withpop)
+
 # Cleans up unneeded calculation file
-# rm(beats_withpop, blocks)
-# Check total population assigned/estimated across all districts
-sum(districts$population) # result is 6,853,094
+# rm(districts_withpop, blocks,beats)
+
 # Round the population figure; rounded to nearest thousand
 districts$population <- round(districts$population,-2)
 
@@ -97,6 +98,7 @@ la_county_districts_map <- leaflet(la_districts) %>%
               opacity = 0.5, fillOpacity = 0.3,
               fillColor = ~poppal(`population`))
 la_county_districts_map
+# rm(la_county_districts_map)
 
 # District Map for proofing/testing
 # Set bins for beats pop map
@@ -112,3 +114,4 @@ lapd_districts_map <- leaflet(lapd_districts) %>%
               opacity = 0.5, fillOpacity = 0.3,
               fillColor = ~lapoppal(`population`))
 lapd_districts_map
+# rm(lapd_districts_map)

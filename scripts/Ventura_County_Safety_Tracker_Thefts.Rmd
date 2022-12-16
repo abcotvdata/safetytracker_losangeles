@@ -367,7 +367,7 @@ ventura_theft_map <- leaflet(socal_theft, options = leafletOptions(zoomControl =
   htmlwidgets::onRender("function(el, x) {
 L.control.zoom({ position: 'topright' }).addTo(this)
 }") %>%
-  setView(-117.91, 33.83, zoom = 11) %>% 
+  setView(-119.2945, 34.28, zoom = 11) %>% 
   addProviderTiles(provider = "Esri.WorldImagery") %>%
   addProviderTiles(provider = "CartoDB.PositronOnlyLabels") %>%
   addPolygons(color = "white", 

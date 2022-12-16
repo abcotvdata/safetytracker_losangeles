@@ -190,7 +190,7 @@ th {
 sf_population <- 815201
 ```
 
-<h2>ABC7 is tracking crime and safety across Los Angeles and in your neighborhood. 
+<h2>ABC7 is tracking crime and safety across the city of Los Angeles and in your neighborhood. 
 
 <br>You can choose which crime to examine: <select onchange="window.location=this.value">
 <option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker_Assaults.html">Assaults</option>
@@ -233,17 +233,17 @@ Per 100,000 people<br>2019 to 2021</p>
 </div>
 </div>
 <br>
-Aggravated assaults over the last 12 months are <h8>`r ifelse(assaults_city$inc_prior3yearavgtolast12>=0," up"," down")` `r ifelse(assaults_city$inc_prior3yearavgtolast12>=0,assaults_city$inc_prior3yearavgtolast12,substring(assaults_city$inc_prior3yearavgtolast12,2))`%</h8> compared to the annual average over the last three years, according to the Los Angeles Police Department and Los Angeles County Sheriff's Department data through `r format(asofdate, "%B %d")`.
+Aggravated assaults over the last 12 months are <h8>`r ifelse(assaults_city$inc_prior3yearavgtolast12>=0," up"," down")` `r ifelse(assaults_city$inc_prior3yearavgtolast12>=0,assaults_city$inc_prior3yearavgtolast12,substring(assaults_city$inc_prior3yearavgtolast12,2))`%</h8> compared to the annual average over the last three years, according to the Los Angeles Police Department and Los Angeles County Sheriff's Department data through `r format(lapd_asofdate, "%B %d")`.
 
-The areas of the county policed by the LAPD and Sheriff's Department averaged <h8>`r prettyNum(round(assaults_city$last12mos/52,0), big.mark=",")`</h8> aggravated assaults a week over the last 12 months. In 2019, that number was <h8>`r prettyNum(round(assaults_city$total19/52,0), big.mark=",")`</h8> a week.
+The city averaged <h8>`r prettyNum(round(assaults_city$last12mos/52,0), big.mark=",")`</h8> aggravated assaults a week over the last 12 months. In 2019, that number was <h8>`r prettyNum(round(assaults_city$'2019'/52,0), big.mark=",")`</h8> a week.
 
 The totals include only aggravated assaults, which police generally define as someone being attacked or seriously injured by another person, whether or not they used a firearm or other weapon.
 
 <subhead>A closer look at Los Angeles assaults neighborhood by neighborhood</subhead>
 
-The danger is not the same neighborhood to neighborhood. ABC7's data team looked at data from the Los Angeles Police Department and Los Angeles County Sheriff's Department by neighborhood from 2019 through `r format(lapd_asofdate, "%B %d, %Y")`, the latest date for which records are available from the two agencies.
+The danger is not the same neighborhood to neighborhood. ABC7's data team looked at data from the Los Angeles Police Department by neighborhood from 2019 through `r format(lapd_asofdate, "%B %d, %Y")`, the latest date for which records are available from the two agencies.
 
-The map color codes each police district by the aggravated assault rate over the last 12 months. The three darker blues represent neighborhoods with assault rates that are higher than the citywide rate. You can also click the box in the bottom right corner to see neighborhoods by the number of aggravated assaults.
+The map color codes each area by the aggravated assault rate over the last 12 months. The three darker blues represent neighborhoods with assault rates that are higher than the citywide rate. You can also click the box in the bottom right corner to see neighborhoods by the number of aggravated assaults.
 
 Click on any area on the map to see detailed numbers, rates and trends. 
 
@@ -286,8 +286,6 @@ assaultlabel <- paste(sep="",
                      " assaults </popuptitle><br>",
                      " in the last 12 months in Police District <b>",
                      assaults_district$district,
-#                     "</b>, which includes the <b>",
-#                     murders_district$placename,
                      "</b>, home to an estimated ",
                      prettyNum(assaults_district$population, big.mark=","),
                      " people.
@@ -301,7 +299,7 @@ assaultlabel <- paste(sep="",
 			<tr>
 				<td>2019</td>
 				<td>",
-assaults_district$total19,
+assaults_district$`2019`,
 "</td>
 				<td>",
 prettyNum(round(assaults_district$rate19,0), big.mark=","),
@@ -310,7 +308,7 @@ prettyNum(round(assaults_district$rate19,0), big.mark=","),
 			<tr>
 				<td>2020</td>
 				<td>",
-assaults_district$total20,
+assaults_district$`2020`,
 "</td>
 				<td>",
 prettyNum(round(assaults_district$rate20,0), big.mark=","),
@@ -319,7 +317,7 @@ prettyNum(round(assaults_district$rate20,0), big.mark=","),
 						<tr>
 				<td>2021</td>
 				<td>",
-assaults_district$total21,
+assaults_district$`2021`,
 "</td>
 				<td>",
 prettyNum(round(assaults_district$rate21,0), big.mark=","),

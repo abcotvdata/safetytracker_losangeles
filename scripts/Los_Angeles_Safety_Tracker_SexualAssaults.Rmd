@@ -233,15 +233,15 @@ Per 100,000 people<br>2019 to 2021</p>
 </div>
 </div>
 <br>
-Sexual assaults over the last 12 months are <h8>`r ifelse(sexassaults_city$inc_prior3yearavgtolast12>=0," up"," down")` `r ifelse(sexassaults_city$inc_prior3yearavgtolast12>=0,sexassaults_city$inc_prior3yearavgtolast12,substring(sexassaults_city$inc_prior3yearavgtolast12,2))`%</h8> compared to the annual average over the last three years, according to the Los Angeles Police Department and Los Angeles County Sheriff's Department data through `r format(lapd_asofdate, "%B %d")`.
+Sexual assaults over the last 12 months are <h8>`r ifelse(sexassaults_city$inc_prior3yearavgtolast12>=0," up"," down")` `r ifelse(sexassaults_city$inc_prior3yearavgtolast12>=0,sexassaults_city$inc_prior3yearavgtolast12,substring(sexassaults_city$inc_prior3yearavgtolast12,2))`%</h8> compared to the annual average over the last three years, according to the latest Los Angeles Police Department data through `r format(lapd_asofdate, "%B %d")`.
 
-The areas of the county policed by the LAPD and Sheriff's Department averaged <h8>`r round(sexassaults_city$last12mos/52,0)`</h8> sexual assaults a week over the last 12 months. In 2019, that number was <h8>`r round(sexassaults_city$total19/52,0)`</h8> a week.
+The areas of the county policed by the LAPD and Sheriff's Department averaged <h8>`r round(sexassaults_city$last12mos/52,0)`</h8> sexual assaults a week over the last 12 months. In 2019, that number was <h8>`r round(sexassaults_city$'2019'/52,0)`</h8> a week.
 
 <subhead>A closer look at Los Angeles sexual assaults neighborhood by neighborhood</subhead>
 
-The danger is not the same neighborhood to neighborhood. ABC7's data team looked at data from the Los Angeles Police Department and Los Angeles County Sheriff's Department by neighborhood from 2019 through `r format(asofdate, "%B %d, %Y")`, the latest date for which records are available from the two agencies.
+The danger is not the same neighborhood to neighborhood. ABC7's data team looked at data from the Los Angeles Police Department by neighborhood from 2019 through `r format(lapd_asofdate, "%B %d, %Y")`, the latest date for which records are available from the two agencies.
 
-The map color codes each police district by the sexual assault rate over the last 12 months. The three darker blue areas are neighborhoods with sexual assault rates higher than the citywide rate. You can also choose to see neighborhoods by the number of reported sexual assaults.
+The map color codes each area by the sexual assault rate over the last 12 months. The three darker blue areas are neighborhoods with sexual assault rates higher than the citywide rate. You can also choose to see neighborhoods by the number of reported sexual assaults.
 
 Click on any area neighborhood on the map to see detailed numbers, rates and trends.
 
@@ -297,7 +297,7 @@ sexassaultlabel <- paste(sep="",
 			<tr>
 				<td>2019</td>
 				<td>",
-sexassaults_district$total19,
+sexassaults_district$`2019`,
 "</td>
 				<td>",
 sexassaults_district$rate19,
@@ -306,7 +306,7 @@ sexassaults_district$rate19,
 			<tr>
 				<td>2020</td>
 				<td>",
-sexassaults_district$total20,
+sexassaults_district$`2020`,
 "</td>
 				<td>",
 sexassaults_district$rate20,
@@ -315,7 +315,7 @@ sexassaults_district$rate20,
 						<tr>
 				<td>2021</td>
 				<td>",
-sexassaults_district$total21,
+sexassaults_district$`2021`,
 "</td>
 				<td>",
 sexassaults_district$rate21,

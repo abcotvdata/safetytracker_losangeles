@@ -148,7 +148,9 @@ th {
   text-align: right;
   padding: 1px;
 }
-  
+
+div.legend { margin-bottom: 50px !important; }
+
    * {
       box-sizing: border-box;
    }
@@ -202,6 +204,9 @@ th {
    @media screen and (max-width: 650px) {
       .card {
          width: 100%;
+      }
+      .card2 {
+         width: 30%;
       }
       h1.title {
         font-size: 22px;

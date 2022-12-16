@@ -175,6 +175,30 @@ th {
       display: table;
       clear: both;
    }
+         .card2 {
+      color: #00318b;
+      float: left;
+      width: calc(14% - 10px);
+      padding: 5px;
+      border-radius: 10px;
+      margin-left: 3px;
+      margin-right: 3px;
+      margin-top: 3px;
+      margin-bottom: 3px;
+      height: 100%;
+   }
+   .card2 p {
+   font-family: roboto;
+    font-weight: 700;
+   text-align: center;
+   font-size: 14px;
+  margin-bottom: 0;
+   }
+   .cardContainer2:after {
+      content: "";
+      display: table;
+      clear: both;
+   }
    @media screen and (max-width: 650px) {
       .card {
          width: 100%;
@@ -245,12 +269,30 @@ The danger is not the same neighborhood to neighborhood. ABC7's data team looked
 
 The map color codes each area by the aggravated assault rate over the last 12 months. The three darker blues represent neighborhoods with assault rates that are higher than the citywide rate. You can also click the box in the bottom right corner to see neighborhoods by the number of aggravated assaults.
 
-Click on any area on the map to see detailed numbers, rates and trends. 
+Click on any area to see detailed numbers or the buttons at the bottom of the map to switch between numbers and rates. 
 
-You can find your neighborhood by using the box at the top of the map to search for any street, place, landmark or zip code to zoom to that location.
+You can find your neighborhood by using the box at the top of the map to search for any street, place, landmark or zip code to zoom to that location or search the table below the map to view and compare data by area over more than a decade.
 
+Choose a different crime to explore in the county:
 <br>
-
+<br>
+<div class="cardContainer2">
+<div class="card2" style="background-color:#ecaa00;">
+<p><a href="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_County_Safety_Tracker_Assaults.html">Assaults</a></div>
+<div class="card2" style="background-color:#99a0a5;">
+<p><a href="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_County_Safety_Tracker_Burglaries.html">Burglaries</a></div>
+<div class="card2" style="background-color:#99a0a5;">
+<p><a href="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_County_Safety_Tracker.html">Homicides</a></div>
+<div class="card2" style="background-color:#99a0a5;">
+<p><a href="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_County_Safety_Tracker_Robberies.html">Robberies</a></div>
+<div class="card2" style="background-color:#99a0a5;">
+<p><a href="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_County_Safety_Tracker_SexualAssaults.html">Sexual Assaults</a></div>
+<div class="card2" style="background-color:#99a0a5;">
+<p><a href="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_County_Safety_Tracker_Thefts.html">Thefts</a></div>
+<div class="card2" style="background-color:#99a0a5;">
+<p><a href="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_County_Safety_Tracker_VehicleThefts.html">Vehicle Thefts</a></div>
+</div>
+<br>
 ```{r cars, echo=FALSE,out.width='100%',out.height='600'}
 # assault MAP
 # Set bins for numbers of crimes for assaults map
@@ -284,9 +326,9 @@ assaultlabel <- paste(sep="",
                      "<popuptitle>",
                      prettyNum(assaults_district$last12mos, big.mark=","),
                      " assaults </popuptitle><br>",
-                     " in the last 12 months in Police District <b>",
+                     " in the last 12 months in the <b>",
                      assaults_district$district,
-                     "</b>, home to an estimated ",
+                     "</b>area, home to an estimated ",
                      prettyNum(assaults_district$population, big.mark=","),
                      " people.
 <br>
@@ -349,7 +391,8 @@ losangeles_assault_map <- leaflet(assaults_district, options = leafletOptions(zo
 L.control.zoom({ position: 'topright' }).addTo(this)
 }") %>%
   setView(-118.24, 34.05, zoom = 10) %>% 
-  addProviderTiles(provider = "CartoDB.Positron") %>%
+  addProviderTiles(provider = "Esri.WorldImagery") %>%
+  addProviderTiles(provider = "CartoDB.PositronOnlyLabels") %>%
   addPolygons(color = "white", 
               popup = assaultlabel,
               popupOptions = popupOptions(maxWidth ="200", 

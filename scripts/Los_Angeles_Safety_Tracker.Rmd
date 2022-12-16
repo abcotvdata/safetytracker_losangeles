@@ -174,6 +174,30 @@ th {
       display: table;
       clear: both;
    }
+         .card2 {
+      color: #00318b;
+      float: left;
+      width: calc(14% - 10px);
+      padding: 5px;
+      border-radius: 10px;
+      margin-left: 3px;
+      margin-right: 3px;
+      margin-top: 3px;
+      margin-bottom: 3px;
+      height: 100%;
+   }
+   .card2 p {
+   font-family: roboto;
+    font-weight: 700;
+   text-align: center;
+   font-size: 14px;
+  margin-bottom: 0;
+   }
+   .cardContainer2:after {
+      content: "";
+      display: table;
+      clear: both;
+   }
    @media screen and (max-width: 650px) {
       .card {
          width: 100%;
@@ -246,7 +270,7 @@ One way to think about the danger: three years ago, Los Angeles' murder rate was
 <br>
 <!-- <subhead>Risk of being murdered in Los Angeles vs. other causes of death in Harris County</subhead> -->
 
-<iframe title="Current risk of homicide in LA area vs. other causes of death" aria-label="Bar Chart" id="datawrapper-chart-DHBJ9" src="https://datawrapper.dwcdn.net/DHBJ9/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="402" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(e){if(void 0!==e.data["datawrapper-height"]){var t=document.querySelectorAll("iframe");for(var a in e.data["datawrapper-height"])for(var r=0;r<t.length;r++){if(t[r].contentWindow===e.source)t[r].style.height=e.data["datawrapper-height"][a]+"px"}}}))}();
+<iframe title="Current risk of homicide in Los Angeles vs. other causes of death" aria-label="Bar Chart" id="datawrapper-chart-DHBJ9" src="https://datawrapper.dwcdn.net/DHBJ9/3/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="373" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(e){if(void 0!==e.data["datawrapper-height"]){var t=document.querySelectorAll("iframe");for(var a in e.data["datawrapper-height"])for(var r=0;r<t.length;r++){if(t[r].contentWindow===e.source)t[r].style.height=e.data["datawrapper-height"][a]+"px"}}}))}();
 </script>
 <br>
 <br>
@@ -258,10 +282,29 @@ ABC7's data team looked at data from the Los Angeles Police Department by police
 
 The map color codes each area by the homicide rate over the last 12 months. The three darker blues highlight neighborhoods where the murder rate is higher than the citywide rate.
 
-Click on any area to see detailed numbers or the buttons at the bottom of the map to switch between numbers and rates.
+Click on any area to see detailed numbers or the buttons at the bottom of the map to switch between numbers and rates. 
 
-You can find your neighborhood by using the box at the top of the map to search for any street, place, landmark or zip code to zoom to that location.
+You can find your neighborhood by using the box at the top of the map to search for any street, place, landmark or zip code to zoom to that location or search the table below the map to view and compare data by area over more than a decade.
 
+Choose a different crime to explore in the county:
+<br>
+<br>
+<div class="cardContainer2">
+<div class="card2" style="background-color:#99a0a5;">
+<p><a href="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_County_Safety_Tracker_Assaults.html">Assaults</a></div>
+<div class="card2" style="background-color:#99a0a5;">
+<p><a href="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_County_Safety_Tracker_Burglaries.html">Burglaries</a></div>
+<div class="card2" style="background-color:#ecaa00;">
+<p><a href="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_County_Safety_Tracker.html">Homicides</a></div>
+<div class="card2" style="background-color:#99a0a5;">
+<p><a href="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_County_Safety_Tracker_Robberies.html">Robberies</a></div>
+<div class="card2" style="background-color:#99a0a5;">
+<p><a href="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_County_Safety_Tracker_SexualAssaults.html">Sexual Assaults</a></div>
+<div class="card2" style="background-color:#99a0a5;">
+<p><a href="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_County_Safety_Tracker_Thefts.html">Thefts</a></div>
+<div class="card2" style="background-color:#99a0a5;">
+<p><a href="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_County_Safety_Tracker_VehicleThefts.html">Vehicle Thefts</a></div>
+</div>
 <br>
 ```{r cars, echo=FALSE,out.width='100%',out.height='600'}
 # MURDER MAP
@@ -303,7 +346,7 @@ murderlabel <- paste(sep="",
                      murders_district$district,
 #                     "</b>, which includes the <b>",
 #                     murders_district$placename,
-                     "</b>, home to an estimated ",
+                     "</b>area, home to an estimated ",
                      prettyNum(murders_district$population, big.mark=","),
                      " people.
 <br>
@@ -366,8 +409,9 @@ losangeles_murder_map <- leaflet(murders_district, options = leafletOptions(zoom
   htmlwidgets::onRender("function(el, x) {
 L.control.zoom({ position: 'topright' }).addTo(this)
 }") %>%
-  setView(-118.24, 34.05, zoom = 10) %>% 
-  addProviderTiles(provider = "CartoDB.Positron") %>%
+  setView(-118.5, 34.05, zoom = 10.5) %>% 
+  addProviderTiles(provider = "Esri.WorldImagery") %>%
+  addProviderTiles(provider = "CartoDB.PositronOnlyLabels") %>%
   addPolygons(color = "white", 
               popup = murderlabel,
               popupOptions = popupOptions(maxWidth ="200", 

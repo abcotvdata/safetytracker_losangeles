@@ -94,4 +94,3 @@ lapd_theft <- lapd_annual %>% filter(category=="Larceny") %>% ungroup %>% select
 lapd_autotheft <- lapd_annual %>% filter(category=="Vehicle Theft") %>% ungroup %>% select(17,18,4:16,1)
 
 saveRDS(lapd_annual,"scripts/rds/lapd_annual.rds")
-saveRDS(lapd_annual,"data/output/lapd_annual.rds")

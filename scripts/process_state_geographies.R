@@ -2,7 +2,7 @@ library(tidyverse)
 library(tidycensus)
 library(leaflet)
 library(leaflet.providers)
-library(tidyr)
+# library(tidyr)
 library(sf)
 
 # Get demographic data and geography for Census places
@@ -40,14 +40,14 @@ cal_places$state <- "California"
 cal_counties$county <- cal_counties$name
 cal_counties$county <- str_replace(cal_counties$county,", California","")
 
+# Assign county names for filter and temporarily import Cal DOJ list for filter
 counties <- c("Los Angeles County", "Orange County","Ventura County","San Bernardino County","Riverside County")
-
+socal_annual <- readRDS("scripts/rds/socal_annual.rds")
+# Apply filters to assign places to counties, filter for counties and Cal DOJ agencies
 socal_places <- st_join(cal_places, cal_counties %>% select(5), left = FALSE, largest = TRUE) %>%
   filter(county %in% counties) %>% filter(place %in% socal_annual$ncic_code)
-
-#saveRDS(cal_places,"scripts/rds/socal_places.rds")
-#saveRDS(cal_places,"scripts/rds/cal_places.rds")
-#saveRDS(cal_places,"scripts/rds/cal_counties.rds")
+# Round population to estimate, nearest hundred, consistent with LA Districts
+socal_places$population <- round(socal_places$population,-2)
 
 # Creating a singular file for making rural cutouts by county
 # make sure to make the resulting file a valid sf file
@@ -74,8 +74,20 @@ rural_orange$place <- "Orange Co. Sheriff's Department"
 rural_sanbern$place <- "San Bernardino Co. Sheriff's Department"
 rural_ventura$place <- "Ventura Co. Sheriff's Department"
 
+# Make the rural "remnant" area polygons for each county
+socal_county_pops <- socal_places %>% group_by(county) %>% summarise(pop=sum(population))
+rural_riverside$population <- riverside_county$population - 2027000
+rural_orange$population <- orange_county$population - 3053900
+rural_sanbern$population <- sanbern_county$population - 1888800
+rural_ventura$population <- ventura_county$population - 750000
+
 # Add these rural sheriff's coverage areas back into socal_places
 socal_places <- rbind(socal_places,rural_riverside,rural_orange,rural_sanbern,rural_ventura)
+
+# Do some cleanup 
+rm(rural_riverside,rural_orange,rural_sanbern,rural_ventura)
+rm(riverside_county,orange_county,sanbern_county,ventura_county)
+rm(cal_counties, cal_places, all_socal_places,socal_county_pops)
 
 # Create new police_map
 # la_districts <- readRDS(data/rds/la_county_police_districts.rds)
@@ -105,6 +117,9 @@ socal_police_map <- leaflet(police_map) %>%
               fillColor = ~poppal(`population`)) 
 socal_police_map 
 
+# Saving final product for reuse; police map includes 4 counties + LA Co
+saveRDS(police_map,"scripts/rds/police_map.rds")
+# Saving the file with only the police districts in the 4 counties besides LA too
+saveRDS(socal_places,"scripts/rds/police_map.rds")
 
-
-  
+rm(socal_police_map)

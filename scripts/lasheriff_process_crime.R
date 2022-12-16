@@ -25,5 +25,3 @@ lasheriff_theft <- lasheriff_annual %>% filter(category=="Larceny Theft") %>% se
 lasheriff_autotheft <- lasheriff_annual %>% filter(category=="Vehicle Theft") %>% select(17,18,4:16)
 
 saveRDS(lasheriff_annual,"scripts/rds/lasheriff_crime.rds")
-
-

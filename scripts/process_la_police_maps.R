@@ -59,7 +59,7 @@ districts_withpop <- st_drop_geometry(districts_withpop)
 districts <- cbind(districts,districts_withpop)
 
 # Cleans up unneeded calculation file
-# rm(districts_withpop, blocks,beats)
+rm(districts_withpop, blocks,beats)
 
 # Round the population figure; rounded to nearest thousand
 districts$population <- round(districts$population,-2)
@@ -68,7 +68,7 @@ districts$population <- round(districts$population,-2)
 la_districts <- districts %>% 
   st_transform(4269) %>% 
   st_make_valid
-# rm(districts)
+rm(districts)
 
 # saving a clean geojson and separate RDS for use in tracker
 file.remove("data/output/geo/la_county_police_districts.geojson")

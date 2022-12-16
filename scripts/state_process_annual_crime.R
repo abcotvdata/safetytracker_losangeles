@@ -309,6 +309,14 @@ socal_burglary %>% st_drop_geometry() %>% select(26,4:15,20,21,24) %>% write_csv
 socal_theft %>% st_drop_geometry() %>% select(26,4:15,20,21,24) %>% write_csv("data/output/annual/socal_theft.csv")
 socal_autotheft %>% st_drop_geometry() %>% select(26,4:15,20,21,24) %>% write_csv("data/output/annual/socal_autotheft.csv")
 
+# Create rds files for building the trackers
+socal_murder %>% saveRDS("scripts/rds/socal_murder.rds")
+socal_sexassault %>% saveRDS("scripts/rds/socal_sexassault.rds")
+socal_assault %>% saveRDS("scripts/rds/socal_assault.rds")
+socal_robbery %>% saveRDS("scripts/rds/socal_robbery.rds")
+socal_burglary %>% saveRDS("scripts/rds/socal_burglary.rds")
+socal_theft %>% saveRDS("scripts/rds/socal_theft.rds")
+socal_autotheft %>% saveRDS("scripts/rds/socal_autotheft.rds")
 
 
 

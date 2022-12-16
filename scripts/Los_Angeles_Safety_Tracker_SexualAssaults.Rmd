@@ -202,8 +202,8 @@ sf_population <- 815201
 <option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker_Thefts.html">Thefts</option>
 </select></h2>
 <h2>Choose a different area to explore: <select onchange="window.location=this.value">
-<option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_County_Safety_Tracker.html">Los Angeles County</option>
 <option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker.html">City of Los Angeles</option>
+<option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_County_Safety_Tracker.html">Los Angeles County</option>
 <option value="https://abcotvdata.github.io/safetytracker_losangeles/Orange_County_Safety_Tracker.html">Orange County</option>
 <option value="https://abcotvdata.github.io/safetytracker_losangeles/Riverside_County_Safety_Tracker.html">Riverside County</option>
 <option value="https://abcotvdata.github.io/safetytracker_losangeles/San_Bernardino_County_Safety_Tracker.html">San Bernardino County</option>
@@ -214,7 +214,7 @@ sf_population <- 815201
 <div class="card" style="background-color:#99a0a5;">
 <p>Sexual Assaults<br>
 <bignumber>`r prettyNum(sexassaults_city$last12mos, big.mark=",")`<br></bignumber>
-<p>Last 12 months<br>Through  `r format(asofdate, "%B %d")`</p>
+<p>Last 12 months<br>Through  `r format(lapd_asofdate, "%B %d")`</p>
 </div>
 <div class="card" style="background-color:#99a0a5;">
 <p>Average Sexual Assaults<br>
@@ -233,7 +233,7 @@ Per 100,000 people<br>2019 to 2021</p>
 </div>
 </div>
 <br>
-Sexual assaults over the last 12 months are <h8>`r ifelse(sexassaults_city$inc_prior3yearavgtolast12>=0," up"," down")` `r ifelse(sexassaults_city$inc_prior3yearavgtolast12>=0,sexassaults_city$inc_prior3yearavgtolast12,substring(sexassaults_city$inc_prior3yearavgtolast12,2))`%</h8> compared to the annual average over the last three years, according to the Los Angeles Police Department and Los Angeles County Sheriff's Department data through `r format(asofdate, "%B %d")`.
+Sexual assaults over the last 12 months are <h8>`r ifelse(sexassaults_city$inc_prior3yearavgtolast12>=0," up"," down")` `r ifelse(sexassaults_city$inc_prior3yearavgtolast12>=0,sexassaults_city$inc_prior3yearavgtolast12,substring(sexassaults_city$inc_prior3yearavgtolast12,2))`%</h8> compared to the annual average over the last three years, according to the Los Angeles Police Department and Los Angeles County Sheriff's Department data through `r format(lapd_asofdate, "%B %d")`.
 
 The areas of the county policed by the LAPD and Sheriff's Department averaged <h8>`r round(sexassaults_city$last12mos/52,0)`</h8> sexual assaults a week over the last 12 months. In 2019, that number was <h8>`r round(sexassaults_city$total19/52,0)`</h8> a week.
 
@@ -284,9 +284,7 @@ sexassaultlabel <- paste(sep="",
                      " sexual assaults</popuptitle><br>",
                      " in the last 12 months in Police District <b>",
                      sexassaults_district$district,
-                     "</b>, which includes the <b>",
-                     sexassaults_district$placename,
-                     "</b>areas, home to an estimated ",
+                     "</b>, home to an estimated ",
                      prettyNum(sexassaults_district$population, big.mark=","),
                      " people.
 <br>

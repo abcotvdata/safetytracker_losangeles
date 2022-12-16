@@ -201,8 +201,8 @@ sf_population <- 815201
 <option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker_Thefts.html">Thefts</option>
 </select></h2>
 <h2>Choose a different area to explore: <select onchange="window.location=this.value">
-<option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_County_Safety_Tracker.html">Los Angeles County</option>
 <option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker.html">City of Los Angeles</option>
+<option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_County_Safety_Tracker.html">Los Angeles County</option>
 <option value="https://abcotvdata.github.io/safetytracker_losangeles/Orange_County_Safety_Tracker.html">Orange County</option>
 <option value="https://abcotvdata.github.io/safetytracker_losangeles/Riverside_County_Safety_Tracker.html">Riverside County</option>
 <option value="https://abcotvdata.github.io/safetytracker_losangeles/San_Bernardino_County_Safety_Tracker.html">San Bernardino County</option>
@@ -213,7 +213,7 @@ sf_population <- 815201
 <div class="card" style="background-color:#99a0a5;">
 <p>Burglaries<br>
 <bignumber>`r prettyNum(burglaries_city$last12mos, big.mark=",")`<br></bignumber>
-<p>Last 12 months<br>Through  `r format(asofdate, "%B %d")`</p>
+<p>Last 12 months<br>Through  `r format(lapd_asofdate, "%B %d")`</p>
 </div>
 <div class="card" style="background-color:#99a0a5;">
 <p>Average Burglaries<br>
@@ -240,7 +240,7 @@ Police generally define burglary as someone illegally entering a home, business 
 
 <subhead>A closer look at Los Angeles burglaries neighborhood by neighborhood</subhead>
 
-The risk is not the same neighborhood to neighborhood. ABC7's data team looked at data from the Los Angeles Police Department and Los Angeles County Sheriff's Department by neighborhood from 2019 through `r format(asofdate, "%B %d, %Y")`, the latest date for which records are available from the two agencies.
+The risk is not the same neighborhood to neighborhood. ABC7's data team looked at data from the Los Angeles Police Department and Los Angeles County Sheriff's Department by neighborhood from 2019 through `r format(lapd_asofdate, "%B %d, %Y")`, the latest date for which records are available from the two agencies.
 
 The map color codes each police district by the burglary rate over the last 12 months. The three darker blues represent neighborhoods with burglary rates that are higher than the citywide rate. You can also click the box in the bottom right corner to see neighborhoods by the number of burglaries.
 
@@ -285,9 +285,7 @@ burglarylabel <- paste(sep="",
                      " burglaries </popuptitle><br>",
                      " in the last 12 months in Police District <b>",
                      burglaries_district$district,
-                     "</b>, which includes the <b>",
-                     burglaries_district$placename,
-                     "</b>areas, home to an estimated ",
+                     "</b>, home to an estimated ",
                      prettyNum(burglaries_district$population, big.mark=","),
                      " people.
 <br>

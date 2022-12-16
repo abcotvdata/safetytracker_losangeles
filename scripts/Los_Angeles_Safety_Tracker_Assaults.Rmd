@@ -202,8 +202,8 @@ sf_population <- 815201
 <option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker_Thefts.html">Thefts</option>
 </select></h2>
 <h2>Choose a different area to explore: <select onchange="window.location=this.value">
-<option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_County_Safety_Tracker.html">Los Angeles County</option>
 <option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker.html">City of Los Angeles</option>
+<option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_County_Safety_Tracker.html">Los Angeles County</option>
 <option value="https://abcotvdata.github.io/safetytracker_losangeles/Orange_County_Safety_Tracker.html">Orange County</option>
 <option value="https://abcotvdata.github.io/safetytracker_losangeles/Riverside_County_Safety_Tracker.html">Riverside County</option>
 <option value="https://abcotvdata.github.io/safetytracker_losangeles/San_Bernardino_County_Safety_Tracker.html">San Bernardino County</option>
@@ -214,7 +214,7 @@ sf_population <- 815201
 <div class="card" style="background-color:#99a0a5;">
 <p>Aggravated assaults<br>
 <bignumber>`r prettyNum(assaults_city$last12mos, big.mark=",")`<br></bignumber>
-<p>Last 12 months<br>Through  `r format(asofdate, "%B %d")`</p>
+<p>Last 12 months<br>Through  `r format(lapd_asofdate, "%B %d")`</p>
 </div>
 <div class="card" style="background-color:#99a0a5;">
 <p>Average Aggravated Assaults<br>
@@ -241,7 +241,7 @@ The totals include only aggravated assaults, which police generally define as so
 
 <subhead>A closer look at Los Angeles assaults neighborhood by neighborhood</subhead>
 
-The danger is not the same neighborhood to neighborhood. ABC7's data team looked at data from the Los Angeles Police Department and Los Angeles County Sheriff's Department by neighborhood from 2019 through `r format(asofdate, "%B %d, %Y")`, the latest date for which records are available from the two agencies.
+The danger is not the same neighborhood to neighborhood. ABC7's data team looked at data from the Los Angeles Police Department and Los Angeles County Sheriff's Department by neighborhood from 2019 through `r format(lapd_asofdate, "%B %d, %Y")`, the latest date for which records are available from the two agencies.
 
 The map color codes each police district by the aggravated assault rate over the last 12 months. The three darker blues represent neighborhoods with assault rates that are higher than the citywide rate. You can also click the box in the bottom right corner to see neighborhoods by the number of aggravated assaults.
 
@@ -286,9 +286,9 @@ assaultlabel <- paste(sep="",
                      " assaults </popuptitle><br>",
                      " in the last 12 months in Police District <b>",
                      assaults_district$district,
-                     "</b>, which includes the <b>",
-                     assaults_district$placename,
-                     "</b>areas, home to an estimated ",
+#                     "</b>, which includes the <b>",
+#                     murders_district$placename,
+                     "</b>, home to an estimated ",
                      prettyNum(assaults_district$population, big.mark=","),
                      " people.
 <br>

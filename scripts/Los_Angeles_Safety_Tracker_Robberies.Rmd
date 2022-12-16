@@ -292,7 +292,7 @@ Choose a different crime to explore in the county:
 <p><a href="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_County_Safety_Tracker_VehicleThefts.html">Vehicle Thefts</a></div>
 </div>
 <br>
-```{r cars, echo=FALSE,out.width='100%',out.height='600'}
+```{r cars, echo=FALSE,out.width='100%',out.height='750'}
 # robbery MAP
 
 # Set bins for numbers of crimes for robberies map
@@ -390,7 +390,7 @@ losangeles_robbery_map <- leaflet(robberies_district, options = leafletOptions(z
   htmlwidgets::onRender("function(el, x) {
 L.control.zoom({ position: 'topright' }).addTo(this)
 }") %>%
-  setView(-118.24, 34.05, zoom = 10) %>% 
+  setView(-118.24, 34.05, zoom = 11) %>% 
   addProviderTiles(provider = "Esri.WorldImagery") %>%
   addProviderTiles(provider = "CartoDB.PositronOnlyLabels") %>%
   addPolygons(color = "white", 

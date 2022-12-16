@@ -368,7 +368,7 @@ laco_robbery_map <- leaflet(socal_robbery, options = leafletOptions(zoomControl 
   htmlwidgets::onRender("function(el, x) {
 L.control.zoom({ position: 'topright' }).addTo(this)
 }") %>%
-  setView(-117.91, 33.83, zoom = 11) %>% 
+  setView(-118.14, 34.14, zoom = 10.5) %>% 
   addProviderTiles(provider = "Esri.WorldImagery") %>%
   addProviderTiles(provider = "CartoDB.PositronOnlyLabels") %>%
   addPolygons(color = "white", 

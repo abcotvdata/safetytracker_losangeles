@@ -275,7 +275,7 @@ Choose a different crime to explore in the county:
 <p><a href="https://abcotvdata.github.io/safetytracker_losangeles/San_Bernardino_County_Safety_Tracker_VehicleThefts.html">Vehicle Thefts</a></div>
 </div>
 <br>
-```{r map, echo=FALSE,out.width='100%',out.height='600'}
+```{r map, echo=FALSE,out.width='100%',out.height='750'}
 # assault MAP
 
 # Set bins for numbers of crimes for assaults map
@@ -368,7 +368,7 @@ sb_assault_map <- leaflet(socal_assault, options = leafletOptions(zoomControl = 
   htmlwidgets::onRender("function(el, x) {
 L.control.zoom({ position: 'topright' }).addTo(this)
 }") %>%
-  setView(-117.91, 33.83, zoom = 11) %>% 
+  setView(-117.28, 34.1, zoom = 10) %>% 
   addProviderTiles(provider = "Esri.WorldImagery") %>%
   addProviderTiles(provider = "CartoDB.PositronOnlyLabels") %>%
   addPolygons(color = "white", 

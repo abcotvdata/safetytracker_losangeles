@@ -217,7 +217,7 @@ div.legend { margin-bottom: 50px !important; }
 assaults_county <- countywide_assault %>% filter(county=="Los_Angeles County")
 ```
 
-<h2>ABC7 is tracking crime and safety in communities across Los_Angeles County. 
+<h2>ABC7 is tracking crime and safety in communities across Los Angeles County. 
 
 You can choose which crime to examine: <select onchange="window.location=this.value">
 <option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_County_Safety_Tracker_Assaults.html">Assaults</option>
@@ -295,13 +295,13 @@ assaultpal1 <- colorBin(c("#76baf9",
                              "#2787d6",
                              "#0058f6",
                              "#003ca6",
-                             "#00215c"), socal_assault$rate21, bins = assaultbins1,na.color = "#51585f")
+                             "#00215c"), socal_assault$rate21, bins = assaultbins1,na.color = "#76baf9")
 
 assaultpal2 <- colorBin(c("#76baf9",
                              "#2787d6",
                              "#0058f6",
                              "#003ca6",
-                             "#00215c"), socal_assault$`2021`, bins = assaultbins2,na.color = "#51585f")
+                             "#00215c"), socal_assault$`2021`, bins = assaultbins2,na.color = "#76baf9")
 
                             
 # Create labels for assaults map

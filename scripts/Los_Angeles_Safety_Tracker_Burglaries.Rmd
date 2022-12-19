@@ -302,17 +302,17 @@ Choose a different crime to explore in the county:
 
 # Set bins for numbers of crimes for burglaries map
 burglarybins1 <- c(0,
-                1000,
-                2500,
-                4000,
-                6000,
-                7500)
+                250,
+                350,
+                500,
+                750,
+                1000)
 burglarybins2 <- c(0,
-                   500,
+                   400,
+                600,
+                800,
                 1000,
-                2000,
-                3000,
-                4000)
+                1250)
 burglarypal1 <- colorBin(c("#aecfe6",
                              "#2787d6",
                              "#0058f6",

@@ -302,16 +302,16 @@ Choose a different crime to explore in the county:
 
 # Set bins for numbers of crimes for autothefts map
 autotheftbins1 <- c(0,
+                300,
+                650,
+                800,
                 1000,
-                2000,
-                2500,
-                3000,
-                4000)
+                2000)
 autotheftbins2 <- c(0,
-                150,
-                350,
-                500,
+                750,
                 1000,
+                1250,
+                1500,
                 2000)
 autotheftpal1 <- colorBin(c("#aecfe6",
                              "#2787d6",

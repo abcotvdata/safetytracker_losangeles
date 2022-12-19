@@ -416,7 +416,7 @@ L.control.zoom({ position: 'topright' }).addTo(this)
               fillOpacity = 0.6,
               fillColor = ~sexassaultpal2(last12mos),
               group="Number") %>% 
-    addSearchOSM(options = searchOptions(autoCollapse=FALSE, minLength = 3,zoom=13, position="topleft")) %>%
+  addSearchOSM(options = searchOptions(autoCollapse=TRUE, collapsed = FALSE, minLength = 3, zoom=13, position="topleft")) %>%
     onRender("function(el, x) {
         $('input.search-input')[0].placeholder = 'Search street, place or zip code'
         }") %>%

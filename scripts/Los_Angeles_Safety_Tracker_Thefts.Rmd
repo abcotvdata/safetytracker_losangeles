@@ -282,7 +282,7 @@ You can find your neighborhood by using the box at the top of the map to search 
 Choose a different crime to explore in the county:
 <br>
 <br>
-<div class="cardContainer2">
+<div class="cardContainer2" id="mapNavButtons">
 <div class="card2" style="background-color:#99a0a5;">
 <p><a href="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_County_Safety_Tracker_Assaults.html">Assaults</a></div>
 <div class="card2" style="background-color:#99a0a5;">

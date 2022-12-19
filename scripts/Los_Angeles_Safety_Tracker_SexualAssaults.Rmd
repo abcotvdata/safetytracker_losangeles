@@ -281,19 +281,19 @@ Choose a different crime to explore in the county:
 <br>
 <div class="cardContainer2" id="mapNavButtons">
 <div class="card2" style="background-color:#99a0a5;">
-<p><a href="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_County_Safety_Tracker_Assaults.html">Assaults</a></div>
+<p><a href="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker_Assaults.html#mapNavButtons">Assaults</a></div>
 <div class="card2" style="background-color:#99a0a5;">
-<p><a href="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_County_Safety_Tracker_Burglaries.html">Burglaries</a></div>
+<p><a href="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker_Burglaries.html#mapNavButtons">Burglaries</a></div>
 <div class="card2" style="background-color:#99a0a5;">
-<p><a href="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_County_Safety_Tracker.html">Homicides</a></div>
+<p><a href="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker.html#mapNavButtons">Homicides</a></div>
 <div class="card2" style="background-color:#99a0a5;">
-<p><a href="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_County_Safety_Tracker_Robberies.html">Robberies</a></div>
+<p><a href="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker_Robberies.html#mapNavButtons">Robberies</a></div>
 <div class="card2" style="background-color:#ecaa00;">
-<p><a href="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_County_Safety_Tracker_SexualAssaults.html">Sexual Assaults</a></div>
+<p><a href="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker_SexualAssaults.html#mapNavButtons">Sexual Assaults</a></div>
 <div class="card2" style="background-color:#99a0a5;">
-<p><a href="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_County_Safety_Tracker_Thefts.html">Thefts</a></div>
+<p><a href="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker_Thefts.html#mapNavButtons">Thefts</a></div>
 <div class="card2" style="background-color:#99a0a5;">
-<p><a href="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_County_Safety_Tracker_VehicleThefts.html">Vehicle Thefts</a></div>
+<p><a href="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker_VehicleThefts.html#mapNavButtons">Vehicle Thefts</a></div>
 </div>
 <br>
 ```{r cars, echo=FALSE,out.width='100%',out.height='750'}

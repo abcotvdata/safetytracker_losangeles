@@ -64,8 +64,12 @@ rm(districts_withpop, blocks,beats)
 # Round the population figure; rounded to nearest thousand
 districts$population <- round(districts$population,-2)
 
+# Slightly simplify the polygons to aid web/mobile loading
+la_districts <- la_districts %>% st_transform(3116)
+la_districts <- st_simplify(la_districts, dTolerance = 5)
+
 # la_districts <- districts %>% st_transform(4269)
-la_districts <- districts %>% 
+la_districts <- la_districts %>% 
   st_transform(4269) %>% 
   st_make_valid
 rm(districts)
@@ -80,9 +84,8 @@ lapd_districts <- la_districts %>% filter(agency=="LAPD")
 
 # saving a clean geojson and separate RDS for use in tracker
 file.remove("data/output/geo/lapd_districts.geojson")
-st_write(la_districts,"data/output/geo/lapd_districts.geojson")
-saveRDS(la_districts,"scripts/rds/lapd_districts.rds")
-
+st_write(lapd_districts,"data/output/geo/lapd_districts.geojson")
+saveRDS(lapd_districts,"scripts/rds/lapd_districts.rds")
 
 # District Map for proofing/testing
 # Set bins for beats pop map
@@ -100,7 +103,7 @@ la_county_districts_map <- leaflet(la_districts) %>%
 la_county_districts_map
 # rm(la_county_districts_map)
 
-# District Map for proofing/testing
+# Just LAPD district map
 # Set bins for beats pop map
 popbins <- c(0,50000,100000,125000,150000,200000,Inf)
 lapoppal <- colorBin("viridis", lapd_districts$population, bins = popbins)

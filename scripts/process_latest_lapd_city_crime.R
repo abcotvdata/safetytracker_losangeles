@@ -3,9 +3,9 @@ library(lubridate)
 library(readxl)
 library(sf)
 
-# options(timeout=300)
+#options(timeout=300)
 # LAPD 2020 to now: https://data.lacity.org/Public-Safety/Crime-Data-from-2020-to-Present/2nrs-mtv8
-# download.file("https://data.lacity.org/api/views/ym67-6h5m/rows.csv","data/source/recent/lapd_recent.csv")
+#download.file("https://data.lacity.org/api/views/ym67-6h5m/rows.csv","data/source/recent/lapd_recent.csv")
 
 # Currently manually downloading
 # OPEN WORK TO RESOLVE

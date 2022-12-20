@@ -4,7 +4,6 @@ name: Update and render LAPD tracker
 on:
   schedule:
     - cron: '15 8 * * *'
-# Allows for manual trigger from web
   workflow_dispatch:
 
 jobs:

@@ -2,21 +2,22 @@ library(tidyverse)
 library(lubridate)
 library(readxl)
 library(sf)
+library(RSocrata)
 
-#options(timeout=300)
-# LAPD 2020 to now: https://data.lacity.org/Public-Safety/Crime-Data-from-2020-to-Present/2nrs-mtv8
-#download.file("https://data.lacity.org/api/views/ym67-6h5m/rows.csv","data/source/recent/lapd_recent.csv")
-
-# Currently manually downloading
-# OPEN WORK TO RESOLVE
+options(timeout=300)
+# Reading SoDA valid URLs
+lapd_recent <- read.socrata("https://data.lacity.org/resource/2nrs-mtv8.json")
 
 # Load the data
-lapd_recent <- read_csv("data/source/recent/lapd_recent.csv") %>% janitor::clean_names()
+# lapd_recent <- read_csv("data/source/recent/lapd_recent.csv") %>% janitor::clean_names()
 # Fix the date fields to match and then filter past file to extract just 2019
-lapd_recent$date <- lubridate::mdy_hms(lapd_recent$date_occ)
+lapd_recent$date <- lapd_recent$date_occ
 lapd_recent$year <- lubridate::year(lapd_recent$date)
 lapd_recent$month <- lubridate::floor_date(as.Date(lapd_recent$date),"month")
 lapd_recent$hour <- substr(lapd_recent$time_occ,1,2)
+
+# For last 12 months using most recent date in LAPD new download
+lapd_recent <- lapd_recent %>% filter(date>(max(lapd_recent$date)-31536000)) 
 
 lapd_recent$category <- case_when(lapd_recent$crm_cd == '230' ~ 'Aggravated Assault',
                                  lapd_recent$crm_cd == '231' ~ 'Aggravated Assault',
@@ -89,9 +90,6 @@ lapd_recent$agency <- "LAPD"
 lapd_asofdate <- max(lapd_recent$date)
 saveRDS(lapd_asofdate,"scripts/rds/lapd_asofdate.rds")
 
-# For last 12 months using most recent date in LAPD new download
-lapd_recent <- lapd_recent %>% filter(date>(max(lapd_recent$date)-31536000)) 
-
 ### LAPD last 12 by Category
 lapd_recent_citywide <- lapd_recent %>%
   filter(category != "Other or Part 2") %>%
@@ -104,14 +102,9 @@ lapd_recent <- lapd_recent %>%
   summarise(last12mos = n()) %>% 
   rename("district"="area_name")
 
-# Fix two division names in data to match division names in geo file
-lapd_recent$district <- gsub("N Hollywood", "North Hollywood", lapd_recent$district)
-lapd_recent$district <- gsub("West LA", "West Los Angeles", lapd_recent$district)
-# Remove repetitive fields we no longer need to keep rds file smaller
-#lapd_recent$agency <- "LAPD"
-# Add place & county cols that match the new region wide police map file
-#lapd_recent$place <- paste(lapd_recent$agency,lapd_recent$district)
-#lapd_recent$county <- "Los Angeles County"
+# Load LAPD annual
+lapd_annual <- readRDS("scripts/rds/lapd_annual.rds")
+lapd_districts <- readRDS("scripts/rds/lapd_districts.rds")
 
 lapd_crime <- left_join(lapd_annual,lapd_recent,by=c("district","category")) %>%
   select(1:15,19,17,18)
@@ -239,6 +232,5 @@ deaths <- read_excel("data/source/health/deaths.xlsx")
 deaths <- deaths %>% filter(state=="CA")
 deaths$Homicide <- murders_city$rate_last12
 write_csv(deaths,"data/source/health/death_rates.csv")
-
 
 

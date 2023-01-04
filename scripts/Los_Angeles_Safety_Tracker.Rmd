@@ -219,7 +219,7 @@ sf_population <- 815201
 ```
 
 <br>
-<h2>ABC7 is tracking crime and safety across the city of Los Angeles and in your neighborhood. 
+<h2>ABC7 is tracking crime and safety in communities across Los Angeles County - and every other community across Southern California. This safety tracker lets you look into how often major crimes happen where you live and to examine trends over time, according to records gathered from local law enforcement agencies.
 
 <br>You can choose which crime to examine: <select onchange="window.location=this.value">
 <option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker.html">Homicides</option>

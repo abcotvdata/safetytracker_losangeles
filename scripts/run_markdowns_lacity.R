@@ -2,7 +2,7 @@ library(rmarkdown)
 
 # Code to build each of the trackers
 # Includes loading pre-processed and stored dfs
-# Grouped by each page to allow for individual or mass processing
+# Grouped by each page to allow for individual or mass processing 
 
 # MURDERS
 # Load RDS

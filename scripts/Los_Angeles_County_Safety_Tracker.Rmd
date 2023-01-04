@@ -71,7 +71,7 @@ h2 {
   font-weight: 500;
   color: black;
   text-align: center;
-  font-size: 18px;
+  font-size: 19px;
   margin-top: 0;
   margin-bottom: 2;
 }
@@ -217,7 +217,7 @@ div.legend { margin-bottom: 50px !important; }
 murders_county <- countywide_murder %>% filter(county=="Los Angeles County")
 ```
 
-<h2>ABC7 is tracking crime and safety in communities across Los Angeles County - and every other community across Southern California. This safety tracker lets you look into how often major crimes happen where you live and to examine trends over time, according to records gathered from local law enforcement agencies.
+<h2>ABC7 is tracking crime and safety in communities across Southern California. This safety tracker lets you look into how often major crimes happen where you live and to examine trends over time, according to records gathered from local law enforcement agencies.
 
 You can choose which crime to examine: <select onchange="window.location=this.value">
 <option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_County_Safety_Tracker.html">Homicides</option>

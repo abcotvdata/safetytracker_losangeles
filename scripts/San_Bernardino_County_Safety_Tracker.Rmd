@@ -439,4 +439,5 @@ sb_murder_map
 <!-- <subhead>Update to add clearance rates table -->
 <br>
 <br>
-<!-- <subhead>Upgrade later to add comparison of rates for types of crime-->
+<br>
+<div class="chimney" data-campaign-id="acaf4a82-1328-ba26-0eb2-3a0890cc6bd7"></div><script async src="https://cdn.usechimney.com/sdk/js/1.35.0/dist/chimney.min.js"></script>

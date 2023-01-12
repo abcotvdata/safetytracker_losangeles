@@ -303,17 +303,17 @@ Choose a different crime to explore in the county:
 
 # Set bins for numbers of crimes for shootings map
 shootingbins1 <- c(0,
-                100,
-                200,
-                500,
-                750,
-                1200)
+                5,
+                15,
+                25,
+                50,
+                200)
 shootingbins2 <- c(0,
-                250,
-                500,
-                600,
-                800,
-                1200)
+                20,
+                50,
+                75,
+                100,
+                300)
 shootingpal1 <- colorBin(c("#aecfe6",
                              "#2787d6",
                              "#0058f6",

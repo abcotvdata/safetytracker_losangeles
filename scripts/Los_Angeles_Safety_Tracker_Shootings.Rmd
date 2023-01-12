@@ -242,29 +242,29 @@ sf_population <- 815201
 <div class="cardContainer">
 <div class="card" style="background-color:#99a0a5;">
 <p>Shootings<br>
-<bignumber>`r prettyNum(robberies_city$last12mos, big.mark=",")`<br></bignumber>
+<bignumber>`r prettyNum(shootings_city$last12mos, big.mark=",")`<br></bignumber>
 <p>Last 12 months<br>Through  `r format(lapd_asofdate, "%B %d")`</p>
 </div>
 <div class="card" style="background-color:#99a0a5;">
 <p>Average Shootings<br>
-<bignumber>`r prettyNum(round(robberies_city$avg_prior3years,0), big.mark=",")`<br></bignumber><p>
+<bignumber>`r prettyNum(round(shootings_city$avg_prior3years,0), big.mark=",")`<br></bignumber><p>
 Yearly average<br>2019 to 2021</p>
 </div>
 <div class="card" style="background-color:#99a0a5;">
 <p>Shooting Rate<br>
-<bignumber>`r round(robberies_city$rate_last12,0)`<br></bignumber><p>
+<bignumber>`r round(shootings_city$rate_last12,0)`<br></bignumber><p>
 Per 100,000 people<br>Last 12 months</p>
 </div>
 <div class="card" style="background-color:#99a0a5;">
 <p>Average Shooting Rate<br>
-<bignumber>`r round(robberies_city$rate_prior3years,0)`<br></bignumber><p>
+<bignumber>`r round(shootings_city$rate_prior3years,0)`<br></bignumber><p>
 Per 100,000 people<br>2019 to 2021</p>
 </div>
 </div>
 <br>
-Shootings over the last 12 months are <h8>`r ifelse(robberies_city$inc_prior3yearavgtolast12>=0," up"," down")` `r ifelse(robberies_city$inc_prior3yearavgtolast12>=0,robberies_city$inc_prior3yearavgtolast12,substring(robberies_city$inc_prior3yearavgtolast12,2))`%</h8> compared to the annual average over the last three years, according to the latest Los Angeles Police Department data through `r format(lapd_asofdate, "%B %d")`.
+Shootings over the last 12 months are <h8>`r ifelse(shootings_city$inc_prior3yearavgtolast12>=0," up"," down")` `r ifelse(shootings_city$inc_prior3yearavgtolast12>=0,shootings_city$inc_prior3yearavgtolast12,substring(shootings_city$inc_prior3yearavgtolast12,2))`%</h8> compared to the annual average over the last three years, according to the latest Los Angeles Police Department data through `r format(lapd_asofdate, "%B %d")`.
 
-The city averaged <h8>`r round(robberies_city$last12mos/52,0)`</h8> shootings a week over the last 12 months. In 2019, that number was <h8>`r round(robberies_city$total19/52,0)`</h8> a week.
+The city averaged <h8>`r round(shootings_city$last12mos/52,0)`</h8> shootings a week over the last 12 months. In 2019, that number was <h8>`r round(shootings_city$total19/52,0)`</h8> a week.
 
 As reported here, shootings include the number of victims shot in crime incidents recorded by the LAPD. The total may not include every shooting in the city, only those that were recorded as a crime by Los Angeles police.
 
@@ -272,7 +272,7 @@ As reported here, shootings include the number of victims shot in crime incident
 
 The risk is not the same neighborhood to neighborhood. ABC7's data team looked at data from the Los Angeles Police Department by neighborhood from 2019 through `r format(lapd_asofdate, "%B %d, %Y")`, the latest date for which records are available.
 
-The map color codes each police district by the robbery rate over the last 12 months. The three darker blues represent neighborhoods with robbery rates that are higher than the citywide rate. You can also click the box in the bottom right corner to see neighborhoods by the number of robberies.
+The map color codes each police district by the shooting rate over the last 12 months. The three darker blues represent neighborhoods with robbery rates that are higher than the citywide rate. You can also click the box in the bottom right corner to see neighborhoods by the number of shootings.
 
 Click on any area to see detailed numbers or the buttons at the bottom of the map to switch between numbers and rates. 
 
@@ -301,7 +301,7 @@ Choose a different crime to explore in the county:
 ```{r cars, echo=FALSE,out.width='100%',out.height='750'}
 # robbery MAP
 
-# Set bins for numbers of crimes for robberies map
+# Set bins for numbers of crimes for shootings map
 robberybins1 <- c(0,
                 100,
                 200,
@@ -318,24 +318,24 @@ robberypal1 <- colorBin(c("#aecfe6",
                              "#2787d6",
                              "#0058f6",
                              "#003ca6",
-                             "#00215c"), robberies_district$rate_last12, bins = robberybins1,na.color = "#51585f")
+                             "#00215c"), shootings_district$rate_last12, bins = robberybins1,na.color = "#51585f")
 
 robberypal2 <- colorBin(c("#aecfe6",
                              "#2787d6",
                              "#0058f6",
                              "#003ca6",
-                             "#00215c"), robberies_district$last12mos, bins = robberybins2,na.color = "#51585f")
+                             "#00215c"), shootings_district$last12mos, bins = robberybins2,na.color = "#51585f")
 
 
-# Create quick labels for robberies map
+# Create quick labels for shootings map
 robberylabel <- paste(sep="",
                      "<popuptitle>",
-                     robberies_district$last12mos,
-                     " robberies </popuptitle><br>",
+                     shootings_district$last12mos,
+                     " shootings </popuptitle><br>",
                      " in the last 12 months in the <b>",
-                     robberies_district$district,
+                     shootings_district$district,
                      "</b>area, home to an estimated ",
-                     prettyNum(robberies_district$population, big.mark=","),
+                     prettyNum(shootings_district$population, big.mark=","),
                      " people.
 <br>
 <table>      
@@ -347,52 +347,52 @@ robberylabel <- paste(sep="",
 			<tr>
 				<td>2019</td>
 				<td>",
-robberies_district$total19,
+shootings_district$total19,
 "</td>
 				<td>",
-round(robberies_district$rate19,0),
+round(shootings_district$rate19,0),
 "</td>
 			</tr>
 			<tr>
 				<td>2020</td>
 				<td>",
-robberies_district$total20,
+shootings_district$total20,
 "</td>
 				<td>",
-round(robberies_district$rate20,0),
+round(shootings_district$rate20,0),
 "</td>
 			</tr>
 						<tr>
 				<td>2021</td>
 				<td>",
-robberies_district$total21,
+shootings_district$total21,
 "</td>
 				<td>",
-round(robberies_district$rate21,0),
+round(shootings_district$rate21,0),
 "</td>
 			</tr>
 						<tr>
 				<td>Last 12 months</td>
 				<td>",
-robberies_district$last12mos,
+shootings_district$last12mos,
 "</td>
 				<td>",
-round(robberies_district$rate_last12,0),
+round(shootings_district$rate_last12,0),
 "</td>
 			</tr>
 						<tr>
 				<td>3-year Average</td>
 				<td>",
-round(robberies_district$avg_prior3years,0),
+round(shootings_district$avg_prior3years,0),
 "</td>
 				<td>",
-round(robberies_district$rate_prior3years,0),
+round(shootings_district$rate_prior3years,0),
 "</td>
 			</tr>
 </table>")
 
 # Creating police beats map for types of crimes
-losangeles_robbery_map <- leaflet(robberies_district, options = leafletOptions(zoomControl = FALSE, zoomSnap = 0.5, zoomDelta=0.5)) %>%
+losangeles_robbery_map <- leaflet(shootings_district, options = leafletOptions(zoomControl = FALSE, zoomSnap = 0.5, zoomDelta=0.5)) %>%
   htmlwidgets::onRender("function(el, x) {
 L.control.zoom({ position: 'topright' }).addTo(this)
 }") %>%
@@ -424,17 +424,17 @@ L.control.zoom({ position: 'topright' }).addTo(this)
         $('input.search-input')[0].placeholder = 'Search street, place or zip code'
         }") %>%
   addLegend(opacity = 0.6,
-            values = robberies_district$rate_last12, 
+            values = shootings_district$rate_last12, 
             pal = robberypal1,
             position = "bottomleft", 
-            title = paste(sep="","<popuptitle>Robbery Rate<br><popupchatter>Robberies/100K people<br>Citywide: ",prettyNum(round(robberies_city$rate_last12,0), big.mark=",")),
+            title = paste(sep="","<popuptitle>Robbery Rate<br><popupchatter>Shootings/100K people<br>Citywide: ",prettyNum(round(shootings_city$rate_last12,0), big.mark=",")),
             group = "Rate",
             className = "info legend Rate") %>%
   addLegend(opacity = 0.6,
-            values = robberies_district$last12mos, 
+            values = shootings_district$last12mos, 
             pal = robberypal2,
             position = "bottomleft", 
-            title = paste(sep="","<popuptitle>Robberies<br><popupchatter>Total robberies<br>Citywide: ",prettyNum(round(robberies_city$last12mos,0), big.mark=",")),
+            title = paste(sep="","<popuptitle>Shootings<br><popupchatter>Total shootings<br>Citywide: ",prettyNum(round(shootings_city$last12mos,0), big.mark=",")),
             group = "Number",
             className = "info legend Number") %>%
   addLayersControl(

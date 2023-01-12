@@ -5,7 +5,6 @@ library(lubridate)
 lapd_annual19 <- read_csv("data/source/annual/lapd_crime_2010_2019_rollup.csv") %>% janitor::clean_names()
 lapd_annual21 <- read_csv("data/source/annual/lapd_crime_2020_2021_rollup.csv") %>% janitor::clean_names()
 
-
 lapd_annual <- rbind(lapd_annual19,lapd_annual21)
 rm(lapd_annual19,lapd_annual21)
 
@@ -81,6 +80,30 @@ lapd_annual <- lapd_annual %>%
   summarise(count = sum(number_incidents)) %>%
   pivot_wider(names_from=year, values_from=count)
 
+# Create a quick tally of shootings that can be appended as a category
+lapd_shootings19 <- read_csv("data/source/annual/lapd_shootings_district_2010_2019.csv") %>% janitor::clean_names()
+lapd_shootings21 <- read_csv("data/source/annual/lapd_shootings_district_2020_2021.csv") %>% janitor::clean_names()
+lapd_shootings_annual <- rbind(lapd_shootings19,lapd_shootings21)
+rm(lapd_shootings19,lapd_shootings21)
+# rename some cols for consistency for merging
+lapd_shootings_annual <- lapd_shootings_annual %>% rename("year"="date_occ","number_incidents"="dr_no","district"="area_name")
+# spread to annual for consistency for merging
+lapd_shootings_annual <- lapd_shootings_annual %>% pivot_wider(names_from=year, values_from=number_incidents)
+# Fix two division names in data to match division names in geo file
+lapd_shootings_annual$district <- gsub("N Hollywood", "North Hollywood", lapd_shootings_annual$district)
+lapd_shootings_annual$district <- gsub("West LA", "West Los Angeles", lapd_shootings_annual$district)
+# Add fields we need
+lapd_shootings_annual$agency <- "LAPD"
+lapd_shootings_annual$category <- "Shootings"
+#lapd_shootings_annual_citywide <- lapd_shootings_annual %>%
+#  group_by(year) %>%
+#  summarise(shootings = sum(number_incidents)) %>%
+#  pivot_wider(names_from=year, values_from=shootings) %>%
+#  mutate(district="Citywide")
+
+# Merge the shootings category into the annual table
+lapd_annual <- rbind(lapd_annual,lapd_shootings_annual)
+
 # Add place & county cols that match the new region wide police map file
 lapd_annual$place <- paste(lapd_annual$agency,lapd_annual$district)
 lapd_annual$county <- "Los Angeles County"
@@ -93,28 +116,6 @@ lapd_robbery <- lapd_annual %>% filter(category=="Robbery") %>% ungroup %>% sele
 lapd_burglary <- lapd_annual %>% filter(category=="Burglary") %>% ungroup %>% select(17,18,4:16,1)
 lapd_theft <- lapd_annual %>% filter(category=="Larceny") %>% ungroup %>% select(17,18,4:16,1)
 lapd_autotheft <- lapd_annual %>% filter(category=="Vehicle Theft") %>% ungroup %>% select(17,18,4:16,1)
+lapd_shootings <- lapd_annual %>% filter(category=="Shootings") %>% ungroup %>% select(17,18,4:16,1)
 
 saveRDS(lapd_annual,"scripts/rds/lapd_annual.rds")
-
-# process shootings historical data and archive
-# read in pre-built files from lapd open data
-lapd_shootings19 <- read_csv("data/source/annual/lapd_shootings_district_2010_2019.csv") %>% janitor::clean_names()
-lapd_shootings21 <- read_csv("data/source/annual/lapd_shootings_district_2020_2021.csv") %>% janitor::clean_names()
-
-# merge into one file
-lapd_shootings_annual <- rbind(lapd_shootings19,lapd_shootings21)
-rm(lapd_shootings19,lapd_shootings21)
-
-lapd_shootings_annual <- lapd_shootings_annual %>% rename("year"="date_occ","number_incidents"="dr_no","district"="area_name")
-
-lapd_shootings_annual_citywide <- lapd_shootings_annual %>%
-  group_by(year) %>%
-  summarise(shootings = sum(number_incidents)) %>%
-  pivot_wider(names_from=year, values_from=shootings) %>%
-  mutate(district="Citywide")
-
-lapd_shootings_annual <- lapd_shootings_annual %>% pivot_wider(names_from=year, values_from=number_incidents)
-
-saveRDS(lapd_shootings_annual,"scripts/rds/lapd_shootings_annual.rds")
-
-

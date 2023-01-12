@@ -90,11 +90,13 @@ lapd_recent_shootings <- lapd_recent %>%
 # Tally shootings by district
 recent_shootings_district <- lapd_recent_shootings %>%
   group_by(area_name) %>%
-  summarise(last12mos = n())
+  summarise(last12mos = n())  %>% 
+  rename("district"="area_name") %>%
+  mutate(category = "Shootings")
 # Tally shootings citywide
 recent_shootings_citywide <- lapd_recent_shootings %>%
   summarise(last12mos = n()) %>%
-  mutate(area_name = "Citywide")
+  mutate(category = "Shootings")
 
 # BEGIN PROCESSING DATA FILES FOR TRACKER PAGES FOR CRIME CATEGORIES
 # Remove repetitive fields we no longer need to keep rds file smaller
@@ -110,12 +112,14 @@ lapd_recent_citywide <- lapd_recent %>%
   filter(category != "Other or Part 2") %>%
   group_by(category) %>%
   summarise(last12mos = n())
+lapd_recent_citywide <- rbind(lapd_recent_citywide,recent_shootings_citywide)
 ### LAPD Districts last 12 by Category
 lapd_recent <- lapd_recent %>%
   filter(category != "Other or Part 2") %>%
   group_by(area_name,category) %>%
   summarise(last12mos = n()) %>% 
   rename("district"="area_name")
+lapd_recent <- rbind(lapd_recent,recent_shootings_district)
 
 # Load LAPD annual
 lapd_annual <- readRDS("scripts/rds/lapd_annual.rds")
@@ -165,6 +169,7 @@ assaults_district <- lapd_crime %>% filter(category=="Aggravated Assault")
 burglaries_district <- lapd_crime %>% filter(category=="Burglary")
 thefts_district <- lapd_crime %>% filter(category=="Larceny")
 autothefts_district <- lapd_crime %>% filter(category=="Vehicle Theft")
+shootings_district <- lapd_crime %>% filter(category=="Shootings")
 # district versions saved as rds
 saveRDS(murders_district,"scripts/rds/murders_district.rds")
 saveRDS(sexassaults_district,"scripts/rds/sexassaults_district.rds")
@@ -173,6 +178,8 @@ saveRDS(assaults_district,"scripts/rds/assaults_district.rds")
 saveRDS(burglaries_district,"scripts/rds/burglaries_district.rds")
 saveRDS(thefts_district,"scripts/rds/thefts_district.rds")
 saveRDS(autothefts_district,"scripts/rds/autothefts_district.rds")
+saveRDS(shootings_district,"scripts/rds/shootings_district.rds")
+
 
 # Form LA citywide data for tables/charts for tracker
 citywide_crime <- lapd_annual %>%
@@ -224,6 +231,7 @@ assaults_city <- citywide_crime %>% filter(category=="Aggravated Assault")
 burglaries_city <- citywide_crime %>% filter(category=="Burglary")
 thefts_city <- citywide_crime %>% filter(category=="Larceny")
 autothefts_city <- citywide_crime %>% filter(category=="Vehicle Theft")
+shootings_city <- citywide_crime %>% filter(category=="Shootings")
 # city versions saved as rds for use in tracker pages
 saveRDS(murders_city,"scripts/rds/murders_city.rds")
 saveRDS(sexassaults_city,"scripts/rds/sexassaults_city.rds")
@@ -232,6 +240,7 @@ saveRDS(assaults_city,"scripts/rds/assaults_city.rds")
 saveRDS(burglaries_city,"scripts/rds/burglaries_city.rds")
 saveRDS(thefts_city,"scripts/rds/thefts_city.rds")
 saveRDS(autothefts_city,"scripts/rds/autothefts_city.rds")
+saveRDS(shootings_city,"scripts/rds/shootings_city.rds")
 ### Some yearly csv tables for charts for our datawrapper charts
 citywide_yearly %>% write_csv("data/output/yearly/citywide_yearly.csv")
 citywide_yearly %>% filter(category=="Homicide") %>% write_csv("data/output/yearly/murders_city.csv")
@@ -241,6 +250,8 @@ citywide_yearly %>% filter(category=="Larceny") %>%  write_csv("data/output/year
 citywide_yearly %>% filter(category=="Burglary") %>%  write_csv("data/output/yearly/burglaries_city.csv")
 citywide_yearly %>% filter(category=="Robbery") %>%  write_csv("data/output/yearly/robberies_city.csv")
 citywide_yearly %>% filter(category=="Aggravated Assault") %>%  write_csv("data/output/yearly/assaults_city.csv")
+citywide_yearly %>% filter(category=="Shootings") %>%  write_csv("data/output/yearly/shootings_city.csv")
+
 
 # make the death rate comparable file unique to this state vs LAPD homicide
 deaths <- read_excel("data/source/health/deaths.xlsx") 

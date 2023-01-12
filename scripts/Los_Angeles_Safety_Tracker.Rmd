@@ -492,4 +492,3 @@ losangeles_murder_map
 </script>
 <br>
 <br>
-[contest ID="acaf4a82-1328-ba26-0eb2-3a0890cc6bd7" /]

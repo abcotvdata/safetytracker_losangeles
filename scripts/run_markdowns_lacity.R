@@ -14,6 +14,17 @@ rmarkdown::render('scripts/Los_Angeles_Safety_Tracker.Rmd',
                   output_dir = "docs",
                   output_file = 'Los_Angeles_Safety_Tracker.html')
 
+# SHOOTINGS
+# Load RDS
+shootings_district <- readRDS("scripts/rds/shootings_district.rds")
+shootings_city <- readRDS("scripts/rds/shootings_city.rds")
+lapd_asofdate <- readRDS("scripts/rds/lapd_asofdate.rds")
+# Render page
+rmarkdown::render('scripts/Los_Angeles_Safety_Tracker_Shootings.Rmd', 
+                  output_dir = "docs",
+                  output_file = 'Los_Angeles_Safety_Tracker_Shootings.html')
+
+
 # BURGLARIES
 # Load RDS
 burglaries_district <- readRDS("scripts/rds/burglaries_district.rds")

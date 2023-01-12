@@ -264,7 +264,7 @@ Per 100,000 people<br>2019 to 2021</p>
 <br>
 Shootings over the last 12 months are <h8>`r ifelse(shootings_city$inc_prior3yearavgtolast12>=0," up"," down")` `r ifelse(shootings_city$inc_prior3yearavgtolast12>=0,shootings_city$inc_prior3yearavgtolast12,substring(shootings_city$inc_prior3yearavgtolast12,2))`%</h8> compared to the annual average over the last three years, according to the latest Los Angeles Police Department data through `r format(lapd_asofdate, "%B %d")`.
 
-The city averaged <h8>`r round(shootings_city$last12mos/52,0)`</h8> shootings a week over the last 12 months. In 2019, that number was <h8>`r round(shootings_city$total19/52,0)`</h8> a week.
+The city averaged <h8>`r round(shootings_city$last12mos/52,0)`</h8> shootings a week over the last 12 months. In 2019, that number was <h8>`r round(shootings_city$'2019'/52,0)`</h8> a week.
 
 As reported here, shootings include the number of victims shot in crime incidents recorded by the LAPD. The total may not include every shooting in the city, only those that were recorded as a crime by Los Angeles police.
 

@@ -98,13 +98,14 @@ saveRDS(lapd_annual,"scripts/rds/lapd_annual.rds")
 
 # process shootings historical data and archive
 # read in pre-built files from lapd open data
-lapd_shootings19 <- read_csv("data/source/annual/lapd_shootings_district_2010_2019.csv")
-lapd_shootings21 <- read_csv("data/source/annual/lapd_shootings_district_2020_2021.csv")
+lapd_shootings19 <- read_csv("data/source/annual/lapd_shootings_district_2010_2019.csv") %>% janitor::clean_names()
+lapd_shootings21 <- read_csv("data/source/annual/lapd_shootings_district_2020_2021.csv") %>% janitor::clean_names()
 
 # merge into one file
 lapd_shootings_annual <- rbind(lapd_shootings19,lapd_shootings21)
 rm(lapd_shootings19,lapd_shootings21)
 
 lapd_shootings_annual <- lapd_shootings_annual %>% rename("year"="date_occ","number_incidents"="dr_no","district"="area_name")
+saveRDS(lapd_shootings_annual,"scripts/rds/lapd_shootings_annual.rds")
 
 

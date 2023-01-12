@@ -266,13 +266,13 @@ Per 100,000 people<br>2019 to 2021</p>
 <br>
 Thefts over the last 12 months are <h8>`r ifelse(thefts_city$inc_prior3yearavgtolast12>=0," up"," down")` `r ifelse(thefts_city$inc_prior3yearavgtolast12>=0,thefts_city$inc_prior3yearavgtolast12,substring(thefts_city$inc_prior3yearavgtolast12,2))`%</h8> compared to the annual average over the last three years, according to the latest Los Angeles Police Department data through `r format(lapd_asofdate, "%B %d")`.
 
-The city averaged <h8>`r prettyNum(round(thefts_city$last12mos/52,0), big.mark=",")`</h8> thefts a week over the last 12 months. In 2019, that number was <h8>`r prettyNum(round(thefts_city$total19/52,0), big.mark=",")`</h8> a week.
+The city averaged <h8>`r prettyNum(round(thefts_city$last12mos/52,0), big.mark=",")`</h8> thefts a week over the last 12 months. In 2019, that number was <h8>`r prettyNum(round(thefts_city$'2019'/52,0), big.mark=",")`</h8> a week.
 
 Theft totals here are for larceny, which would include stealing items worth $1,000 or more. The totals also would not include those involving violence, which would be defined as robbery. So someone taking an expensive smartphone from someone's bag would be theft, taking it while pointing a firearm at the person would be instead counted as robbery.
 
 <subhead>Los Angeles thefts neighborhood by neighborhood</subhead>
 
-The risk is not the same neighborhood to neighborhood. ABC7's data team looked at data from the Los Angeles Police Department by neighborhood from 2019 through `r format(lapd_asofdate, "%B %d, %Y")`, the latest date for which records are available from the two agencies.
+The risk is not the same neighborhood to neighborhood. ABC7's data team looked at data from the Los Angeles Police Department by neighborhood from 2019 through `r format(lapd_asofdate, "%B %d, %Y")`, the latest date for which records are available.
 
 The map color codes each area by the theft rate over the last 12 months. The three darker blues represent neighborhoods with theft rates that are higher than the citywide rate. You can also click the box in the bottom right corner to see neighborhoods by the number of thefts.
 

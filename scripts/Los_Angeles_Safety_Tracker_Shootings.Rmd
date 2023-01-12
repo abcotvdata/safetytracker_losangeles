@@ -272,7 +272,7 @@ As reported here, shootings include the number of victims shot in crime incident
 
 The risk is not the same neighborhood to neighborhood. ABC7's data team looked at data from the Los Angeles Police Department by neighborhood from 2019 through `r format(lapd_asofdate, "%B %d, %Y")`, the latest date for which records are available.
 
-The map color codes each police district by the shooting rate over the last 12 months. The three darker blues represent neighborhoods with robbery rates that are higher than the citywide rate. You can also click the box in the bottom right corner to see neighborhoods by the number of shootings.
+The map color codes each police district by the shooting rate over the last 12 months. The three darker blues represent neighborhoods with shooting rates that are higher than the citywide rate. You can also click the box in the bottom right corner to see neighborhoods by the number of shootings.
 
 Click on any area to see detailed numbers or the buttons at the bottom of the map to switch between numbers and rates. 
 
@@ -299,36 +299,36 @@ Choose a different crime to explore in the county:
 </div>
 <br>
 ```{r cars, echo=FALSE,out.width='100%',out.height='750'}
-# robbery MAP
+# shooting MAP
 
 # Set bins for numbers of crimes for shootings map
-robberybins1 <- c(0,
+shootingbins1 <- c(0,
                 100,
                 200,
                 500,
                 750,
                 1200)
-robberybins2 <- c(0,
+shootingbins2 <- c(0,
                 250,
                 500,
                 600,
                 800,
                 1200)
-robberypal1 <- colorBin(c("#aecfe6",
+shootingpal1 <- colorBin(c("#aecfe6",
                              "#2787d6",
                              "#0058f6",
                              "#003ca6",
-                             "#00215c"), shootings_district$rate_last12, bins = robberybins1,na.color = "#51585f")
+                             "#00215c"), shootings_district$rate_last12, bins = shootingbins1,na.color = "#51585f")
 
-robberypal2 <- colorBin(c("#aecfe6",
+shootingpal2 <- colorBin(c("#aecfe6",
                              "#2787d6",
                              "#0058f6",
                              "#003ca6",
-                             "#00215c"), shootings_district$last12mos, bins = robberybins2,na.color = "#51585f")
+                             "#00215c"), shootings_district$last12mos, bins = shootingbins2,na.color = "#51585f")
 
 
 # Create quick labels for shootings map
-robberylabel <- paste(sep="",
+shootinglabel <- paste(sep="",
                      "<popuptitle>",
                      shootings_district$last12mos,
                      " shootings </popuptitle><br>",
@@ -392,7 +392,7 @@ round(shootings_district$rate_prior3years,0),
 </table>")
 
 # Creating police beats map for types of crimes
-losangeles_robbery_map <- leaflet(shootings_district, options = leafletOptions(zoomControl = FALSE, zoomSnap = 0.5, zoomDelta=0.5)) %>%
+losangeles_shooting_map <- leaflet(shootings_district, options = leafletOptions(zoomControl = FALSE, zoomSnap = 0.5, zoomDelta=0.5)) %>%
   htmlwidgets::onRender("function(el, x) {
 L.control.zoom({ position: 'topright' }).addTo(this)
 }") %>%
@@ -400,24 +400,24 @@ L.control.zoom({ position: 'topright' }).addTo(this)
   addProviderTiles(provider = "Esri.WorldImagery") %>%
   addProviderTiles(provider = "CartoDB.PositronOnlyLabels") %>%
   addPolygons(color = "white", 
-              popup = robberylabel,
+              popup = shootinglabel,
               popupOptions = popupOptions(maxWidth ="200", 
                                           minWidth ="200"),
               weight = 2, 
               smoothFactor = 0.5,
               opacity = 0.6, 
               fillOpacity = 0.6,
-              fillColor = ~robberypal1(rate_last12),
+              fillColor = ~shootingpal1(rate_last12),
               group="Rate") %>% 
     addPolygons(color = "white", 
-              popup = robberylabel,
+              popup = shootinglabel,
               popupOptions = popupOptions(maxWidth ="200", 
                                           minWidth ="200"),
               weight = 2, 
               smoothFactor = 0.5,
               opacity = 0.6, 
               fillOpacity = 0.6,
-              fillColor = ~robberypal2(last12mos),
+              fillColor = ~shootingpal2(last12mos),
               group="Number") %>% 
   addSearchOSM(options = searchOptions(autoCollapse=TRUE, collapsed = FALSE, minLength = 3, zoom=13, position="topleft")) %>%
     onRender("function(el, x) {
@@ -425,14 +425,14 @@ L.control.zoom({ position: 'topright' }).addTo(this)
         }") %>%
   addLegend(opacity = 0.6,
             values = shootings_district$rate_last12, 
-            pal = robberypal1,
+            pal = shootingpal1,
             position = "bottomleft", 
-            title = paste(sep="","<popuptitle>Robbery Rate<br><popupchatter>Shootings/100K people<br>Citywide: ",prettyNum(round(shootings_city$rate_last12,0), big.mark=",")),
+            title = paste(sep="","<popuptitle>Shooting Rate<br><popupchatter>Shootings/100K people<br>Citywide: ",prettyNum(round(shootings_city$rate_last12,0), big.mark=",")),
             group = "Rate",
             className = "info legend Rate") %>%
   addLegend(opacity = 0.6,
             values = shootings_district$last12mos, 
-            pal = robberypal2,
+            pal = shootingpal2,
             position = "bottomleft", 
             title = paste(sep="","<popuptitle>Shootings<br><popupchatter>Total shootings<br>Citywide: ",prettyNum(round(shootings_city$last12mos,0), big.mark=",")),
             group = "Number",
@@ -455,16 +455,12 @@ L.control.zoom({ position: 'topright' }).addTo(this)
          this.on('baselayerchange', el => updateLegend());
       }"
    )
-losangeles_robbery_map
+losangeles_shooting_map
 ```
 <br>
 <br>
-<!-- <subhead>Robberies year by year, 2019 through last month</subhead> -->
-<iframe title="Robberies year by year in Los Angeles area" aria-label="Column Chart" id="datawrapper-chart-YuOao" src="https://datawrapper.dwcdn.net/YuOao/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="400" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(e){if(void 0!==e.data["datawrapper-height"]){var t=document.querySelectorAll("iframe");for(var a in e.data["datawrapper-height"])for(var r=0;r<t.length;r++){if(t[r].contentWindow===e.source)t[r].style.height=e.data["datawrapper-height"][a]+"px"}}}))}();
-</script>
-<br>
-<br>
-<iframe title="Robbery clearance rate year by year by LAPD" aria-label="Column Chart" id="datawrapper-chart-0FLNo" src="https://datawrapper.dwcdn.net/0FLNo/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="538" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(e){if(void 0!==e.data["datawrapper-height"]){var t=document.querySelectorAll("iframe");for(var a in e.data["datawrapper-height"])for(var r=0;r<t.length;r++){if(t[r].contentWindow===e.source)t[r].style.height=e.data["datawrapper-height"][a]+"px"}}}))}();
+<!-- <subhead>Shootings year by year, 2019 through last month</subhead> -->
+<iframe title="Shootings year by year in Los Angeles" aria-label="Column Chart" id="datawrapper-chart-p0Awq" src="https://datawrapper.dwcdn.net/p0Awq/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="400" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(e){if(void 0!==e.data["datawrapper-height"]){var t=document.querySelectorAll("iframe");for(var a in e.data["datawrapper-height"])for(var r=0;r<t.length;r++){if(t[r].contentWindow===e.source)t[r].style.height=e.data["datawrapper-height"][a]+"px"}}}))}();
 </script>
 <br>
 <br>

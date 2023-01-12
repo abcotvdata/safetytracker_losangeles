@@ -262,7 +262,7 @@ Per 100,000 people<br>2019 to 2021</p>
 </div>
 </div>
 <br>
-Aggravated assaults over the last 12 months are <h8>`r ifelse(assaults_city$inc_prior3yearavgtolast12>=0," up"," down")` `r ifelse(assaults_city$inc_prior3yearavgtolast12>=0,assaults_city$inc_prior3yearavgtolast12,substring(assaults_city$inc_prior3yearavgtolast12,2))`%</h8> compared to the annual average over the last three years, according to the Los Angeles Police Department and Los Angeles County Sheriff's Department data through `r format(lapd_asofdate, "%B %d")`.
+Aggravated assaults over the last 12 months are <h8>`r ifelse(assaults_city$inc_prior3yearavgtolast12>=0," up"," down")` `r ifelse(assaults_city$inc_prior3yearavgtolast12>=0,assaults_city$inc_prior3yearavgtolast12,substring(assaults_city$inc_prior3yearavgtolast12,2))`%</h8> compared to the annual average over the last three years, according to the latest Los Angeles Police Department data through `r format(lapd_asofdate, "%B %d")`.
 
 The city averaged <h8>`r prettyNum(round(assaults_city$last12mos/52,0), big.mark=",")`</h8> aggravated assaults a week over the last 12 months. In 2019, that number was <h8>`r prettyNum(round(assaults_city$'2019'/52,0), big.mark=",")`</h8> a week.
 

@@ -5,6 +5,7 @@ library(lubridate)
 lapd_annual19 <- read_csv("data/source/annual/lapd_crime_2010_2019_rollup.csv") %>% janitor::clean_names()
 lapd_annual21 <- read_csv("data/source/annual/lapd_crime_2020_2021_rollup.csv") %>% janitor::clean_names()
 
+
 lapd_annual <- rbind(lapd_annual19,lapd_annual21)
 rm(lapd_annual19,lapd_annual21)
 
@@ -94,3 +95,16 @@ lapd_theft <- lapd_annual %>% filter(category=="Larceny") %>% ungroup %>% select
 lapd_autotheft <- lapd_annual %>% filter(category=="Vehicle Theft") %>% ungroup %>% select(17,18,4:16,1)
 
 saveRDS(lapd_annual,"scripts/rds/lapd_annual.rds")
+
+# process shootings historical data and archive
+# read in pre-built files from lapd open data
+lapd_shootings19 <- read_csv("data/source/annual/lapd_shootings_district_2010_2019.csv")
+lapd_shootings21 <- read_csv("data/source/annual/lapd_shootings_district_2020_2021.csv")
+
+# merge into one file
+lapd_shootings_annual <- rbind(lapd_shootings19,lapd_shootings21)
+rm(lapd_shootings19,lapd_shootings21)
+
+lapd_shootings_annual <- lapd_shootings_annual %>% rename("year"="date_occ","number_incidents"="dr_no","district"="area_name")
+
+

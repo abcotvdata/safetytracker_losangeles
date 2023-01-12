@@ -82,6 +82,21 @@ lapd_recent$cross_street <- gsub("\\s+", " ", lapd_recent$cross_street) %>% trim
 lapd_recent$area_name <- gsub("N Hollywood", "North Hollywood", lapd_recent$area_name)
 lapd_recent$area_name <- gsub("West LA", "West Los Angeles", lapd_recent$area_name)
 
+# Separate shootings before we start grouping by crime category
+lapd_recent_shootings <- lapd_recent %>%
+  mutate(vict_shot = case_when(str_detect(mocodes, '0430') == TRUE ~ "YES",
+                             TRUE ~ "NO")) %>%
+                             filter(vict_shot=="YES")
+# Tally shootings by district
+recent_shootings_district <- lapd_recent_shootings %>%
+  group_by(area_name) %>%
+  summarise(last12mos = n())
+# Tally shootings citywide
+recent_shootings_citywide <- lapd_recent_shootings %>%
+  summarise(last12mos = n()) %>%
+  mutate(area_name = "Citywide")
+
+# BEGIN PROCESSING DATA FILES FOR TRACKER PAGES FOR CRIME CATEGORIES
 # Remove repetitive fields we no longer need to keep rds file smaller
 lapd_recent <- lapd_recent %>% select(5:10,15,16,25:33)
 lapd_recent$agency <- "LAPD"

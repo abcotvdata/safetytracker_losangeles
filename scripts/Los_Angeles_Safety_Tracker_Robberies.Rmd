@@ -261,9 +261,9 @@ Per 100,000 people<br>2019 to 2021</p>
 </div>
 </div>
 <br>
-Robberies over the last 12 months are <h8>`r ifelse(robberies_city$inc_prior3yearavgtolast12>=0," up"," down")` `r ifelse(robberies_city$inc_prior3yearavgtolast12>=0,robberies_city$inc_prior3yearavgtolast12,substring(robberies_city$inc_prior3yearavgtolast12,2))`%</h8> compared to the annual average over the last three years, according to the Los Angeles Police Department and Los Angeles County Sheriff's Department data through `r format(lapd_asofdate, "%B %d")`.
+Robberies over the last 12 months are <h8>`r ifelse(robberies_city$inc_prior3yearavgtolast12>=0," up"," down")` `r ifelse(robberies_city$inc_prior3yearavgtolast12>=0,robberies_city$inc_prior3yearavgtolast12,substring(robberies_city$inc_prior3yearavgtolast12,2))`%</h8> compared to the annual average over the last three years, according to the latest Los Angeles Police Department data through `r format(lapd_asofdate, "%B %d")`.
 
-The areas of the county policed by the LAPD and Sheriff's Department averaged <h8>`r round(robberies_city$last12mos/52,0)`</h8> robberies a week over the last 12 months. In 2019, that number was <h8>`r round(robberies_city$total19/52,0)`</h8> a week.
+The city averaged <h8>`r round(robberies_city$last12mos/52,0)`</h8> robberies a week over the last 12 months. In 2019, that number was <h8>`r round(robberies_city$total19/52,0)`</h8> a week.
 
 Robbery is generally defined by police as taking something of value from someone by force or threatening force. So while someone taking a smartphone from someone's bag would be theft, taking it while pointing a firearm at the person would be robbery.
 

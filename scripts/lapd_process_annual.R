@@ -106,6 +106,15 @@ lapd_shootings_annual <- rbind(lapd_shootings19,lapd_shootings21)
 rm(lapd_shootings19,lapd_shootings21)
 
 lapd_shootings_annual <- lapd_shootings_annual %>% rename("year"="date_occ","number_incidents"="dr_no","district"="area_name")
+
+lapd_shootings_annual_citywide <- lapd_shootings_annual %>%
+  group_by(year) %>%
+  summarise(shootings = sum(number_incidents)) %>%
+  pivot_wider(names_from=year, values_from=shootings) %>%
+  mutate(district="Citywide")
+
+lapd_shootings_annual <- lapd_shootings_annual %>% pivot_wider(names_from=year, values_from=number_incidents)
+
 saveRDS(lapd_shootings_annual,"scripts/rds/lapd_shootings_annual.rds")
 
 

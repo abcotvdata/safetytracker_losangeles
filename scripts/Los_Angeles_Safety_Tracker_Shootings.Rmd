@@ -471,5 +471,6 @@ losangeles_shooting_map
 </script>
 <br>
 <br>
+<b><a href="https://abc7.com/los-angeles-crime-stats-how-safe-is-my-neighborhood-zip-code-statistics-to-use-the-safety-tracker/12695450/">We want your feedback and input on the Neighborhood Safety Tracker so that we can continue to make improvements and upgrades. Click here to share your thoughts</a>.</b>
 <br>
-<div class="chimney" data-campaign-id="acaf4a82-1328-ba26-0eb2-3a0890cc6bd7"></div><script async src="https://cdn.usechimney.com/sdk/js/1.35.0/dist/chimney.min.js"></script>
+<br>

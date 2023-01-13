@@ -436,8 +436,6 @@ laco_burglary_map
 <iframe title="Burglaries by area across Los Angeles County" aria-label="Table" id="datawrapper-chart-5xwxG" src="https://datawrapper.dwcdn.net/5xwxG/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="2469" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(e){if(void 0!==e.data["datawrapper-height"]){var t=document.querySelectorAll("iframe");for(var a in e.data["datawrapper-height"])for(var r=0;r<t.length;r++){if(t[r].contentWindow===e.source)t[r].style.height=e.data["datawrapper-height"][a]+"px"}}}))}();</script>
 <br>
 <br>
-<!-- <subhead>Update to add clearance rates table -->
+<b><a href="https://abc7.com/los-angeles-crime-stats-how-safe-is-my-neighborhood-zip-code-statistics-to-use-the-safety-tracker/12695450/">We want your feedback and input on the Neighborhood Safety Tracker so that we can continue to make improvements and upgrades. Click here to share your thoughts</a>.</b>
 <br>
 <br>
-<br>
-<div class="chimney" data-campaign-id="acaf4a82-1328-ba26-0eb2-3a0890cc6bd7"></div><script async src="https://cdn.usechimney.com/sdk/js/1.35.0/dist/chimney.min.js"></script>

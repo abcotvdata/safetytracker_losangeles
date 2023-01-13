@@ -290,6 +290,8 @@ Choose a different crime to explore in the county:
 <div class="card2" style="background-color:#99a0a5;">
 <p><a href="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker.html#mapNavButtons">Homicides</a></div>
 <div class="card2" style="background-color:#99a0a5;">
+<p><a href="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker_Shootings.html#mapNavButtons">Shootings</a></div>
+<div class="card2" style="background-color:#99a0a5;">
 <p><a href="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker_Robberies.html#mapNavButtons">Robberies</a></div>
 <div class="card2" style="background-color:#99a0a5;">
 <p><a href="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker_SexualAssaults.html#mapNavButtons">Sexual Assaults</a></div>

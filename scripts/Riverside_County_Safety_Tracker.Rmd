@@ -436,6 +436,6 @@ riverside_murder_map
 <iframe title="Homicides by area across Riverside County" aria-label="Table" id="datawrapper-chart-B3IsZ" src="https://datawrapper.dwcdn.net/B3IsZ/2/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="2068" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(e){if(void 0!==e.data["datawrapper-height"]){var t=document.querySelectorAll("iframe");for(var a in e.data["datawrapper-height"])for(var r=0;r<t.length;r++){if(t[r].contentWindow===e.source)t[r].style.height=e.data["datawrapper-height"][a]+"px"}}}))}();</script>
 <br>
 <br>
-<b><a href="https://abc7.com/los-angeles-crime-stats-how-safe-is-my-neighborhood-zip-code-statistics-to-use-the-safety-tracker/12695450/">We want your feedback and input on the Neighborhood Safety Tracker so that we can continue to make improvements and upgrades. Click here to share your thoughts</a>.</b>
+<b><a href="https://abc7.com/los-angeles-crime-stats-how-safe-is-my-neighborhood-zip-code-statistics-to-use-the-safety-tracker/12695450/" target="_blank">We want your feedback and input on the Neighborhood Safety Tracker so that we can continue to make improvements and upgrades. Click here to share your thoughts</a>.</b>
 <br>
 <br>

@@ -474,6 +474,6 @@ losangeles_autotheft_map
 </script>
 <br>
 <br>
-<b><a href="https://abc7.com/los-angeles-crime-stats-how-safe-is-my-neighborhood-zip-code-statistics-to-use-the-safety-tracker/12695450/">We want your feedback and input on the Neighborhood Safety Tracker so that we can continue to make improvements and upgrades. Click here to share your thoughts</a>.</b>
+<b><a href="https://abc7.com/los-angeles-crime-stats-how-safe-is-my-neighborhood-zip-code-statistics-to-use-the-safety-tracker/12695450/" target="_blank">We want your feedback and input on the Neighborhood Safety Tracker so that we can continue to make improvements and upgrades. Click here to share your thoughts</a>.</b>
 <br>
 <br>

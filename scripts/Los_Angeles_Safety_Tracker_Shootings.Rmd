@@ -349,7 +349,7 @@ shootinglabel <- paste(sep="",
 			<tr>
 				<td>2019</td>
 				<td>",
-shootings_district$total19,
+shootings_district$'2019',
 "</td>
 				<td>",
 round(shootings_district$rate19,0),
@@ -358,7 +358,7 @@ round(shootings_district$rate19,0),
 			<tr>
 				<td>2020</td>
 				<td>",
-shootings_district$total20,
+shootings_district$'2020',
 "</td>
 				<td>",
 round(shootings_district$rate20,0),
@@ -367,7 +367,7 @@ round(shootings_district$rate20,0),
 						<tr>
 				<td>2021</td>
 				<td>",
-shootings_district$total21,
+shootings_district$'2021',
 "</td>
 				<td>",
 round(shootings_district$rate21,0),

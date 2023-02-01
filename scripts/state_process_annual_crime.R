@@ -83,9 +83,9 @@ socal_murder$rate21 <- round((socal_murder$`2021`/socal_murder$population)*10000
 socal_murder$rate_prior3years <- round((socal_murder$avg_prior3years/socal_murder$population)*100000,1)
 # for map/table making purposes, changing Inf and NaN in calc fields to NA
 socal_murder <- socal_murder %>%
-  mutate(across(where(is.numeric), ~na_if(., Inf)))
+  mutate_if(is.numeric, ~ifelse(. == Inf, NA, .))
 socal_murder <- socal_murder %>%
-  mutate(across(where(is.numeric), ~na_if(., "NaN")))
+  mutate_if(is.numeric, ~ifelse(. == "NaN", NA, .))
 # elimate rates for districts with fewer than 1,000 estimated population
 socal_murder$rate19 <- ifelse(socal_murder$population<1000,NA,socal_murder$rate19)
 socal_murder$rate20 <- ifelse(socal_murder$population<1000,NA,socal_murder$rate20)
@@ -107,9 +107,9 @@ socal_sexassault$rate21 <- round((socal_sexassault$`2021`/socal_sexassault$popul
 socal_sexassault$rate_prior3years <-round((socal_sexassault$avg_prior3years/socal_sexassault$population)*100000,1)
 # for map/table making purposes, changing Inf and NaN in calc fields to NA
 socal_sexassault <- socal_sexassault %>%
-  mutate(across(where(is.numeric), ~na_if(., Inf)))
+  mutate_if(is.numeric, ~ifelse(. == Inf, NA, .))
 socal_sexassault <- socal_sexassault %>%
-  mutate(across(where(is.numeric), ~na_if(., "NaN")))
+  mutate_if(is.numeric, ~ifelse(. == "NaN", NA, .))
 # elimate rates for districts with fewer than 1,000 estimated population
 socal_sexassault$rate19 <- ifelse(socal_sexassault$population<1000,NA,socal_sexassault$rate19)
 socal_sexassault$rate20 <- ifelse(socal_sexassault$population<1000,NA,socal_sexassault$rate20)
@@ -131,9 +131,9 @@ socal_robbery$rate21 <- round((socal_robbery$`2021`/socal_robbery$population)*10
 socal_robbery$rate_prior3years <-round((socal_robbery$avg_prior3years/socal_robbery$population)*100000,1)
 # for map/table making purposes, changing Inf and NaN in calc fields to NA
 socal_robbery <- socal_robbery %>%
-  mutate(across(where(is.numeric), ~na_if(., Inf)))
+  mutate_if(is.numeric, ~ifelse(. == Inf, NA, .))
 socal_robbery <- socal_robbery %>%
-  mutate(across(where(is.numeric), ~na_if(., "NaN")))
+  mutate_if(is.numeric, ~ifelse(. == "NaN", NA, .))
 # elimate rates for districts with fewer than 1,000 estimated population
 socal_robbery$rate19 <- ifelse(socal_robbery$population<1000,NA,socal_robbery$rate19)
 socal_robbery$rate20 <- ifelse(socal_robbery$population<1000,NA,socal_robbery$rate20)
@@ -155,9 +155,9 @@ socal_assault$rate21 <- round((socal_assault$`2021`/socal_assault$population)*10
 socal_assault$rate_prior3years <-round((socal_assault$avg_prior3years/socal_assault$population)*100000,1)
 # for map/table making purposes, changing Inf and NaN in calc fields to NA
 socal_assault <- socal_assault %>%
-  mutate(across(where(is.numeric), ~na_if(., Inf)))
+  mutate_if(is.numeric, ~ifelse(. == Inf, NA, .))
 socal_assault <- socal_assault %>%
-  mutate(across(where(is.numeric), ~na_if(., "NaN")))
+  mutate_if(is.numeric, ~ifelse(. == "NaN", NA, .))
 # elimate rates for districts with fewer than 1,000 estimated population
 socal_assault$rate19 <- ifelse(socal_assault$population<1000,NA,socal_assault$rate19)
 socal_assault$rate20 <- ifelse(socal_assault$population<1000,NA,socal_assault$rate20)
@@ -179,9 +179,9 @@ socal_burglary$rate21 <- round((socal_burglary$`2021`/socal_burglary$population)
 socal_burglary$rate_prior3years <-round((socal_burglary$avg_prior3years/socal_burglary$population)*100000,1)
 # for map/table making purposes, changing Inf and NaN in calc fields to NA
 socal_burglary <- socal_burglary %>%
-  mutate(across(where(is.numeric), ~na_if(., Inf)))
+  mutate_if(is.numeric, ~ifelse(. == Inf, NA, .))
 socal_burglary <- socal_burglary %>%
-  mutate(across(where(is.numeric), ~na_if(., "NaN")))
+  mutate_if(is.numeric, ~ifelse(. == "NaN", NA, .))
 # elimate rates for districts with fewer than 1,000 estimated population
 socal_burglary$rate19 <- ifelse(socal_burglary$population<1000,NA,socal_burglary$rate19)
 socal_burglary$rate20 <- ifelse(socal_burglary$population<1000,NA,socal_burglary$rate20)
@@ -203,9 +203,9 @@ socal_autotheft$rate21 <- round((socal_autotheft$`2021`/socal_autotheft$populati
 socal_autotheft$rate_prior3years <-round((socal_autotheft$avg_prior3years/socal_autotheft$population)*100000,1)
 # for map/table making purposes, changing Inf and NaN in calc fields to NA
 socal_autotheft <- socal_autotheft %>%
-  mutate(across(where(is.numeric), ~na_if(., Inf)))
+  mutate_if(is.numeric, ~ifelse(. == Inf, NA, .))
 socal_autotheft <- socal_autotheft %>%
-  mutate(across(where(is.numeric), ~na_if(., "NaN")))
+  mutate_if(is.numeric, ~ifelse(. == "NaN", NA, .))
 # elimate rates for districts with fewer than 1,000 estimated population
 socal_autotheft$rate19 <- ifelse(socal_autotheft$population<1000,NA,socal_autotheft$rate19)
 socal_autotheft$rate20 <- ifelse(socal_autotheft$population<1000,NA,socal_autotheft$rate20)
@@ -227,9 +227,9 @@ socal_theft$rate21 <- round((socal_theft$`2021`/socal_theft$population)*100000,1
 socal_theft$rate_prior3years <-round((socal_theft$avg_prior3years/socal_theft$population)*100000,1)
 # for map/table making purposes, changing Inf and NaN in calc fields to NA
 socal_theft <- socal_theft %>%
-  mutate(across(where(is.numeric), ~na_if(., Inf)))
+  mutate_if(is.numeric, ~ifelse(. == Inf, NA, .))
 socal_theft <- socal_theft %>%
-  mutate(across(where(is.numeric), ~na_if(., "NaN")))
+  mutate_if(is.numeric, ~ifelse(. == "NaN", NA, .))
 # elimate rates for districts with fewer than 1,000 estimated population
 socal_theft$rate19 <- ifelse(socal_theft$population<1000,NA,socal_theft$rate19)
 socal_theft$rate20 <- ifelse(socal_theft$population<1000,NA,socal_theft$rate20)

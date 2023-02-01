@@ -78,9 +78,9 @@ clearance_places$`2021clr_pct` <- round(clearance_places$`2021clr`/clearance_pla
 
 # for map/table making purposes, changing Inf and NaN in calc fields to NA
 clearance_places <- clearance_places %>%
-  mutate(across(where(is.numeric), ~na_if(., Inf)))
+  mutate_if(is.numeric, ~ifelse(. == Inf, NA, .))
 clearance_places <- clearance_places %>%
-  mutate(across(where(is.numeric), ~na_if(., "NaN")))
+  mutate_if(is.numeric, ~ifelse(. == "NaN", NA, .))
 
 write_csv(clearance_places,"data/output/clearances_byagency_20102021.csv")
 clearance_places %>% filter(county=="Los Angeles County") %>% write_csv(clearance_places,"data/output/clearances_losangeles.csv")

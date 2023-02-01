@@ -153,9 +153,9 @@ lapd_crime$rate_prior3years <-
 # lapd_crime <- lapd_crime %>% select(1,4,5,6,26:28,36:40,44:55,29,42)
 # for map/table making purposes, changing Inf and NaN in calc fields to NA
 lapd_crime <- lapd_crime %>%
-  mutate(across(where(is.numeric), ~na_if(., Inf)))
+  mutate_if(is.numeric, ~ifelse(. == Inf, NA, .))
 lapd_crime <- lapd_crime %>%
-  mutate(across(where(is.numeric), ~na_if(., "NaN")))
+  mutate_if(is.numeric, ~ifelse(. == "NaN", NA, .))
 
 # store a full version of latest lapd_crime as rds
 saveRDS(lapd_recent,"scripts/rds/lapd_recent.rds")

@@ -439,3 +439,4 @@ laco_murder_map
 <b><a href="https://abc7.com/los-angeles-crime-stats-how-safe-is-my-neighborhood-zip-code-statistics-to-use-the-safety-tracker/12695450/" target="_blank">We want your feedback and input on the Neighborhood Safety Tracker so that we can continue to make improvements and upgrades. Click here to share your thoughts</a>.</b>
 <br>
 <br>
+<script>!function(){var a,n,i=window||{},s=document||{},t=0;function r(){var e=a.scrollHeight+20;isNaN(e)||e==t||(t=e,isNaN(t)||i.webkit&&i.webkit.messageHandlers&&i.webkit.messageHandlers.espnWebview&&i.webkit.messageHandlers.espnWebview.postMessage({callBack:null,commandName:"ABCNresize",params:{height:t}}))}function o(){var e,a;e=r,a=250,clearTimeout(n),n=setTimeout(e,a)}i.addEventListener("load",function(e){a=s.querySelector(".main-container"),o(),i.addEventListener("resize",o)})}();</script>

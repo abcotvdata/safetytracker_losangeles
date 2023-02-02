@@ -476,4 +476,4 @@ losangeles_burglary_map
 <br>
 <br>
 <br>
-<div class="chimney" data-campaign-id="acaf4a82-1328-ba26-0eb2-3a0890cc6bd7"></div><script async src="https://cdn.usechimney.com/sdk/js/1.35.0/dist/chimney.min.js"></script>
+<script>!function(){var a,n,i=window||{},s=document||{},t=0;function r(){var e=a.scrollHeight+20;isNaN(e)||e==t||(t=e,isNaN(t)||i.webkit&&i.webkit.messageHandlers&&i.webkit.messageHandlers.espnWebview&&i.webkit.messageHandlers.espnWebview.postMessage({callBack:null,commandName:"ABCNresize",params:{height:t}}))}function o(){var e,a;e=r,a=250,clearTimeout(n),n=setTimeout(e,a)}i.addEventListener("load",function(e){a=s.querySelector(".main-container"),o(),i.addEventListener("resize",o)})}();</script>

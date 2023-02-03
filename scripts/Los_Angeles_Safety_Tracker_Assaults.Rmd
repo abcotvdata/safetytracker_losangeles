@@ -336,7 +336,7 @@ assaultlabel <- paste(sep="",
                      " assaults </popuptitle><br>",
                      " in the last 12 months in the <b>",
                      assaults_district$district,
-                     "</b>area, home to an estimated ",
+                     "</b> area, home to an estimated ",
                      prettyNum(assaults_district$population, big.mark=","),
                      " people.
 <br>

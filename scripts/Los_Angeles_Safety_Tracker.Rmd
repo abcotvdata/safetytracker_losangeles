@@ -179,7 +179,7 @@ div.legend { margin-bottom: 50px !important; }
          .card2 {
       color: #00318b;
       float: left;
-      width: calc(13% - 10px);
+      width: calc(12.5% - 10px);
       padding: 5px;
       border-radius: 10px;
       margin-left: 3px;
@@ -248,8 +248,8 @@ sf_population <- 815201
 </div>
 <div class="card" style="background-color:#99a0a5;">
 <p>Average Homicides<br>
-<bignumber>`r prettyNum(round(murders_city$avg_prior3years,0), big.mark=",")`<br></bignumber><p>
-Yearly average<br>2019 to 2021</p>
+<bignumber>`r prettyNum(round(murders_city$avg_prior4years,0), big.mark=",")`<br></bignumber><p>
+Yearly average<br>2019 to 2022</p>
 </div>
 <div class="card" style="background-color:#99a0a5;">
 <p>Homicide Rate<br>
@@ -258,16 +258,16 @@ Per 100,000 people<br>Last 12 months</p>
 </div>
 <div class="card" style="background-color:#99a0a5;">
 <p>Average Homicide Rate<br>
-<bignumber>`r murders_city$rate_prior3years`<br></bignumber><p>
-Per 100,000 people<br>2019 to 2021</p>
+<bignumber>`r murders_city$rate_prior4years`<br></bignumber><p>
+Per 100,000 people<br>2019 to 2022</p>
 </div>
 </div>
 <br>
 Homicides over the last 12 months are trending <h8>`r ifelse(murders_city$inc_21tolast12>=0," up"," down")` `r ifelse(murders_city$inc_21tolast12>=0,murders_city$inc_21tolast12,substring(murders_city$inc_21tolast12,2))`%</h8> compared to 2021, according to the latest Los Angeles Police Department data through `r format(lapd_asofdate, "%B %d")`.
 
-However, the murder rate in city over the last 12 months is <h8>`r case_when((murders_city$rate_last12-murders_city$rate_prior3years)>=0.25 ~ "up",
-          (murders_city$rate_last12-murders_city$rate_prior3years)<=-0.25 ~ "down",
-          TRUE ~ "about the same ")`</h8> when compared to the annual average over the last three years, and the frequency of killings remains higher than it was before the pandemic.
+However, the murder rate in city over the last 12 months is <h8>`r case_when((murders_city$rate_last12-murders_city$rate_prior4years)>=0.25 ~ "up",
+          (murders_city$rate_last12-murders_city$rate_prior4years)<=-0.25 ~ "down",
+          TRUE ~ "about the same ")`</h8> when compared to the annual average over the last four years, and the frequency of killings remains higher than it was before the pandemic.
 
 Los Angeles averaged about <h8>`r round(murders_city$last12mos/12,0)`</h8> homicides a month over the last year. In 2019, that number was <h8>`r round(murders_city$'2019'/12,0)`</h8> a month.
 
@@ -307,7 +307,7 @@ Choose a different crime to explore in the county:
 <div class="card2" style="background-color:#99a0a5;">
 <p><a href="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker_Robberies.html#mapNavButtons">Robberies</a></div>
 <div class="card2" style="background-color:#99a0a5;">
-<p><a href="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker_SexualAssaults.html#mapNavButtons">Sexual Assaults</a></div>
+<p><a href="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker_SexualAssaults.html#mapNavButtons">Sex Assaults</a></div>
 <div class="card2" style="background-color:#99a0a5;">
 <p><a href="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker_Thefts.html#mapNavButtons">Thefts</a></div>
 <div class="card2" style="background-color:#99a0a5;">
@@ -392,6 +392,15 @@ murders_district$rate21,
 "</td>
 			</tr>
 						<tr>
+				<td>2022</td>
+				<td>",
+murders_district$`2022`,
+"</td>
+				<td>",
+murders_district$rate22,
+"</td>
+			</tr>
+						<tr>
 				<td>Last 12 months</td>
 				<td>",
 murders_district$last12mos,
@@ -401,12 +410,12 @@ murders_district$rate_last12,
 "</td>
 			</tr>
 						<tr>
-				<td>3-year Average</td>
+				<td>4-year Average</td>
 				<td>",
-murders_district$avg_prior3years,
+murders_district$avg_prior4years,
 "</td>
 				<td>",
-murders_district$rate_prior3years,
+murders_district$rate_prior4years,
 "</td>
 			</tr>
 </table>")

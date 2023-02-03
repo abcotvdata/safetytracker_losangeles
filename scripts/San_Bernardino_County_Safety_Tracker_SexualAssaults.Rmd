@@ -179,7 +179,7 @@ div.legend { margin-bottom: 50px !important; }
       .card2 {
       color: #00318b;
       float: left;
-      width: calc(14% - 10px);
+      width: calc(12.5% - 10px);
       padding: 5px;
       border-radius: 10px;
       margin-left: 3px;
@@ -266,7 +266,7 @@ Choose a different crime to explore in the county:
 <div class="card2" style="background-color:#99a0a5;">
 <p><a href="https://abcotvdata.github.io/safetytracker_losangeles/San_Bernardino_County_Safety_Tracker_Robberies.html#mapNavButtons">Robberies</a></div>
 <div class="card2" style="background-color:#ecaa00;">
-<p><a href="https://abcotvdata.github.io/safetytracker_losangeles/San_Bernardino_County_Safety_Tracker_SexualAssaults.html#mapNavButtons">Sexual Assaults</a></div>
+<p><a href="https://abcotvdata.github.io/safetytracker_losangeles/San_Bernardino_County_Safety_Tracker_SexualAssaults.html#mapNavButtons">Sex Assaults</a></div>
 <div class="card2" style="background-color:#99a0a5;">
 <p><a href="https://abcotvdata.github.io/safetytracker_losangeles/San_Bernardino_County_Safety_Tracker_Thefts.html#mapNavButtons">Thefts</a></div>
 <div class="card2" style="background-color:#99a0a5;">

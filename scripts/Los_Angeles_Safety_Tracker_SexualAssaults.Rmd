@@ -179,7 +179,7 @@ div.legend { margin-bottom: 50px !important; }
          .card2 {
       color: #00318b;
       float: left;
-      width: calc(13% - 10px);
+      width: calc(12.5% - 10px);
       padding: 5px;
       border-radius: 10px;
       margin-left: 3px;
@@ -248,8 +248,8 @@ sf_population <- 815201
 </div>
 <div class="card" style="background-color:#99a0a5;">
 <p>Average Sexual Assaults<br>
-<bignumber>`r prettyNum(round(sexassaults_city$avg_prior3years,0), big.mark=",")`<br></bignumber><p>
-Yearly average<br>2019 to 2021</p>
+<bignumber>`r prettyNum(round(sexassaults_city$avg_prior4years,0), big.mark=",")`<br></bignumber><p>
+Yearly average<br>2019 to 2022</p>
 </div>
 <div class="card" style="background-color:#99a0a5;">
 <p>Sexual Assault Rate<br>
@@ -258,12 +258,12 @@ Per 100,000 people<br>Last 12 months</p>
 </div>
 <div class="card" style="background-color:#99a0a5;">
 <p>Average Sexual Assault Rate<br>
-<bignumber>`r sexassaults_city$rate_prior3years`<br></bignumber><p>
-Per 100,000 people<br>2019 to 2021</p>
+<bignumber>`r sexassaults_city$rate_prior4years`<br></bignumber><p>
+Per 100,000 people<br>2019 to 2022</p>
 </div>
 </div>
 <br>
-Sexual assaults over the last 12 months are <h8>`r ifelse(sexassaults_city$inc_prior3yearavgtolast12>=0," up"," down")` `r ifelse(sexassaults_city$inc_prior3yearavgtolast12>=0,sexassaults_city$inc_prior3yearavgtolast12,substring(sexassaults_city$inc_prior3yearavgtolast12,2))`%</h8> compared to the annual average over the last three years, according to the latest Los Angeles Police Department data through `r format(lapd_asofdate, "%B %d")`.
+Sexual assaults over the last 12 months are <h8>`r ifelse(sexassaults_city$inc_prior4yearavgtolast12>=0," up"," down")` `r ifelse(sexassaults_city$inc_prior4yearavgtolast12>=0,sexassaults_city$inc_prior4yearavgtolast12,substring(sexassaults_city$inc_prior4yearavgtolast12,2))`%</h8> compared to the annual average over the last four years, according to the latest Los Angeles Police Department data through `r format(lapd_asofdate, "%B %d")`.
 
 The city averaged <h8>`r round(sexassaults_city$last12mos/52,0)`</h8> sexual assaults a week over the last 12 months. In 2019, that number was <h8>`r round(sexassaults_city$'2019'/52,0)`</h8> a week.
 
@@ -292,7 +292,7 @@ Choose a different crime to explore in the county:
 <div class="card2" style="background-color:#99a0a5;">
 <p><a href="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker_Robberies.html#mapNavButtons">Robberies</a></div>
 <div class="card2" style="background-color:#ecaa00;">
-<p><a href="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker_SexualAssaults.html#mapNavButtons">Sexual Assaults</a></div>
+<p><a href="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker_SexualAssaults.html#mapNavButtons">Sex Assaults</a></div>
 <div class="card2" style="background-color:#99a0a5;">
 <p><a href="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker_Thefts.html#mapNavButtons">Thefts</a></div>
 <div class="card2" style="background-color:#99a0a5;">
@@ -372,6 +372,15 @@ sexassaults_district$rate21,
 "</td>
 			</tr>
 						<tr>
+				<td>2022</td>
+				<td>",
+sexassaults_district$`2022`,
+"</td>
+				<td>",
+sexassaults_district$rate22,
+"</td>
+			</tr>
+						<tr>
 				<td>Last 12 months</td>
 				<td>",
 sexassaults_district$last12mos,
@@ -381,12 +390,12 @@ sexassaults_district$rate_last12,
 "</td>
 			</tr>
 						<tr>
-				<td>3-year Average</td>
+				<td>4-year Average</td>
 				<td>",
-sexassaults_district$avg_prior3years,
+sexassaults_district$avg_prior4years,
 "</td>
 				<td>",
-sexassaults_district$rate_prior3years,
+sexassaults_district$rate_prior4years,
 "</td>
 			</tr>
 </table>")

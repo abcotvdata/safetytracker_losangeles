@@ -126,29 +126,29 @@ lapd_annual <- readRDS("scripts/rds/lapd_annual.rds")
 lapd_districts <- readRDS("scripts/rds/lapd_districts.rds")
 
 lapd_crime <- left_join(lapd_annual,lapd_recent,by=c("district","category")) %>%
-  select(1:15,19,17,18)
+  select(1:16,19,17,18)
 lapd_crime <- left_join(lapd_districts %>% select(3,6,7),lapd_crime,by="district")
 
-# add 3-year totals and annualized averages
-lapd_crime$total_prior3years <- lapd_crime$`2019`+
+# add 4-year totals and annualized averages
+lapd_crime$total_prior4years <- lapd_crime$`2019`+
   lapd_crime$`2020`+
-  lapd_crime$`2021`
-lapd_crime$avg_prior3years <- round(((lapd_crime$`2019`+
-                                            lapd_crime$`2020`+
-                                            lapd_crime$`2021`)/3),1)
+  lapd_crime$`2021`+
+  lapd_crime$`2022`
+lapd_crime$avg_prior4years <- round(((lapd_crime$total_prior4years)/4),1)
 # now add the increases or change percentages
 lapd_crime$inc_19to21 <- round(lapd_crime$`2021`/lapd_crime$`2019`*100-100,1)
 lapd_crime$inc_19to21 <- round(lapd_crime$`2021`/lapd_crime$`2010`*100-100,1)
 lapd_crime$inc_19tolast12 <- round(lapd_crime$last12mos/lapd_crime$`2019`*100-100,1)
 lapd_crime$inc_21tolast12 <- round(lapd_crime$last12mos/lapd_crime$`2021`*100-100,1)
-lapd_crime$inc_prior3yearavgtolast12 <- round((lapd_crime$last12mos/lapd_crime$avg_prior3years)*100-100,0)
+lapd_crime$inc_prior4yearavgtolast12 <- round((lapd_crime$last12mos/lapd_crime$avg_prior4years)*100-100,0)
 # add crime rates for each year
 lapd_crime$rate19 <- round((lapd_crime$`2019`/lapd_crime$population)*100000,1)
 lapd_crime$rate20 <- round((lapd_crime$`2020`/lapd_crime$population)*100000,1)
 lapd_crime$rate21 <- round((lapd_crime$`2021`/lapd_crime$population)*100000,1)
+lapd_crime$rate22 <- round((lapd_crime$`2022`/lapd_crime$population)*100000,1)
 lapd_crime$rate_last12 <- round((lapd_crime$last12mos/lapd_crime$population)*100000,1)
-lapd_crime$rate_prior3years <- 
-  round((lapd_crime$avg_prior3years/lapd_crime$population)*100000,1)
+lapd_crime$rate_prior4years <- 
+  round((lapd_crime$avg_prior4years/lapd_crime$population)*100000,1)
 # Now reduce the precinct down to just the columns we likely need for the tracker pages
 # lapd_crime <- lapd_crime %>% select(1,4,5,6,26:28,36:40,44:55,29,42)
 # for map/table making purposes, changing Inf and NaN in calc fields to NA
@@ -195,7 +195,8 @@ citywide_crime <- lapd_annual %>%
             `2018`=sum(`2018`),
             `2019`=sum(`2019`),
             `2020`=sum(`2020`),
-            `2021`=sum(`2021`))
+            `2021`=sum(`2021`),
+            `2022`=sum(`2022`))
 citywide_crime <- left_join(citywide_crime,lapd_recent_citywide,by="category")
 citywide_yearly <- citywide_crime
 
@@ -203,25 +204,25 @@ citywide_yearly <- citywide_crime
 la_population <- 3849297
 
 # add 3-year totals and annualized averages
-citywide_crime$total_prior3years <- citywide_crime$`2019`+
+citywide_crime$total_prior4years <- citywide_crime$`2019`+
   citywide_crime$`2020`+
-  citywide_crime$`2021`
-citywide_crime$avg_prior3years <- round(((citywide_crime$`2019`+
-                                        citywide_crime$`2020`+
-                                        citywide_crime$`2021`)/3),1)
+  citywide_crime$`2021`+
+  citywide_crime$`2022`
+citywide_crime$avg_prior4years <- round((citywide_crime$total_prior4years/4),1)
 # now add the increases or change percentages
 citywide_crime$inc_19to21 <- round(citywide_crime$`2021`/citywide_crime$`2019`*100-100,1)
 citywide_crime$inc_19to21 <- round(citywide_crime$`2021`/citywide_crime$`2010`*100-100,1)
 citywide_crime$inc_19tolast12 <- round(citywide_crime$last12mos/citywide_crime$`2019`*100-100,1)
 citywide_crime$inc_21tolast12 <- round(citywide_crime$last12mos/citywide_crime$`2021`*100-100,1)
-citywide_crime$inc_prior3yearavgtolast12 <- round((citywide_crime$last12mos/citywide_crime$avg_prior3years)*100-100,0)
+citywide_crime$inc_prior4yearavgtolast12 <- round((citywide_crime$last12mos/citywide_crime$avg_prior4years)*100-100,0)
 # add crime rates for each year
 citywide_crime$rate19 <- round((citywide_crime$`2019`/la_population)*100000,1)
 citywide_crime$rate20 <- round((citywide_crime$`2020`/la_population)*100000,1)
 citywide_crime$rate21 <- round((citywide_crime$`2021`/la_population)*100000,1)
+citywide_crime$rate22 <- round((citywide_crime$`2022`/la_population)*100000,1)
 citywide_crime$rate_last12 <- round((citywide_crime$last12mos/la_population)*100000,1)
-citywide_crime$rate_prior3years <- 
-  round((citywide_crime$avg_prior3years/la_population)*100000,1)
+citywide_crime$rate_prior4years <- 
+  round((citywide_crime$avg_prior4years/la_population)*100000,1)
 
 # filter citywide versions for building LA city tracker pages
 murders_city <- citywide_crime %>% filter(category=="Homicide")

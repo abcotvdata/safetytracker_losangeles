@@ -3,10 +3,10 @@ library(lubridate)
 
 # Read in pre-built archive files drawn from LA's city open data site
 lapd_annual19 <- read_csv("data/source/annual/lapd_crime_2010_2019_rollup.csv") %>% janitor::clean_names()
-lapd_annual21 <- read_csv("data/source/annual/lapd_crime_2020_2021_rollup.csv") %>% janitor::clean_names()
+lapd_annual22 <- read_csv("data/source/annual/lapd_crime_2020_2022_rollup.csv") %>% janitor::clean_names()
 
-lapd_annual <- rbind(lapd_annual19,lapd_annual21)
-rm(lapd_annual19,lapd_annual21)
+lapd_annual <- rbind(lapd_annual19,lapd_annual22)
+rm(lapd_annual19,lapd_annual22)
 
 lapd_annual <- lapd_annual %>% rename("year"="date_occ","number_incidents"="dr_no","district"="area_name")
 
@@ -82,9 +82,9 @@ lapd_annual <- lapd_annual %>%
 
 # Create a quick tally of shootings that can be appended as a category
 lapd_shootings19 <- read_csv("data/source/annual/lapd_shootings_district_2010_2019.csv") %>% janitor::clean_names()
-lapd_shootings21 <- read_csv("data/source/annual/lapd_shootings_district_2020_2021.csv") %>% janitor::clean_names()
-lapd_shootings_annual <- rbind(lapd_shootings19,lapd_shootings21)
-rm(lapd_shootings19,lapd_shootings21)
+lapd_shootings22 <- read_csv("data/source/annual/lapd_shootings_district_2020_2022.csv") %>% janitor::clean_names()
+lapd_shootings_annual <- rbind(lapd_shootings19,lapd_shootings22)
+rm(lapd_shootings19,lapd_shootings22)
 # rename some cols for consistency for merging
 lapd_shootings_annual <- lapd_shootings_annual %>% rename("year"="date_occ","number_incidents"="dr_no","district"="area_name")
 # spread to annual for consistency for merging

@@ -253,7 +253,6 @@ citywide_yearly %>% filter(category=="Robbery") %>%  write_csv("data/output/year
 citywide_yearly %>% filter(category=="Aggravated Assault") %>%  write_csv("data/output/yearly/assaults_city.csv")
 citywide_yearly %>% filter(category=="Shootings") %>%  write_csv("data/output/yearly/shootings_city.csv")
 
-
 # make the death rate comparable file unique to this state vs LAPD homicide
 deaths <- read_excel("data/source/health/deaths.xlsx") 
 deaths <- deaths %>% filter(state=="CA")

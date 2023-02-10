@@ -259,5 +259,8 @@ deaths <- read_excel("data/source/health/deaths.xlsx")
 deaths <- deaths %>% filter(state=="CA")
 deaths$Homicide <- murders_city$rate_last12
 write_csv(deaths,"data/source/health/death_rates.csv")
+# New method for California
+ca_deaths <- read_csv("data/source/health/CA mortality rates.csv") 
+write_csv(ca_deaths,"data/source/health/ca_death_rates.csv")
 
 

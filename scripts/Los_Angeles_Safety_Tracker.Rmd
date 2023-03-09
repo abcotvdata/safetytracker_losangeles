@@ -263,7 +263,7 @@ Per 100,000 people<br>2019 to 2022</p>
 </div>
 </div>
 <br>
-Homicides over the last 12 months are trending <h8>`r ifelse(murders_city$inc_21tolast12>=0," up"," down")` `r ifelse(murders_city$inc_21tolast12>=0,murders_city$inc_21tolast12,substring(murders_city$inc_21tolast12,2))`%</h8> compared to 2021, according to the latest Los Angeles Police Department data through `r format(lapd_asofdate, "%B %d")`.
+Homicides over the last 12 months are trending <h8>`r ifelse(murders_city$inc_22tolast12>=0," up"," down")` `r ifelse(murders_city$inc_22tolast12>=0,murders_city$inc_21tolast12,substring(murders_city$inc_22tolast12,2))`%</h8> compared to 2022, according to the latest Los Angeles Police Department data through `r format(lapd_asofdate, "%B %d")`.
 
 However, the murder rate in city over the last 12 months is <h8>`r case_when((murders_city$rate_last12-murders_city$rate_prior4years)>=0.25 ~ "up",
           (murders_city$rate_last12-murders_city$rate_prior4years)<=-0.25 ~ "down",

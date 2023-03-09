@@ -136,10 +136,10 @@ lapd_crime$total_prior4years <- lapd_crime$`2019`+
   lapd_crime$`2022`
 lapd_crime$avg_prior4years <- round(((lapd_crime$total_prior4years)/4),1)
 # now add the increases or change percentages
-lapd_crime$inc_19to21 <- round(lapd_crime$`2021`/lapd_crime$`2019`*100-100,1)
-lapd_crime$inc_19to21 <- round(lapd_crime$`2021`/lapd_crime$`2010`*100-100,1)
+lapd_crime$inc_19to22 <- round(lapd_crime$`2022`/lapd_crime$`2019`*100-100,1)
+lapd_crime$inc_10to22 <- round(lapd_crime$`2022`/lapd_crime$`2010`*100-100,1)
 lapd_crime$inc_19tolast12 <- round(lapd_crime$last12mos/lapd_crime$`2019`*100-100,1)
-lapd_crime$inc_21tolast12 <- round(lapd_crime$last12mos/lapd_crime$`2021`*100-100,1)
+lapd_crime$inc_22tolast12 <- round(lapd_crime$last12mos/lapd_crime$`2022`*100-100,1)
 lapd_crime$inc_prior4yearavgtolast12 <- round((lapd_crime$last12mos/lapd_crime$avg_prior4years)*100-100,0)
 # add crime rates for each year
 lapd_crime$rate19 <- round((lapd_crime$`2019`/lapd_crime$population)*100000,1)
@@ -210,10 +210,10 @@ citywide_crime$total_prior4years <- citywide_crime$`2019`+
   citywide_crime$`2022`
 citywide_crime$avg_prior4years <- round((citywide_crime$total_prior4years/4),1)
 # now add the increases or change percentages
-citywide_crime$inc_19to21 <- round(citywide_crime$`2021`/citywide_crime$`2019`*100-100,1)
-citywide_crime$inc_19to21 <- round(citywide_crime$`2021`/citywide_crime$`2010`*100-100,1)
+citywide_crime$inc_19to21 <- round(citywide_crime$`2022`/citywide_crime$`2019`*100-100,1)
+citywide_crime$inc_10to21 <- round(citywide_crime$`2022`/citywide_crime$`2010`*100-100,1)
 citywide_crime$inc_19tolast12 <- round(citywide_crime$last12mos/citywide_crime$`2019`*100-100,1)
-citywide_crime$inc_21tolast12 <- round(citywide_crime$last12mos/citywide_crime$`2021`*100-100,1)
+citywide_crime$inc_22tolast12 <- round(citywide_crime$last12mos/citywide_crime$`2022`*100-100,1)
 citywide_crime$inc_prior4yearavgtolast12 <- round((citywide_crime$last12mos/citywide_crime$avg_prior4years)*100-100,0)
 # add crime rates for each year
 citywide_crime$rate19 <- round((citywide_crime$`2019`/la_population)*100000,1)

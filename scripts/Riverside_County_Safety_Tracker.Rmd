@@ -22,6 +22,25 @@ library(sf)
 
 ```{css, echo=FALSE}
 
+.leaflet-control-search .search-button {
+        display:none;
+}
+
+.leaflet-control-search .search-input {
+        display: block;
+        float: left;
+        border: 3px solid #00215C;
+        border-radius: 5px;
+        width: 300px;
+        height: 30px;
+        font-family: roboto;
+        font-weight: 400;
+        font-size: 18px;
+        padding: 0 18px 0 2px;
+        margin:0px 0 0px 0px
+}
+
+
 h1.title {
   font-family: roboto;
   color: transparent;
@@ -391,7 +410,7 @@ L.control.zoom({ position: 'topright' }).addTo(this)
               fillOpacity = 0.6,
               fillColor = ~murderpal2(`2021`),
               group="Number") %>% 
-  addSearchOSM(options = searchOptions(autoCollapse=FALSE, minLength = 3,zoom=13, position="topleft")) %>%
+  addSearchOSM(options = searchOptions(collapsed=FALSE, minLength = 3,zoom=13, position="topleft")) %>%
     onRender("function(el, x) {
         $('input.search-input')[0].placeholder = 'Search street, place or zip code'
         }") %>%

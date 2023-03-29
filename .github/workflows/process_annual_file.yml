@@ -1,8 +1,6 @@
 name: Update LAPD annual open data
 
 on:
-  schedule:
-    - cron: '15 8 * * 5'
   workflow_dispatch:
 
 jobs:

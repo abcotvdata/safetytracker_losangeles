@@ -15,7 +15,7 @@ jobs:
       - name: Install dependencies and packages
         run: Rscript -e 'install.packages(c("tidyverse","lubridate"))'
       - name: Process refreshed annual LAPD data
-        run: Rscript scripts/process_annual_lapd_city_crime.R
+        run: Rscript scripts/lapd_process_annual.R
       - name: Commit results
         run: |
           git add -A

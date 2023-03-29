@@ -1,0 +1,24 @@
+name: Update LAPD annual open data
+
+on:
+  schedule:
+    - cron: '15 8 * * 5'
+  workflow_dispatch:
+
+jobs:
+  render:
+    name: Reprocess annual LAPD data
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: r-lib/actions/setup-r@v2
+      - name: Install dependencies and packages
+        run: Rscript -e 'install.packages(c("sf","janitor","tidyverse","readxl","leaflet","leaflet.extras","leaflet.providers","htmlwidgets","htmltools","lubridate","RSocrata"))'
+      - name: Process refreshed annual LAPD data
+        run: Rscript scripts/process_annual_lapd_city_crime.R
+      - name: Commit results
+        run: |
+          git add -A
+          git commit -m 'New annual data refreshed' || echo "No changes"
+          git push origin || echo "No changes to commit"
+

@@ -46,7 +46,7 @@ rmarkdown::render('scripts/Los_Angeles_County_Safety_Tracker_Robberies.Rmd',
 
 # ASSAULTS
 # Load RDS
-# socal_assault <- readRDS("scripts/rds/socal_assault.rds")
+socal_assault <- readRDS("scripts/rds/socal_assault.rds")
 # Render page
 rmarkdown::render('scripts/Los_Angeles_County_Safety_Tracker_Assaults.Rmd', 
                   output_dir = "docs",

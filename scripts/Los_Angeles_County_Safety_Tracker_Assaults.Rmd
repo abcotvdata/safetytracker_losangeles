@@ -232,7 +232,7 @@ div.legend { margin-bottom: 50px !important; }
 ```
 
 ```{r countywide totals, include=FALSE}
-assaults_county <- countywide_assault %>% filter(county=="Los_Angeles County")
+assaults_county <- countywide_assault %>% filter(county=="Los Angeles County")
 ```
 
 <h2>ABC7 is tracking crime and safety in communities across Los Angeles County. 
@@ -255,7 +255,7 @@ You can choose which crime to examine: <select onchange="window.location=this.va
 <option value="https://abcotvdata.github.io/safetytracker_losangeles/Ventura_County_Safety_Tracker.html">Ventura County</option>
 </select></h2>
 
-There were <h8>`r prettyNum(assaults_county$total21,big.mark=",")`</h8> aggravated assaults in 2021 across Los_Angeles County, according to data that law enforcement agencies report to the state of California.
+There were <h8>`r prettyNum(assaults_county$total21,big.mark=",")`</h8> aggravated assaults in 2021 across Los Angeles County, according to data that law enforcement agencies report to the state of California.
 
 In 2019, the data show that number was <h8>`r prettyNum(assaults_county$total19,big.mark=",")`</h8>. In 2010, it was <h8>`r prettyNum(assaults_county$total10,big.mark=",")`</h8>.
 
@@ -265,7 +265,7 @@ ABC7's data team looked at the data that every local police agency reported to t
 
 The totals include only aggravated assaults, which police generally define as someone being attacked or seriously injured by another person, whether or not they used a firearm or other weapon.
 
-<subhead>A closer look at Los_Angeles County assaults where you live</subhead>
+<subhead>A closer look at Los Angeles County assaults where you live</subhead>
 
 The map color codes each community by the rate of incidents per 100,000 residents in 2021. Click the box in the bottom right corner to color-code communities by the number of crimes instead of the rate.
 
@@ -344,37 +344,37 @@ assaultlabel_places <- paste(sep="",
 			<tr>
 				<td>2019</td>
 				<td>",
-socal_assault$`2019`,
+prettyNum(socal_assault$`2019`, big.mark=","),
 "</td>
 				<td>",
-socal_assault$rate19,
+prettyNum(socal_assault$rate19, big.mark=","),
 "</td>
 			</tr>
 			<tr>
 				<td>2020</td>
 				<td>",
-socal_assault$`2020`,
+prettyNum(socal_assault$`2020`, big.mark=","),
 "</td>
 				<td>",
-socal_assault$rate20,
+prettyNum(socal_assault$rate20, big.mark=","),
 "</td>
 			</tr>
 						<tr>
 				<td>2021</td>
 				<td>",
-socal_assault$`2021`,
+prettyNum(socal_assault$`2021`, big.mark=","),
 "</td>
 				<td>",
-socal_assault$rate21,
+prettyNum(socal_assault$rate21, big.mark=","),
 "</td>
 			</tr>
 						<tr>
 				<td>3-year Average</td>
 				<td>",
-socal_assault$avg_prior3years,
+prettyNum(socal_assault$avg_prior3years, big.mark=","),
 "</td>
 				<td>",
-socal_assault$rate_prior3years,
+prettyNum(socal_assault$rate_prior3years, big.mark=","),
 "</td>
 			</tr>
 </table>",

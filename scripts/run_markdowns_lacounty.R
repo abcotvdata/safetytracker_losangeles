@@ -6,7 +6,7 @@ library(rmarkdown)
 
 # MURDERS
 # Load RDS
-# socal_murder <- readRDS("scripts/rds/socal_murder.rds")
+socal_murder <- readRDS("scripts/rds/socal_murder.rds")
 # Render page
 rmarkdown::render('scripts/Los_Angeles_County_Safety_Tracker.Rmd', 
                   output_dir = "docs",
@@ -14,7 +14,7 @@ rmarkdown::render('scripts/Los_Angeles_County_Safety_Tracker.Rmd',
 
 # BURGLARIES
 # Load RDS
-# socal_burglary <- readRDS("scripts/rds/socal_burglary.rds")
+socal_burglary <- readRDS("scripts/rds/socal_burglary.rds")
 # Render page
 rmarkdown::render('scripts/Los_Angeles_County_Safety_Tracker_Burglaries.Rmd', 
                   output_dir = "docs",
@@ -22,7 +22,7 @@ rmarkdown::render('scripts/Los_Angeles_County_Safety_Tracker_Burglaries.Rmd',
 
 # THEFTS
 # Load RDS
-# socal_theft <- readRDS("scripts/rds/socal_theft.rds")
+socal_theft <- readRDS("scripts/rds/socal_theft.rds")
 # Render page
 rmarkdown::render('scripts/Los_Angeles_County_Safety_Tracker_Thefts.Rmd', 
                   output_dir = "docs",
@@ -30,7 +30,7 @@ rmarkdown::render('scripts/Los_Angeles_County_Safety_Tracker_Thefts.Rmd',
 
 # AUTO THEFTS
 # Load RDS
-# socal_autotheft <- readRDS("scripts/rds/socal_autotheft.rds")
+socal_autotheft <- readRDS("scripts/rds/socal_autotheft.rds")
 # Render page
 rmarkdown::render('scripts/Los_Angeles_County_Safety_Tracker_VehicleThefts.Rmd', 
                   output_dir = "docs",
@@ -38,7 +38,7 @@ rmarkdown::render('scripts/Los_Angeles_County_Safety_Tracker_VehicleThefts.Rmd',
 
 # ROBBERIES
 # Load RDS
-# socal_robbery <- readRDS("scripts/rds/socal_robbery.rds")
+socal_robbery <- readRDS("scripts/rds/socal_robbery.rds")
 # Render page
 rmarkdown::render('scripts/Los_Angeles_County_Safety_Tracker_Robberies.Rmd', 
                   output_dir = "docs",
@@ -54,7 +54,7 @@ rmarkdown::render('scripts/Los_Angeles_County_Safety_Tracker_Assaults.Rmd',
 
 # SEXUAL ASSAULTS
 # Load RDS
-# socal_sexassault <- readRDS("scripts/rds/socal_sexassault.rds")
+socal_sexassault <- readRDS("scripts/rds/socal_sexassault.rds")
 # Render page
 rmarkdown::render('scripts/Los_Angeles_County_Safety_Tracker_SexualAssaults.Rmd', 
                   output_dir = "docs",

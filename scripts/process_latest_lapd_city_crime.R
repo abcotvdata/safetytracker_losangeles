@@ -19,6 +19,10 @@ lapd_recent$hour <- substr(lapd_recent$time_occ,1,2)
 # For last 12 months using most recent date in LAPD new download
 lapd_recent <- lapd_recent %>% filter(date>(max(lapd_recent$date)-31536000)) 
 
+lapd_recent$dr_no_crime <- paste(sep = "", as.character(lapd_recent$dr_no), "_", as.character(lapd_recent$crm_cd))
+lapd_recent <- lapd_recent %>% distinct(dr_no_crime, .keep_all = TRUE) %>% select(-dr_no_crime)
+
+
 lapd_recent$category <- case_when(lapd_recent$crm_cd == '230' ~ 'Aggravated Assault',
                                  lapd_recent$crm_cd == '231' ~ 'Aggravated Assault',
                                  lapd_recent$crm_cd == '235' ~ 'Aggravated Assault',

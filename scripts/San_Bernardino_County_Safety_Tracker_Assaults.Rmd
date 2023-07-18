@@ -256,19 +256,19 @@ You can choose which crime to examine: <select onchange="window.location=this.va
 <option value="https://abcotvdata.github.io/safetytracker_losangeles/Ventura_County_Safety_Tracker.html">Ventura County</option>
 </select></h2>
 
-There were <h8>`r prettyNum(assaults_county$total21,big.mark=",")`</h8> aggravated assaults in 2021 across San Bernardino County, according to data that law enforcement agencies report to the state of California.
+There were <h8>`r prettyNum(assaults_county$total22,big.mark=",")`</h8> aggravated assaults in 2022 across San Bernardino County, according to data that law enforcement agencies report to the state of California.
 
 In 2019, the data show that number was <h8>`r prettyNum(assaults_county$total19,big.mark=",")`</h8>. In 2010, it was <h8>`r prettyNum(assaults_county$total10,big.mark=",")`</h8>.
 
 The risk is not the same in every community.
 
-ABC7's data team looked at the data that every local police agency reported to the California Department of Justice each year through 2021, the latest date for which records are available. The vast majority of law enforcement agencies in the county do not make public more recent records.
+ABC7's data team looked at the data that every local police agency reported to the California Department of Justice each year through 2022, the latest date for which records are available. The vast majority of law enforcement agencies in the county do not make public more recent records.
 
 The totals include only aggravated assaults, which police generally define as someone being attacked or seriously injured by another person, whether or not they used a firearm or other weapon.
 
 <subhead>A closer look at San Bernardino County assaults where you live</subhead>
 
-The map color codes each community by the rate of incidents per 100,000 residents in 2021. Click the box in the bottom right corner to color-code communities by the number of crimes instead of the rate.
+The map color codes each community by the rate of incidents per 100,000 residents in 2022. Click the box in the bottom right corner to color-code communities by the number of crimes instead of the rate.
 
 Use the search box at the top of the map to find for any street, place, landmark or zip code and zoom to that location.
 
@@ -370,9 +370,9 @@ socal_assault$rate21,
 "</td>
 			</tr>
 						<tr>
-				<td>3-year Average</td>
+				<td>4-year Average</td>
 				<td>",
-socal_assault$avg_prior3years,
+socal_assault<td>4-year Average</td>
 "</td>
 				<td>",
 socal_assault$rate_prior3years,

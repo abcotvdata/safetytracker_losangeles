@@ -256,17 +256,17 @@ You can choose which crime to examine: <select onchange="window.location=this.va
 <option value="https://abcotvdata.github.io/safetytracker_losangeles/Ventura_County_Safety_Tracker.html">Ventura County</option>
 </select></h2>
 
-There were <h8>`r prettyNum(sexassaults_county$total21,big.mark=",")`</h8> sexual assaults in 2021 across Los Angeles County, according to data that law enforcement agencies report to the state of California.
+There were <h8>`r prettyNum(sexassaults_county$total22,big.mark=",")`</h8> sexual assaults in 2022 across Los Angeles County, according to data that law enforcement agencies report to the state of California.
 
 In 2019, the data show that number was <h8>`r prettyNum(sexassaults_county$total19,big.mark=",")`</h8>. In 2010, it was <h8>`r prettyNum(sexassaults_county$total10,big.mark=",")`</h8>.
 
 The risk is not the same in every community.
 
-ABC7's data team looked at the data that every local police agency reported to the California Department of Justice each year through 2021, the latest date for which records are available. The vast majority of law enforcement agencies in the county do not make public more recent records.
+ABC7's data team looked at the data that every local police agency reported to the California Department of Justice each year through 2022, the latest date for which records are available. The vast majority of law enforcement agencies in the county do not make public more recent records.
 
 <subhead>A closer look at sexual assaults where you live</subhead>
 
-The map color codes each community by the rate of incidents per 100,000 residents in 2021. Click the box in the bottom right corner to color-code communities by the number of crimes instead of the rate.
+The map color codes each community by the rate of incidents per 100,000 residents in 2022. Click the box in the bottom right corner to color-code communities by the number of crimes instead of the rate.
 
 Use the search box at the top of the map to find for any street, place, landmark or zip code and zoom to that location. The map shows data for every community across Southern California.
 
@@ -318,17 +318,17 @@ sexassaultpal2 <- colorBin(c("#76baf9",
                              "#2787d6",
                              "#0058f6",
                              "#003ca6",
-                             "#00215c"), socal_sexassault$`2021`, bins = sexassaultbins2,na.color = "#76baf9")
+                             "#00215c"), socal_sexassault$`2022`, bins = sexassaultbins2,na.color = "#76baf9")
 
                             
 # Create labels for sexassaults map
 sexassaultlabel_places <- paste(sep="",
                      "<popuptitle>",
-                     socal_sexassault$`2021`,
-                     ifelse(socal_sexassault$`2021`==1,
+                     socal_sexassault$`2022`,
+                     ifelse(socal_sexassault$`2022`==1,
                      " sexual assault </popuptitle><br>",
                      " sexual assaults </popuptitle><br>"),
-                     " in 2021 in <b>",
+                     " in 2022 in <b>",
                      ifelse(socal_sexassault$place %in% sheriffs,paste0("the combined unincorporated areas patrolled by the ",socal_sexassault$place),socal_sexassault$place),
                      "</b>, home to an estimated ",
                      prettyNum(socal_sexassault$population, big.mark=","),
@@ -367,13 +367,22 @@ socal_sexassault$`2021`,
 socal_sexassault$rate21,
 "</td>
 			</tr>
-						<tr>
-				<td>3-year Average</td>
+									<tr>
+				<td>2022</td>
 				<td>",
-socal_sexassault$avg_prior3years,
+socal_sexassault$`2022`,
 "</td>
 				<td>",
-socal_sexassault$rate_prior3years,
+socal_sexassault$rate22,
+"</td>
+			</tr>
+						<tr>
+				<td>4-year Average</td>
+				<td>",
+socal_sexassault$avg_prior4years,
+"</td>
+				<td>",
+socal_sexassault$rate_prior4years,
 "</td>
 			</tr>
 </table>",
@@ -406,7 +415,7 @@ L.control.zoom({ position: 'topright' }).addTo(this)
               smoothFactor = 0.5,
               opacity = 0.6, 
               fillOpacity = 0.6,
-              fillColor = ~sexassaultpal2(`2021`),
+              fillColor = ~sexassaultpal2(`2022`),
               group="Number") %>% 
   addSearchOSM(options = searchOptions(autoCollapse=TRUE, collapsed = FALSE, minLength = 3, zoom=13, position="topleft")) %>%
     onRender("function(el, x) {
@@ -420,7 +429,7 @@ L.control.zoom({ position: 'topright' }).addTo(this)
             group = "Rate",
             className = "info legend Rate") %>%
   addLegend(opacity = 0.6,
-            values = socal_sexassault$`2021`, 
+            values = socal_sexassault$`2022`, 
             pal = sexassaultpal2,
             position = "bottomleft", 
             title = paste(sep="","<popuptitle>Sexual Assaults<br>"),

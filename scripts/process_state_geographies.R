@@ -120,6 +120,6 @@ socal_police_map
 # Saving final product for reuse; police map includes 4 counties + LA Co
 saveRDS(police_map,"scripts/rds/police_map.rds")
 # Saving the file with only the police districts in the 4 counties besides LA too
-saveRDS(socal_places,"scripts/rds/police_map.rds")
+# saveRDS(police_map ,"scripts/rds/police_map.rds")
 
 rm(socal_police_map)

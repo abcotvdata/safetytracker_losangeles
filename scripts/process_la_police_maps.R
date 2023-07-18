@@ -65,7 +65,7 @@ rm(districts_withpop, blocks,beats)
 districts$population <- round(districts$population,-2)
 
 # Slightly simplify the polygons to aid web/mobile loading
-la_districts <- la_districts %>% st_transform(3116)
+la_districts <- districts %>% st_transform(3116)
 la_districts <- st_simplify(la_districts, dTolerance = 5)
 
 # la_districts <- districts %>% st_transform(4269)

@@ -320,17 +320,17 @@ robberypal2 <- colorBin(c("#76baf9",
                              "#2787d6",
                              "#0058f6",
                              "#003ca6",
-                             "#00215c"), socal_robbery$`2021`, bins = robberybins2,na.color = "#76baf9")
+                             "#00215c"), socal_robbery$`2022`, bins = robberybins2,na.color = "#76baf9")
 
                             
 # Create labels for robberys map
 robberylabel_places <- paste(sep="",
                      "<popuptitle>",
-                     socal_robbery$`2021`,
-                     ifelse(socal_robbery$`2021`==1,
+                     socal_robbery$`2022`,
+                     ifelse(socal_robbery$`2022`==1,
                      " robbery </popuptitle><br>",
                      " robberies </popuptitle><br>"),
-                     " in 2021 in <b>",
+                     " in 2022 in <b>",
                      ifelse(socal_robbery$place %in% sheriffs,paste0("the combined unincorporated areas patrolled by the ",socal_robbery$place),socal_robbery$place),
                      "</b>, home to an estimated ",
                      prettyNum(socal_robbery$population, big.mark=","),
@@ -369,13 +369,22 @@ socal_robbery$`2021`,
 socal_robbery$rate21,
 "</td>
 			</tr>
+									<tr>
+				<td>2022</td>
+				<td>",
+socal_robbery$`2022`,
+"</td>
+				<td>",
+socal_robbery$rate22,
+"</td>
+			</tr>
 						<tr>
 				<td>4-year Average</td>
 				<td>",
-socal_robbery<td>4-year Average</td>
+socal_robbery$avg_prior4years,
 "</td>
 				<td>",
-socal_robbery$rate_prior3years,
+socal_robbery$rate_prior4years,
 "</td>
 			</tr>
 </table>",
@@ -408,7 +417,7 @@ L.control.zoom({ position: 'topright' }).addTo(this)
               smoothFactor = 0.5,
               opacity = 0.6, 
               fillOpacity = 0.6,
-              fillColor = ~robberypal2(`2021`),
+              fillColor = ~robberypal2(`2022`),
               group="Number") %>% 
   addSearchOSM(options = searchOptions(collapsed=FALSE, minLength = 3,zoom=13, position="topleft")) %>%
     onRender("function(el, x) {
@@ -422,7 +431,7 @@ L.control.zoom({ position: 'topright' }).addTo(this)
             group = "Rate",
             className = "info legend Rate") %>%
   addLegend(opacity = 0.6,
-            values = socal_robbery$`2021`, 
+            values = socal_robbery$`2022`, 
             pal = robberypal2,
             position = "bottomleft", 
             title = paste(sep="","<popuptitle>Robberies<br>"),

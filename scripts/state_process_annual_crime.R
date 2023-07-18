@@ -275,7 +275,7 @@ socal_autotheft$place_chart <- case_when(socal_autotheft$agency=="LASD" ~ paste0
 
 # Output county level files for each crime category
 # RIVERSIDE
-socal_murder %>% st_drop_geometry() %>% filter(county=="Riverside County") %>% select(27,4:16,20,21,25) %>% write_csv("data/output/annual/riverside_murder.csv")
+socal_murder %>% st_drop_geometry() %>% filter(county=="Riverside County") %>% select(27,4:16,20,21,25) %>% write_csv("data/output/annual/riverside_murder.csv") %>% rename(Change since 2019=inc_19to22,Change since 2010=inc_10to22,2022 rate per 100K=rate22)
 socal_sexassault %>% st_drop_geometry() %>% filter(county=="Riverside County") %>% select(27,4:16,20,21,25) %>% write_csv("data/output/annual/riverside_sexassault.csv")
 socal_assault %>% st_drop_geometry() %>% filter(county=="Riverside County") %>% select(27,4:16,20,21,25) %>% write_csv("data/output/annual/riverside_assault.csv")
 socal_robbery %>% st_drop_geometry() %>% filter(county=="Riverside County") %>% select(27,4:16,20,21,25) %>% write_csv("data/output/annual/riverside_robbery.csv")

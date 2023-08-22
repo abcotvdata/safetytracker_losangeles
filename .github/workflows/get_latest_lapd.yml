@@ -19,7 +19,7 @@ jobs:
         run: |
           brew install gdal
       - name: Install dependencies and packages
-        run: Rscript -e 'install.packages(c("sf","janitor","tidyverse","readxl","leaflet","leaflet.extras","leaflet.providers","htmlwidgets","htmltools","lubridate","RSocrata"))'
+        run: Rscript -e 'install.packages(c("RSocrata","sf","janitor","tidyverse","readxl","leaflet","leaflet.extras","leaflet.providers","htmlwidgets","htmltools","lubridate"))'
       - name: Process latest LAPD data
         run: Rscript scripts/process_latest_lapd_city_crime.R
       - name: Render all markdowns from central script

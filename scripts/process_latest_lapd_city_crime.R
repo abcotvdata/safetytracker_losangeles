@@ -1,7 +1,7 @@
 library(tidyverse)
 library(lubridate)
 library(readxl)
-# library(sf)
+library(sf)
 
 # Get the latest file
 options(timeout=300)

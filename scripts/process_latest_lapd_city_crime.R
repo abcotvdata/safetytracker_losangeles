@@ -4,6 +4,14 @@ library(readxl)
 library(sf)
 library(RSocrata)
 
+# For repair/upgrade
+# quick url for csv
+download.file("https://data.lacity.org/api/views/2nrs-mtv8/rows.csv?accessType=DOWNLOAD","data/source/recent/lapd_recent.csv")
+# data location
+# https://data.lacity.org/Public-Safety/Crime-Data-from-2020-to-Present/2nrs-mtv8
+# lapd_recent2 <- read_csv("data/source/recent/lapd_recent.csv") %>% janitor::clean_names()
+
+
 options(timeout=300)
 # Reading SoDA valid URLs
 lapd_recent <- read.socrata("https://data.lacity.org/resource/2nrs-mtv8.json")

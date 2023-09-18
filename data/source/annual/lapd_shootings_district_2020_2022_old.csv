@@ -1,7 +1,7 @@
 AREA NAME,DATE OCC,DR_NO
 77th Street,2020,270
 77th Street,2021,284
-77th Street,2022,212
+77th Street,2022,211
 Central,2020,57
 Central,2021,60
 Central,2022,84
@@ -37,7 +37,7 @@ Olympic,2021,25
 Olympic,2022,33
 Pacific,2020,26
 Pacific,2021,31
-Pacific,2022,25
+Pacific,2022,26
 Rampart,2020,59
 Rampart,2021,34
 Rampart,2022,50
@@ -46,7 +46,7 @@ Southeast,2021,252
 Southeast,2022,179
 Southwest,2020,79
 Southwest,2021,88
-Southwest,2022,83
+Southwest,2022,82
 Topanga,2020,15
 Topanga,2021,12
 Topanga,2022,8

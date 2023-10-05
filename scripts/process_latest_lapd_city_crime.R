@@ -5,11 +5,13 @@ library(sf)
 
 # Get the latest file
 options(timeout=300)
+#download.file("https://data.lacity.org/api/views/2nrs-mtv8/rows.csv","data/source/recent/lapd_recent.csv")
 download.file("https://data.lacity.org/api/views/2nrs-mtv8/rows.csv?accessType=DOWNLOAD","data/source/recent/lapd_recent.csv")
+
 
 # Load the data
 lapd_recent <- read_csv("data/source/recent/lapd_recent.csv") %>% janitor::clean_names()
-# Fix the date fields to match and then filter past file to extract just 2019
+# Fix the date fields to match
 lapd_recent$date <- lubridate::mdy_hms(lapd_recent$date_occ)
 lapd_recent$year <- lubridate::year(lapd_recent$date)
 lapd_recent$month <- lubridate::floor_date(as.Date(lapd_recent$date),"month")

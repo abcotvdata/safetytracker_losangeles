@@ -21,7 +21,7 @@ jobs:
       - name: Install dependencies and packages
         run: Rscript -e 'install.packages(c("sf","janitor","tidyverse","readxl","leaflet","leaflet.extras","leaflet.providers","htmlwidgets","htmltools","lubridate"))'
       - name: Process latest LAPD data
-        run: Rscript scripts/process_latest_lapd_city_crime.R
+        run: Rscript scripts/process_latest_LAPD_data.R
       - name: Render all markdowns from central script
         run: Rscript scripts/run_markdowns_lacity.R
       - name: Commit results

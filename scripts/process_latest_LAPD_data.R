@@ -276,5 +276,14 @@ citywide_crime %>% select(1:15) %>% filter(category=="Robbery") %>%  write_csv("
 citywide_crime %>% select(1:15) %>% filter(category=="Aggravated Assault") %>%  write_csv("data/output/yearly/assaults_city.csv")
 citywide_crime %>% select(1:15) %>% filter(category=="Shootings") %>%  write_csv("data/output/yearly/shootings_city.csv")
 
+# Create a separate file for each crime to map to statewide file and tables
+lapd_murder <- lapd_crime %>% filter(category=="Homicide") %>% st_drop_geometry() %>% select(20,19,5:17,3)
+lapd_sexassault <- lapd_crime %>% filter(category=="Sexual Assault") %>% st_drop_geometry() %>% select(20,19,5:17,3)
+lapd_assault <- lapd_crime %>% filter(category=="Aggravated Assault") %>% st_drop_geometry() %>% select(20,19,5:17,3)
+lapd_robbery <- lapd_crime %>% filter(category=="Robbery") %>% st_drop_geometry() %>% select(20,19,5:17,3)
+lapd_burglary <- lapd_crime %>% filter(category=="Burglary") %>% st_drop_geometry() %>% select(20,19,5:17,3)
+lapd_theft <- lapd_crime %>% filter(category=="Larceny") %>% st_drop_geometry() %>% select(20,19,5:17,3)
+lapd_autotheft <- lapd_crime %>% filter(category=="Vehicle Theft") %>% st_drop_geometry() %>% select(20,19,5:17,3)
+lapd_shootings <- lapd_crime %>% filter(category=="Shootings") %>% st_drop_geometry() %>% select(20,19,5:17,3)
 
 

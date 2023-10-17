@@ -2,10 +2,9 @@ library(tidyverse)
 library(tidycensus)
 library(leaflet)
 library(leaflet.providers)
-# library(tidyr)
 library(sf)
 
-# Get demographic data and geography for Census places
+# Get demographic data and geography for Census places in California
 cal_places <- get_decennial(geography = "place", 
                             year = 2020,
                             output = 'wide',
@@ -15,7 +14,7 @@ cal_places <- get_decennial(geography = "place",
   rename("population"="P1_001N") %>%
   janitor::clean_names()
 
-# Get demographic data and geography for Census places
+# Get demographic data and geography for counties in California
 cal_counties <- get_decennial(geography = "county", 
                               year = 2020,
                               output = 'wide',
@@ -43,54 +42,57 @@ cal_counties$county <- str_replace(cal_counties$county,", California","")
 # Assign county names for filter and temporarily import Cal DOJ list for filter
 counties <- c("Los Angeles County", "Orange County","Ventura County","San Bernardino County","Riverside County")
 socal_annual <- readRDS("scripts/rds/socal_annual.rds")
+
 # Apply filters to assign places to counties, filter for counties and Cal DOJ agencies
 socal_places <- st_join(cal_places, cal_counties %>% select(5), left = FALSE, largest = TRUE) %>%
   filter(county %in% counties) %>% filter(place %in% socal_annual$ncic_code)
 # Round population to estimate, nearest hundred, consistent with LA Districts
 socal_places$population <- round(socal_places$population,-2)
 
+## JUST SKIP THIS PART? TEST REMOVING THIS PART
+##
 # Creating a singular file for making rural cutouts by county
 # make sure to make the resulting file a valid sf file
-all_socal_places <- socal_places %>%
-  group_by(state) %>%
-  summarise(geometry = sf::st_union(geometry)) %>%
-  ungroup() %>% st_make_valid()
+#all_socal_places <- socal_places %>%
+#  group_by(state) %>%
+#  summarise(geometry = sf::st_union(geometry)) %>%
+#  ungroup() %>% st_make_valid()
 
 # Create five single polygon county files
-riverside_county <- cal_counties %>% filter(county=="Riverside County") %>% st_make_valid()
-orange_county <- cal_counties %>% filter(county=="Orange County") %>% st_make_valid()
-sanbern_county <- cal_counties %>% filter(county=="San Bernardino County") %>% st_make_valid()
-ventura_county <- cal_counties %>% filter(county=="Ventura County") %>% st_make_valid()
+#riverside_county <- cal_counties %>% filter(county=="Riverside County") %>% st_make_valid()
+#orange_county <- cal_counties %>% filter(county=="Orange County") %>% st_make_valid()
+#sanbern_county <- cal_counties %>% filter(county=="San Bernardino County") %>% st_make_valid()
+#ventura_county <- cal_counties %>% filter(county=="Ventura County") %>% st_make_valid()
 
 # Make the rural "remnant" area polygons for each county
-rural_riverside <- st_difference(riverside_county,all_socal_places)
-rural_orange <- st_difference(orange_county,all_socal_places)
-rural_sanbern <- st_difference(sanbern_county,all_socal_places)
-rural_ventura <- st_difference(ventura_county,all_socal_places)
+#rural_riverside <- st_difference(riverside_county,all_socal_places)
+#rural_orange <- st_difference(orange_county,all_socal_places)
+#rural_sanbern <- st_difference(sanbern_county,all_socal_places)
+#rural_ventura <- st_difference(ventura_county,all_socal_places)
 
 # Make the rural "remnant" area polygons for each county
-rural_riverside$place <- "Riverside Co. Sheriff's Department"
-rural_orange$place <- "Orange Co. Sheriff's Department"
-rural_sanbern$place <- "San Bernardino Co. Sheriff's Department"
-rural_ventura$place <- "Ventura Co. Sheriff's Department"
+#rural_riverside$place <- "Riverside Co. Sheriff's Department"
+#rural_orange$place <- "Orange Co. Sheriff's Department"
+#rural_sanbern$place <- "San Bernardino Co. Sheriff's Department"
+#rural_ventura$place <- "Ventura Co. Sheriff's Department"
 
 # Make the rural "remnant" area polygons for each county
-socal_county_pops <- socal_places %>% group_by(county) %>% summarise(pop=sum(population))
-rural_riverside$population <- riverside_county$population - 2027000
-rural_orange$population <- orange_county$population - 3053900
-rural_sanbern$population <- sanbern_county$population - 1888800
-rural_ventura$population <- ventura_county$population - 750000
+#socal_county_pops <- socal_places %>% group_by(county) %>% summarise(pop=sum(population))
+#rural_riverside$population <- riverside_county$population - 2027000
+#rural_orange$population <- orange_county$population - 3053900
+#rural_sanbern$population <- sanbern_county$population - 1888800
+#rural_ventura$population <- ventura_county$population - 750000
 
 # Add these rural sheriff's coverage areas back into socal_places
-socal_places <- rbind(socal_places,rural_riverside,rural_orange,rural_sanbern,rural_ventura)
+#socal_places <- rbind(socal_places,rural_riverside,rural_orange,rural_sanbern,rural_ventura)
 
 # Do some cleanup 
-rm(rural_riverside,rural_orange,rural_sanbern,rural_ventura)
-rm(riverside_county,orange_county,sanbern_county,ventura_county)
+#rm(rural_riverside,rural_orange,rural_sanbern,rural_ventura)
+#rm(riverside_county,orange_county,sanbern_county,ventura_county)
 rm(cal_counties, cal_places, all_socal_places,socal_county_pops)
 
 # Create new police_map
-# la_districts <- readRDS(data/rds/la_county_police_districts.rds)
+la_districts <- readRDS("scripts/rds/la_county_police_districts.rds")
 # Remove all LA County places from the so_cal places now
 police_map <- bind_rows(socal_places %>% filter(county!="Los Angeles County"),la_districts)
 # Add upgraded LA County districts to the new region wide police districts map
@@ -118,8 +120,7 @@ socal_police_map <- leaflet(police_map) %>%
 socal_police_map 
 
 # Saving final product for reuse; police map includes 4 counties + LA Co
-saveRDS(police_map,"scripts/rds/police_map.rds")
-# Saving the file with only the police districts in the 4 counties besides LA too
-# saveRDS(police_map ,"scripts/rds/police_map.rds")
 
-rm(socal_police_map)
+saveRDS(police_map,"scripts/rds/police_map.rds")
+
+#rm(socal_police_map)

@@ -74,7 +74,7 @@ socal_autotheft <- inner_join(police_map %>% select(3:5),socal_autotheft,by="pla
 ## Crime category by category, we're going to build out the year by year file for every jurisdiction
 
 # MURDERS
-# Adding 3-year totals and annualized average over three years
+# Adding 4-year totals and annualized average over three years
 socal_murder$total_prior4years <- socal_murder$`2019` + socal_murder$`2020` + socal_murder$`2021` + socal_murder$`2022`
 socal_murder$avg_prior4years <- round((socal_murder$total_prior4years/4),1)
 # Adding change percentages vs prepandemic vs last decade
@@ -99,7 +99,7 @@ socal_murder$rate22 <- ifelse(socal_murder$population<1000,NA,socal_murder$rate2
 socal_murder$rate_prior4years <- ifelse(socal_murder$population<1000,NA,socal_murder$rate_prior4years)
 
 # SEXUAL ASSAULTS
-# Adding 3-year totals and annualized average over three years
+# Adding 4-year totals and annualized average over three years
 socal_sexassault$total_prior4years <- socal_sexassault$`2019` + socal_sexassault$`2020` + socal_sexassault$`2021` + socal_sexassault$`2022`
 socal_sexassault$avg_prior4years <- round((socal_sexassault$total_prior4years/4),1)
 # Adding change percentages vs prepandemic vs last decade
@@ -124,7 +124,7 @@ socal_sexassault$rate22 <- ifelse(socal_sexassault$population<1000,NA,socal_sexa
 socal_sexassault$rate_prior4years <- ifelse(socal_sexassault$population<1000,NA,socal_sexassault$rate_prior4years)
 
 # ROBBERIES
-# Adding 3-year totals and annualized average over three years
+# Adding 4-year totals and annualized average over three years
 socal_robbery$total_prior4years <- socal_robbery$`2019` + socal_robbery$`2020` + socal_robbery$`2021` + socal_robbery$`2022`
 socal_robbery$avg_prior4years <- round((socal_robbery$total_prior4years/4),1)
 # Adding change percentages vs prepandemic vs last decade
@@ -149,7 +149,7 @@ socal_robbery$rate22 <- ifelse(socal_robbery$population<1000,NA,socal_robbery$ra
 socal_robbery$rate_prior4years <- ifelse(socal_robbery$population<1000,NA,socal_robbery$rate_prior4years)
 
 # ASSAULTS
-# Adding 3-year totals and annualized average over three years
+# Adding 4-year totals and annualized average over three years
 socal_assault$total_prior4years <- socal_assault$`2019` + socal_assault$`2020` + socal_assault$`2021` + socal_assault$`2022`
 socal_assault$avg_prior4years <- round((socal_assault$total_prior4years/4),1)
 # Adding change percentages vs prepandemic vs last decade
@@ -174,7 +174,7 @@ socal_assault$rate22 <- ifelse(socal_assault$population<1000,NA,socal_assault$ra
 socal_assault$rate_prior4years <- ifelse(socal_assault$population<1000,NA,socal_assault$rate_prior4years)
 
 # BURGLARIES
-# Adding 3-year totals and annualized average over three years
+# Adding 4-year totals and annualized average over three years
 socal_burglary$total_prior4years <- socal_burglary$`2019` + socal_burglary$`2020` + socal_burglary$`2021` + socal_burglary$`2022`
 socal_burglary$avg_prior4years <- round((socal_burglary$total_prior4years/4),1)
 # Adding change percentages vs prepandemic vs last decade
@@ -199,7 +199,7 @@ socal_burglary$rate22 <- ifelse(socal_burglary$population<1000,NA,socal_burglary
 socal_burglary$rate_prior4years <- ifelse(socal_burglary$population<1000,NA,socal_burglary$rate_prior4years)
 
 # VEHICLE THEFTS
-# Adding 3-year totals and annualized average over three years
+# Adding 4-year totals and annualized average over three years
 socal_autotheft$total_prior4years <- socal_autotheft$`2019` + socal_autotheft$`2020` + socal_autotheft$`2021` + socal_autotheft$`2022`
 socal_autotheft$avg_prior4years <- round((socal_autotheft$total_prior4years/4),1)
 # Adding change percentages vs prepandemic vs last decade
@@ -224,7 +224,7 @@ socal_autotheft$rate22 <- ifelse(socal_autotheft$population<1000,NA,socal_autoth
 socal_autotheft$rate_prior4years <- ifelse(socal_autotheft$population<1000,NA,socal_autotheft$rate_prior4years)
 
 # THEFTS
-# Adding 3-year totals and annualized average over three years
+# Adding 4-year totals and annualized average over three years
 socal_theft$total_prior4years <- socal_theft$`2019` + socal_theft$`2020` + socal_theft$`2021` + socal_theft$`2022`
 socal_theft$avg_prior4years <- round((socal_theft$total_prior4years/4),1)
 # Adding change percentages vs prepandemic vs last decade

@@ -2,7 +2,7 @@ name: Update and render LAPD tracker
 
 # Trigger timing of workflow
 on:
-  schedule:
+  #schedule:
    # - cron: '15 8 * * *'
   workflow_dispatch:
 

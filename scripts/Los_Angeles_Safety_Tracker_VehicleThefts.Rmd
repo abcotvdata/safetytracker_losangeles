@@ -400,6 +400,15 @@ prettyNum(round(autothefts_district$rate22,0),big.mark =","),
 "</td>
 			</tr>
 						<tr>
+				<td>2023</td>
+				<td>",
+autothefts_district$`2023`,
+"</td>
+				<td>",
+prettyNum(round(autothefts_district$rate23,0),big.mark =","),
+"</td>
+			</tr>
+						<tr>
 				<td>Last 12 months</td>
 				<td>",
 autothefts_district$last12mos,

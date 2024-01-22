@@ -5,7 +5,7 @@ library(sf)
 ## DOWNLOAD LAPD DATA
 # Re-collect the latest version of BOTH crime incident data files from LAPD
 # Setting a longer timeout here because the file is large and sometimes the Action fails if the download is slow
-options(timeout=300)
+options(timeout=500)
 # Get the older (2010-2019) file
 # Because half gig file will sometimes crash the Action, using try command here; as long as it's successful ~ 1/week, will catch rare updates of older records
 # Source: https://data.lacity.org/Public-Safety/Crime-Data-from-2010-to-2019/63jg-8b9z
@@ -25,116 +25,121 @@ lapd_current$year <- year(lapd_current$date)
 lapd_past$date <- as_date(mdy_hms(lapd_past$date_occ))
 lapd_past$year <- year(lapd_past$date)
 # Remove some stray newer records from 2010-2019; manual testing confirms they're strays/duplicates
-lapd_past <- lapd_past %>% filter(year<2020)
+#lapd_past <- lapd_past %>% filter(year<2020)
 
 ## MERGE INTO ONE FILE FOR PROCESSING
 # And rename the area_name field to district for later merge/use with other files
-lapd_annual <- rbind(lapd_past,lapd_current) %>% rename("district"="area_name")
+lapd_annual_raw <- rbind(lapd_past,lapd_current) %>% rename("district"="area_name") %>% 
+  mutate(drno_crmcd = paste(sep="", dr_no, "_", crm_cd)) %>% 
+  distinct(drno_crmcd, .keep_all = TRUE) %>% 
+  select(-drno_crmcd)
+
 rm(lapd_past,lapd_current)
+
 # Edit two division names in data to match division names in geo file
-lapd_annual$district <- gsub("N Hollywood", "North Hollywood", lapd_annual$district)
-lapd_annual$district <- gsub("West LA", "West Los Angeles", lapd_annual$district)
+lapd_annual_raw$district <- gsub("N Hollywood", "North Hollywood", lapd_annual_raw$district)
+lapd_annual_raw$district <- gsub("West LA", "West Los Angeles", lapd_annual_raw$district)
 # Add agency for later distinction from LASD, regional agencies
-lapd_annual$agency <- "LAPD"
+lapd_annual_raw$agency <- "LAPD"
 # Add a flag for incidents occurring within the last 12 months; so we want a date greater than 365 days ago
-lapd_annual$last12flag <- ifelse(lapd_annual$date>max(lapd_annual$date)-365,"yes","no")
+lapd_annual_raw$last12flag <- ifelse(lapd_annual_raw$date>max(lapd_annual_raw$date)-365,"yes","no")
 # Create LAPD as_of_date
-lapd_asofdate <- max(lapd_annual$date)
+lapd_asofdate <- max(lapd_annual_raw$date)
 saveRDS(lapd_asofdate,"scripts/rds/lapd_asofdate.rds")
 
 ## EXTRACT SHOOTINGS INTO THEIR OWN DF BEFORE PROCESSING/PIVOTING LAPD ANNUAL FILE
 # Necessary for tallying as a separate category because they cut across other crime categories
-lapd_shootings <- lapd_annual %>%
+lapd_shootings_raw <- lapd_annual_raw %>%
   mutate(vict_shot = case_when(str_detect(mocodes, '0430') == TRUE ~ "YES",
                                TRUE ~ "NO")) %>% filter(vict_shot=="YES")
 # Tally up the annual shootings by district
-lapd_shootings_annual <- lapd_shootings %>%
+lapd_shootings_annual <- lapd_shootings_raw %>%
   filter(vict_shot=="YES") %>%
   group_by(agency,district,year) %>%
   summarise(count=n()) %>%
   pivot_wider(names_from=year, values_from=count) %>% 
   mutate(category = "Shootings")
 # Separately, tally the annual shootings in records flagged last 12 months
-lapd_shootings_last12 <- lapd_shootings %>%
+lapd_shootings_last12 <- lapd_shootings_raw %>%
   filter(vict_shot=="YES" & last12flag=="yes") %>%
   group_by(district) %>%
   summarise(last12mos=n())
 # Marry into a single df to be used later; 2023 column here will need to changed at the turn of the year
-lapd_shootings <- left_join(lapd_shootings_annual %>% select(-'2023'), lapd_shootings_last12,by="district")
+lapd_shootings <- left_join(lapd_shootings_annual %>% select(-'2024'), lapd_shootings_last12,by="district")
 rm(lapd_shootings_annual,lapd_shootings_last12)
 
 # PROCESS COMBINED FULL CRIME FILE
 # Categorize all other individual crime records
-lapd_annual$category <- case_when(lapd_annual$crm_cd == '230' ~ 'Aggravated Assault',
-                                  lapd_annual$crm_cd == '231' ~ 'Aggravated Assault',
-                                  lapd_annual$crm_cd == '235' ~ 'Aggravated Assault',
-                                  lapd_annual$crm_cd == '236' ~ 'Aggravated Assault',
-                                  lapd_annual$crm_cd == '250' ~ 'Aggravated Assault',
-                                  lapd_annual$crm_cd == '251' ~ 'Aggravated Assault',
-                                  lapd_annual$crm_cd == '761' ~ 'Aggravated Assault',
-                                  lapd_annual$crm_cd == '926' ~ 'Aggravated Assault',
-                                  lapd_annual$crm_cd == '310' ~ 'Burglary',
-                                  lapd_annual$crm_cd == '320' ~ 'Burglary',
-                                  lapd_annual$crm_cd == '110' ~ 'Homicide',
-                                  lapd_annual$crm_cd == '113' ~ 'Homicide',
-                                  lapd_annual$crm_cd == '330' ~ 'Larceny',
-                                  lapd_annual$crm_cd == '331' ~ 'Larceny',
-                                  lapd_annual$crm_cd == '410' ~ 'Larceny',
-                                  lapd_annual$crm_cd == '420' ~ 'Larceny',
-                                  lapd_annual$crm_cd == '421' ~ 'Larceny',
-                                  lapd_annual$crm_cd == '350' ~ 'Larceny',
-                                  lapd_annual$crm_cd == '351' ~ 'Larceny',
-                                  lapd_annual$crm_cd == '352' ~ 'Larceny',
-                                  lapd_annual$crm_cd == '353' ~ 'Larceny',
-                                  lapd_annual$crm_cd == '450' ~ 'Larceny',
-                                  lapd_annual$crm_cd == '451' ~ 'Larceny',
-                                  lapd_annual$crm_cd == '452' ~ 'Larceny',
-                                  lapd_annual$crm_cd == '453' ~ 'Larceny',
-                                  lapd_annual$crm_cd == '341' ~ 'Larceny',
-                                  lapd_annual$crm_cd == '343' ~ 'Larceny',
-                                  lapd_annual$crm_cd == '345' ~ 'Larceny',
-                                  lapd_annual$crm_cd == '440' ~ 'Larceny',
-                                  lapd_annual$crm_cd == '441' ~ 'Larceny',
-                                  lapd_annual$crm_cd == '442' ~ 'Larceny',
-                                  lapd_annual$crm_cd == '443' ~ 'Larceny',
-                                  lapd_annual$crm_cd == '444' ~ 'Larceny',
-                                  lapd_annual$crm_cd == '445' ~ 'Larceny',
-                                  lapd_annual$crm_cd == '470' ~ 'Larceny',
-                                  lapd_annual$crm_cd == '471' ~ 'Larceny',
-                                  lapd_annual$crm_cd == '472' ~ 'Larceny',
-                                  lapd_annual$crm_cd == '473' ~ 'Larceny',
-                                  lapd_annual$crm_cd == '474' ~ 'Larceny',
-                                  lapd_annual$crm_cd == '475' ~ 'Larceny',
-                                  lapd_annual$crm_cd == '480' ~ 'Larceny',
-                                  lapd_annual$crm_cd == '485' ~ 'Larceny',
-                                  lapd_annual$crm_cd == '487' ~ 'Larceny',
-                                  lapd_annual$crm_cd == '491' ~ 'Larceny',
-                                  lapd_annual$crm_cd == '210' ~ 'Robbery',
-                                  lapd_annual$crm_cd == '220' ~ 'Robbery',
-                                  lapd_annual$crm_cd == '121' ~ 'Sexual Assault',
-                                  lapd_annual$crm_cd == '122' ~ 'Sexual Assault',
-                                  lapd_annual$crm_cd == '815' ~ 'Sexual Assault',
-                                  lapd_annual$crm_cd == '820' ~ 'Sexual Assault',
-                                  lapd_annual$crm_cd == '821' ~ 'Sexual Assault',
-                                  lapd_annual$crm_cd == '510' ~ 'Vehicle Theft',
-                                  lapd_annual$crm_cd == '520' ~ 'Vehicle Theft',
+lapd_annual_raw$category <- case_when(lapd_annual_raw$crm_cd == '230' ~ 'Aggravated Assault',
+                                  lapd_annual_raw$crm_cd == '231' ~ 'Aggravated Assault',
+                                  lapd_annual_raw$crm_cd == '235' ~ 'Aggravated Assault',
+                                  lapd_annual_raw$crm_cd == '236' ~ 'Aggravated Assault',
+                                  lapd_annual_raw$crm_cd == '250' ~ 'Aggravated Assault',
+                                  lapd_annual_raw$crm_cd == '251' ~ 'Aggravated Assault',
+                                  lapd_annual_raw$crm_cd == '761' ~ 'Aggravated Assault',
+                                  lapd_annual_raw$crm_cd == '926' ~ 'Aggravated Assault',
+                                  lapd_annual_raw$crm_cd == '310' ~ 'Burglary',
+                                  lapd_annual_raw$crm_cd == '320' ~ 'Burglary',
+                                  lapd_annual_raw$crm_cd == '110' ~ 'Homicide',
+                                  lapd_annual_raw$crm_cd == '113' ~ 'Homicide',
+                                  lapd_annual_raw$crm_cd == '330' ~ 'Larceny',
+                                  lapd_annual_raw$crm_cd == '331' ~ 'Larceny',
+                                  lapd_annual_raw$crm_cd == '410' ~ 'Larceny',
+                                  lapd_annual_raw$crm_cd == '420' ~ 'Larceny',
+                                  lapd_annual_raw$crm_cd == '421' ~ 'Larceny',
+                                  lapd_annual_raw$crm_cd == '350' ~ 'Larceny',
+                                  lapd_annual_raw$crm_cd == '351' ~ 'Larceny',
+                                  lapd_annual_raw$crm_cd == '352' ~ 'Larceny',
+                                  lapd_annual_raw$crm_cd == '353' ~ 'Larceny',
+                                  lapd_annual_raw$crm_cd == '450' ~ 'Larceny',
+                                  lapd_annual_raw$crm_cd == '451' ~ 'Larceny',
+                                  lapd_annual_raw$crm_cd == '452' ~ 'Larceny',
+                                  lapd_annual_raw$crm_cd == '453' ~ 'Larceny',
+                                  lapd_annual_raw$crm_cd == '341' ~ 'Larceny',
+                                  lapd_annual_raw$crm_cd == '343' ~ 'Larceny',
+                                  lapd_annual_raw$crm_cd == '345' ~ 'Larceny',
+                                  lapd_annual_raw$crm_cd == '440' ~ 'Larceny',
+                                  lapd_annual_raw$crm_cd == '441' ~ 'Larceny',
+                                  lapd_annual_raw$crm_cd == '442' ~ 'Larceny',
+                                  lapd_annual_raw$crm_cd == '443' ~ 'Larceny',
+                                  lapd_annual_raw$crm_cd == '444' ~ 'Larceny',
+                                  lapd_annual_raw$crm_cd == '445' ~ 'Larceny',
+                                  lapd_annual_raw$crm_cd == '470' ~ 'Larceny',
+                                  lapd_annual_raw$crm_cd == '471' ~ 'Larceny',
+                                  lapd_annual_raw$crm_cd == '472' ~ 'Larceny',
+                                  lapd_annual_raw$crm_cd == '473' ~ 'Larceny',
+                                  lapd_annual_raw$crm_cd == '474' ~ 'Larceny',
+                                  lapd_annual_raw$crm_cd == '475' ~ 'Larceny',
+                                  lapd_annual_raw$crm_cd == '480' ~ 'Larceny',
+                                  lapd_annual_raw$crm_cd == '485' ~ 'Larceny',
+                                  lapd_annual_raw$crm_cd == '487' ~ 'Larceny',
+                                  lapd_annual_raw$crm_cd == '491' ~ 'Larceny',
+                                  lapd_annual_raw$crm_cd == '210' ~ 'Robbery',
+                                  lapd_annual_raw$crm_cd == '220' ~ 'Robbery',
+                                  lapd_annual_raw$crm_cd == '121' ~ 'Sexual Assault',
+                                  lapd_annual_raw$crm_cd == '122' ~ 'Sexual Assault',
+                                  lapd_annual_raw$crm_cd == '815' ~ 'Sexual Assault',
+                                  lapd_annual_raw$crm_cd == '820' ~ 'Sexual Assault',
+                                  lapd_annual_raw$crm_cd == '821' ~ 'Sexual Assault',
+                                  lapd_annual_raw$crm_cd == '510' ~ 'Vehicle Theft',
+                                  lapd_annual_raw$crm_cd == '520' ~ 'Vehicle Theft',
                                   TRUE ~ "Other or Part 2")
 
 # ROLL UP INTO A DF WITH ANNUAL TOTALS BY DISTRICT, CATEGORY AND YEAR
 # Eliminating Other/Part 2 crimes
 # First calculate for just the last12, using the flag we added earlier
-lapd_last12 <- lapd_annual %>%
+lapd_last12 <- lapd_annual_raw %>%
   filter(category != "Other or Part 2" & last12flag=="yes") %>%
   group_by(district, category) %>%
   summarise(last12mos=n())
 # Then calculate and pivot by year for all incidents/records
-lapd_annual <- lapd_annual %>%
+lapd_annual <- lapd_annual_raw %>%
   filter(category != "Other or Part 2") %>%
   group_by(agency,district,category,year) %>%
   summarise(count=n()) %>%
   pivot_wider(names_from=year, values_from=count)
 # Marry into a single df to be used later; 2023 column here will need to changed at the turn of the year
-lapd_annual <- left_join(lapd_annual %>% select(-'2023'), lapd_last12,by=c("district","category"))
+lapd_annual <- left_join(lapd_annual %>% select(-'2024'), lapd_last12,by=c("district","category"))
 rm(lapd_last12)
 
 # Create main crime file bringing shootings in as a separate eighth category
@@ -163,6 +168,7 @@ citywide_crime <- lapd_crime %>%
             `2020`=sum(`2020`,na.rm=TRUE),
             `2021`=sum(`2021`,na.rm=TRUE),
             `2022`=sum(`2022`,na.rm=TRUE),
+            `2023`=sum(`2023`,na.rm=TRUE),
             last12mos=sum(last12mos))
 
 
@@ -178,16 +184,18 @@ lapd_crime$total_prior4years <- lapd_crime$`2019`+
   lapd_crime$`2022`
 lapd_crime$avg_prior4years <- round(((lapd_crime$total_prior4years)/4),1)
 # now add the increases or change percentages
-lapd_crime$inc_19to22 <- round(lapd_crime$`2022`/lapd_crime$`2019`*100-100,1)
-lapd_crime$inc_10to22 <- round(lapd_crime$`2022`/lapd_crime$`2010`*100-100,1)
+lapd_crime$inc_19to23 <- round(lapd_crime$`2023`/lapd_crime$`2019`*100-100,1)
+lapd_crime$inc_10to23 <- round(lapd_crime$`2023`/lapd_crime$`2010`*100-100,1)
 lapd_crime$inc_19tolast12 <- round(lapd_crime$last12mos/lapd_crime$`2019`*100-100,1)
 lapd_crime$inc_22tolast12 <- round(lapd_crime$last12mos/lapd_crime$`2022`*100-100,1)
 lapd_crime$inc_prior4yearavgtolast12 <- round((lapd_crime$last12mos/lapd_crime$avg_prior4years)*100-100,0)
+lapd_crime$inc_prior4yearavgto2023 <- round((lapd_crime$`2023`/lapd_crime$avg_prior4years)*100-100,0)
 # add crime rates for each year
 lapd_crime$rate19 <- round((lapd_crime$`2019`/lapd_crime$population)*100000,1)
 lapd_crime$rate20 <- round((lapd_crime$`2020`/lapd_crime$population)*100000,1)
 lapd_crime$rate21 <- round((lapd_crime$`2021`/lapd_crime$population)*100000,1)
 lapd_crime$rate22 <- round((lapd_crime$`2022`/lapd_crime$population)*100000,1)
+lapd_crime$rate23 <- round((lapd_crime$`2023`/lapd_crime$population)*100000,1)
 lapd_crime$rate_last12 <- round((lapd_crime$last12mos/lapd_crime$population)*100000,1)
 lapd_crime$rate_prior4years <- 
   round((lapd_crime$avg_prior4years/lapd_crime$population)*100000,1)
@@ -232,16 +240,20 @@ citywide_crime$total_prior4years <- citywide_crime$`2019`+
   citywide_crime$`2022`
 citywide_crime$avg_prior4years <- round((citywide_crime$total_prior4years/4),1)
 # Add change percentages
-citywide_crime$inc_19to21 <- round(citywide_crime$`2022`/citywide_crime$`2019`*100-100,1)
-citywide_crime$inc_10to21 <- round(citywide_crime$`2022`/citywide_crime$`2010`*100-100,1)
+citywide_crime$inc_19to23 <- round(citywide_crime$`2023`/citywide_crime$`2019`*100-100,1)
+citywide_crime$inc_10to23 <- round(citywide_crime$`2023`/citywide_crime$`2010`*100-100,1)
 citywide_crime$inc_19tolast12 <- round(citywide_crime$last12mos/citywide_crime$`2019`*100-100,1)
 citywide_crime$inc_22tolast12 <- round(citywide_crime$last12mos/citywide_crime$`2022`*100-100,1)
+citywide_crime$inc_22to2023 <- round(citywide_crime$`2023`/citywide_crime$`2022`*100-100,1)
 citywide_crime$inc_prior4yearavgtolast12 <- round((citywide_crime$last12mos/citywide_crime$avg_prior4years)*100-100,0)
+citywide_crime$inc_prior4yearavgto2023 <- round((citywide_crime$`2023`/citywide_crime$avg_prior4years)*100-100,0)
+
 # add crime rates for each year
 citywide_crime$rate19 <- round((citywide_crime$`2019`/la_population)*100000,1)
 citywide_crime$rate20 <- round((citywide_crime$`2020`/la_population)*100000,1)
 citywide_crime$rate21 <- round((citywide_crime$`2021`/la_population)*100000,1)
 citywide_crime$rate22 <- round((citywide_crime$`2022`/la_population)*100000,1)
+citywide_crime$rate23 <- round((citywide_crime$`2023`/la_population)*100000,1)
 citywide_crime$rate_last12 <- round((citywide_crime$last12mos/la_population)*100000,1)
 citywide_crime$rate_prior4years <- 
   round((citywide_crime$avg_prior4years/la_population)*100000,1)
@@ -266,24 +278,24 @@ saveRDS(thefts_city,"scripts/rds/thefts_city.rds")
 saveRDS(autothefts_city,"scripts/rds/autothefts_city.rds")
 saveRDS(shootings_city,"scripts/rds/shootings_city.rds")
 ### Some yearly csv tables for charts for our datawrapper charts
-citywide_crime %>% select(1:15) %>% write_csv("data/output/yearly/citywide_yearly.csv")
-citywide_crime %>% select(1:15) %>% filter(category=="Homicide") %>% write_csv("data/output/yearly/murders_city.csv")
-citywide_crime %>% select(1:15) %>% filter(category=="Sexual Assault") %>%  write_csv("data/output/yearly/sexassaults_city.csv")
-citywide_crime %>% select(1:15) %>% filter(category=="Vehicle Theft") %>%  write_csv("data/output/yearly/autothefts_city.csv")
-citywide_crime %>% select(1:15) %>% filter(category=="Larceny") %>%  write_csv("data/output/yearly/thefts_city.csv")
-citywide_crime %>% select(1:15) %>% filter(category=="Burglary") %>%  write_csv("data/output/yearly/burglaries_city.csv")
-citywide_crime %>% select(1:15) %>% filter(category=="Robbery") %>%  write_csv("data/output/yearly/robberies_city.csv")
-citywide_crime %>% select(1:15) %>% filter(category=="Aggravated Assault") %>%  write_csv("data/output/yearly/assaults_city.csv")
-citywide_crime %>% select(1:15) %>% filter(category=="Shootings") %>%  write_csv("data/output/yearly/shootings_city.csv")
+citywide_crime %>% select(1:16) %>% write_csv("data/output/yearly/citywide_yearly.csv")
+citywide_crime %>% select(1:16) %>% filter(category=="Homicide") %>% write_csv("data/output/yearly/murders_city.csv")
+citywide_crime %>% select(1:16) %>% filter(category=="Sexual Assault") %>%  write_csv("data/output/yearly/sexassaults_city.csv")
+citywide_crime %>% select(1:16) %>% filter(category=="Vehicle Theft") %>%  write_csv("data/output/yearly/autothefts_city.csv")
+citywide_crime %>% select(1:16) %>% filter(category=="Larceny") %>%  write_csv("data/output/yearly/thefts_city.csv")
+citywide_crime %>% select(1:16) %>% filter(category=="Burglary") %>%  write_csv("data/output/yearly/burglaries_city.csv")
+citywide_crime %>% select(1:16) %>% filter(category=="Robbery") %>%  write_csv("data/output/yearly/robberies_city.csv")
+citywide_crime %>% select(1:16) %>% filter(category=="Aggravated Assault") %>%  write_csv("data/output/yearly/assaults_city.csv")
+citywide_crime %>% select(1:16) %>% filter(category=="Shootings") %>%  write_csv("data/output/yearly/shootings_city.csv")
 
 # Create a separate file for each crime to map to statewide file and tables
-lapd_murder <- lapd_crime %>% filter(category=="Homicide") %>% st_drop_geometry() %>% select(20,19,5:17,3)
-lapd_sexassault <- lapd_crime %>% filter(category=="Sexual Assault") %>% st_drop_geometry() %>% select(20,19,5:17,3)
-lapd_assault <- lapd_crime %>% filter(category=="Aggravated Assault") %>% st_drop_geometry() %>% select(20,19,5:17,3)
-lapd_robbery <- lapd_crime %>% filter(category=="Robbery") %>% st_drop_geometry() %>% select(20,19,5:17,3)
-lapd_burglary <- lapd_crime %>% filter(category=="Burglary") %>% st_drop_geometry() %>% select(20,19,5:17,3)
-lapd_theft <- lapd_crime %>% filter(category=="Larceny") %>% st_drop_geometry() %>% select(20,19,5:17,3)
-lapd_autotheft <- lapd_crime %>% filter(category=="Vehicle Theft") %>% st_drop_geometry() %>% select(20,19,5:17,3)
-lapd_shootings <- lapd_crime %>% filter(category=="Shootings") %>% st_drop_geometry() %>% select(20,19,5:17,3)
+lapd_murder <- lapd_crime %>% filter(category=="Homicide") %>% st_drop_geometry() %>% select(county,place,5:18,3)
+lapd_sexassault <- lapd_crime %>% filter(category=="Sexual Assault") %>% st_drop_geometry() %>% select(county,place,5:18,3)
+lapd_assault <- lapd_crime %>% filter(category=="Aggravated Assault") %>% st_drop_geometry() %>% select(county,place,5:18,3)
+lapd_robbery <- lapd_crime %>% filter(category=="Robbery") %>% st_drop_geometry() %>% select(county,place,5:18,3)
+lapd_burglary <- lapd_crime %>% filter(category=="Burglary") %>% st_drop_geometry() %>% select(county,place,5:18,3)
+lapd_theft <- lapd_crime %>% filter(category=="Larceny") %>% st_drop_geometry() %>% select(county,place,5:18,3)
+lapd_autotheft <- lapd_crime %>% filter(category=="Vehicle Theft") %>% st_drop_geometry() %>% select(county,place,5:18,3)
+lapd_shootings <- lapd_crime %>% filter(category=="Shootings") %>% st_drop_geometry() %>% select(county,place,5:18,3)
 
 

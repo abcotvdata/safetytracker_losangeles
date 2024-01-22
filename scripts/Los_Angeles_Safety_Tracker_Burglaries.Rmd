@@ -401,6 +401,15 @@ round(burglaries_district$rate22,0),
 "</td>
 			</tr>
 						<tr>
+				<td>2023</td>
+				<td>",
+burglaries_district$`2023`,
+"</td>
+				<td>",
+round(burglaries_district$rate23,0),
+"</td>
+			</tr>
+						<tr>
 				<td>Last 12 months</td>
 				<td>",
 burglaries_district$last12mos,

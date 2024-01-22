@@ -420,6 +420,15 @@ murders_district$rate22,
 "</td>
 			</tr>
 						<tr>
+				<td>2023</td>
+				<td>",
+murders_district$`2023`,
+"</td>
+				<td>",
+murders_district$rate23,
+"</td>
+			</tr>
+						<tr>
 				<td>Last 12 months</td>
 				<td>",
 murders_district$last12mos,

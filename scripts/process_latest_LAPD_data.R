@@ -142,6 +142,9 @@ lapd_annual <- lapd_annual_raw %>%
 lapd_annual <- left_join(lapd_annual %>% select(-'2024'), lapd_last12,by=c("district","category"))
 rm(lapd_last12)
 
+lapd_annual <- lapd_annual %>% 
+mutate(last12mos = ifelse(is.na(last12mos), 0, last12mos))
+
 # Create main crime file bringing shootings in as a separate eighth category
 # Appending the shootings file we made earlier
 # Changing the name here to lapd_crime primary df

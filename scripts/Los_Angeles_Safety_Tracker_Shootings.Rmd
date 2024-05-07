@@ -238,6 +238,8 @@ sf_population <- 815201
 
 <h2>ABC7 is tracking crime and safety across the Los Angeles and in your neighborhood. 
 
+<p style="color:#BE0000";> We have paused updates to this tracker temporarily while LAPD switches to a new records management system for reporting crimes and arrests.</p>
+
 <br>You can choose which crime to examine: <select onchange="window.location=this.value">
 <option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker_Shootings.html">Shootings</option>
 <option value="https://abcotvdata.github.io/safetytracker_losangeles/Los_Angeles_Safety_Tracker_Robberies.html">Robberies</option>

@@ -22,7 +22,7 @@ jobs:
         run: |
           brew install gdal
       - name: Install dependencies and packages
-        run: Rscript -e 'install.packages("rmarkdown")'
+        run: Rscript -e 'install.packages(c("sf","janitor","tidyverse","readxl","leaflet","leaflet.extras","leaflet.providers","htmlwidgets","htmltools","lubridate", "rmarkdown"))'
       - name: Render markdowns
         run: Rscript scripts/run_markdowns_lacity.R
       - name: Commit results

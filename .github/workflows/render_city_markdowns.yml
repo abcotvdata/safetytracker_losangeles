@@ -1,0 +1,32 @@
+# This is a basic workflow to help you get started with Actions
+
+name: test
+
+# Controls when the workflow will run
+on:
+  schedule:
+    - cron: '0 0 1 1 *'
+      # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  render:
+    name: render LA city markdowns
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: r-lib/actions/setup-r@v2
+      - name: Set up pandoc for Rmd docs
+        uses: r-lib/actions/setup-pandoc@v2
+      - name: Install gdal
+        run: |
+          brew install gdal
+      - name: Install dependencies and packages
+        run: Rscript -e 'install.packages("rmarkdown")'
+      - name: Render markdowns
+        run: Rscript scripts/run_markdowns_lacity.R
+      - name: Commit results
+        run: |
+          git add -A
+          git commit -m 'Markdowns rendered' || echo "No changes"
+          git push origin || echo "No changes to commit"
